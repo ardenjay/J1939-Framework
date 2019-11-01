@@ -161,6 +161,7 @@ int main(int argc, char **argv)
 
 	std::basic_string<u8> formattedData = decodeData(data);
 
+	std::cout << "Loaded Database: " << DATABASE_PATH << std::endl;
 	if (!J1939Factory::getInstance().registerDatabaseFrames(DATABASE_PATH)) {
 		std::cerr << "Database not found in " << DATABASE_PATH << std::endl;
 		exit(4);

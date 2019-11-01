@@ -1,0 +1,8 @@
+tags
+*.a
+*.so
+*.so.*
+*.cmake
+CMakeFiles/
+CMakeCache*
+cscope.*

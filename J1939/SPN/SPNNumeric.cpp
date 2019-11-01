@@ -32,9 +32,8 @@ SPNNumeric::~SPNNumeric() {}
 void SPNNumeric::decode(const u8 *buffer, size_t length)
 {
 	if (getByteSize() > length ||
-		getByteSize() >
-			SPN_NUMERIC_MAX_BYTE_SYZE) { // mValue can hold only 4 bytes cause
-										 // it is of type u32
+	    getByteSize() > SPN_NUMERIC_MAX_BYTE_SYZE) { // mValue can hold only 4 bytes cause
+							 // it is of type u32
 		throw J1939DecodeException(
 			"[SPNNumeric::decode] Spn length is bigger than expected");
 	}

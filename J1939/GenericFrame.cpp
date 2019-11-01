@@ -57,7 +57,7 @@ void GenericFrame::decodeData(const u8 *buffer, size_t length)
 
 		if (offset >= length) {
 			throw J1939DecodeException("[GenericFrame::decodeData] Offset of "
-									   "spn is higher than frame length");
+						   "spn is higher than frame length");
 		}
 
 		spnBuf = buffer + offset;

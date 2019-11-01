@@ -1,1101 +1,1103 @@
 [
-	{
-		"name" : "VI",
-		"pgn" : 65260,
-		"length" : 0,
-		"spns" : 
-		[
-			{
-				"name" : "Vehicle Number Identifier",
-				"number" : 237,
-				"type" : 2
-			}
-		]
-	},
-	{
-		"name" : "DI",
-		"pgn" : 65131,
-		"length" : 0,
-		"spns" : 
-		[
-			{
-				"name" : "Driver 1 Identification",
-				"number" : 1625,
-				"type" : 2
-			},
-			{
-				"name" : "Driver 2 Identification",
-				"number" : 1626,
-				"type" : 2
-			}
-		]
-	},
-	{
-		"name" : "DD",
-		"pgn" : 65276,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.40000000000000002,
-				"formatOffset" : 0,
-				"name" : "Fuel Level",
-				"number" : 96,
-				"offset" : 1,
-				"type" : 0,
-				"units" : "%"
-			}
-		]
-	},
-	{
-		"name" : "ETC1",
-		"pgn" : 61442,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.4,
-				"formatOffset" : 0,
-				"name" : "Percent Clutch Slip",
-				"number" : 522,
-				"offset" : 3,
-				"type" : 0,
-				"units" : "%"
-			}
-		]
-	},
-	{
-		"name" : "ETC2",
-		"pgn" : 61445,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 1,
-				"formatOffset" : -125,
-				"name" : "Transmission Selected Gear",
-				"number" : 524,
-				"offset" : 0,
-				"type" : 0,
-				"units" : ""
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 1,
-				"formatOffset" : -125,
-				"name" : "Transmission Current Gear",
-				"number" : 523,
-				"offset" : 3,
-				"type" : 0,
-				"units" : ""
-			}
-		]
-	},
-	{
-		"name" : "HOURS",
-		"pgn" : 65253,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 4,
-				"formatGain" : 0.05,
-				"formatOffset" : 0,
-				"name" : "Engine Total Hours of Operation",
-				"number" : 247,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "hours"
-			}
-		]
-	},
-	{
-		"name" : "TRF1",
-		"pgn" : 65272,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 2,
-				"formatGain" : 0.03125,
-				"formatOffset" : -273,
-				"name" : "Transmission Oil Temperature 1",
-				"number" : 177,
-				"offset" : 4,
-				"type" : 0,
-				"units" : "°C"
-			}
-		]
-	},
-	{
-		"name" : "ERC1",
-		"pgn" : 61440,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"bitOffset" : 4,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Retarder - brake assist disabled",
-					"Retarder - brake assist enabled",
-					"Error",
-					"Not available"
-				],
-				"name" : "Retarder Enable - Brake Assist Switch",
-				"number" : 571,
-				"offset" : 0,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "EBC1",
-		"pgn" : 61441,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"bitOffset" : 0,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Not Fully Operational",
-					"Fully Operational",
-					"Error",
-					"Not available"
-				],
-				"name" : "ABS Fully Operational",
-				"number" : 1243,
-				"offset" : 5,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "IC1",
-		"pgn" : 65270,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 2,
-				"formatOffset" : 0,
-				"name" : "Engine Intake Manifold #1 Pressure",
-				"number" : 102,
-				"offset" : 1,
-				"type" : 0,
-				"units" : "kPa"
-			}
-		]
-	},
-	{
-		"name" : "RF",
-		"pgn" : 65275,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 16,
-				"formatOffset" : 0,
-				"name" : "Hydraulic Retarder Pressure",
-				"number" : 119,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "kPa"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 1,
-				"formatOffset" : -40,
-				"name" : "Hydraulic Retarder Oil Temperature",
-				"number" : 120,
-				"offset" : 1,
-				"type" : 0,
-				"units" : "°C"
-			}
-		]
-	},
-	{
-		"name" : "VDHR",
-		"pgn" : 65217,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 4,
-				"formatGain" : 5,
-				"formatOffset" : 0,
-				"name" : "High resolution total vehicle distance",
-				"number" : 917,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "m"
-			}
-		]
-	},
-	{
-		"name" : "AT1T1I",
-		"pgn" : 65110,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.4,
-				"formatOffset" : 0,
-				"name" : "Aftertreatment 1 Diesel Exhaust Fluid Tank 1 Level",
-				"number" : 1761,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "%"
-			}
-		]
-	},
-	{
-		"name" : "EFL",
-		"pgn" : 65263,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 4,
-				"formatOffset" : 0,
-				"name" : "Engine Fuel Delivery Pressure",
-				"number" : 94,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "KPa"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.05,
-				"formatOffset" : 0,
-				"name" : "Engine Extended Crankcase Blow-by Pressure",
-				"number" : 22,
-				"offset" : 1,
-				"type" : 0,
-				"units" : "KPa"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.4,
-				"formatOffset" : 0,
-				"name" : "Engine Oil Level",
-				"number" : 98,
-				"offset" : 2,
-				"type" : 0,
-				"units" : "%"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 4,
-				"formatOffset" : 0,
-				"name" : "Engine Oil Pressure",
-				"number" : 100,
-				"offset" : 3,
-				"type" : 0,
-				"units" : "KPa"
-			},
-			{
-				"byteSize" : 2,
-				"formatGain" : 0.0078125,
-				"formatOffset" : -250,
-				"name" : "Engine Crankcase Pressure",
-				"number" : 101,
-				"offset" : 4,
-				"type" : 0,
-				"units" : "KPa"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 2,
-				"formatOffset" : 0,
-				"name" : "Engine Coolant Pressure",
-				"number" : 109,
-				"offset" : 6,
-				"type" : 0,
-				"units" : "KPa"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.4,
-				"formatOffset" : 0,
-				"name" : "Engine Coolant Level",
-				"number" : 111,
-				"offset" : 7,
-				"type" : 0,
-				"units" : "%"
-			}
-		]
-	},
-	{
-		"name" : "LFC",
-		"pgn" : 65257,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 4,
-				"formatGain" : 0.5,
-				"formatOffset" : 0,
-				"name" : "Engine total fuel used",
-				"number" : 250,
-				"offset" : 4,
-				"type" : 0,
-				"units" : "L"
-			}
-		]
-	},
-	{
-		"name" : "ET1",
-		"pgn" : 65262,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 1,
-				"formatOffset" : -40,
-				"name" : "Engine Coolant Temperature",
-				"number" : 110,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "°C"
-			},
-			{
-				"byteSize" : 2,
-				"formatGain" : 0.03125,
-				"formatOffset" : -273,
-				"name" : "Engine Oil Temperature 1",
-				"number" : 175,
-				"offset" : 2,
-				"type" : 0,
-				"units" : "°C"
-			}
-		]
-	},
-	{
-		"name" : "TRF1",
-		"pgn" : 65272,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 16,
-				"formatOffset" : 0,
-				"name" : "Clutch Pressure",
-				"number" : 123,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "kPa"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.4,
-				"formatOffset" : 0,
-				"name" : "Transmission Oil Level",
-				"number" : 124,
-				"offset" : 1,
-				"type" : 0,
-				"units" : "%"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 2,
-				"formatOffset" : 0,
-				"name" : "Transmission Filter Differential Pressure",
-				"number" : 126,
-				"offset" : 2,
-				"type" : 0,
-				"units" : "kPa"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 16,
-				"formatOffset" : 0,
-				"name" : "Transmission Oil Pressure",
-				"number" : 127,
-				"offset" : 3,
-				"type" : 0,
-				"units" : "kPa"
-			},
-			{
-				"byteSize" : 2,
-				"formatGain" : 0.03125,
-				"formatOffset" : -273,
-				"name" : "Transmission Oil Temperature",
-				"number" : 177,
-				"offset" : 4,
-				"type" : 0,
-				"units" : "kPa"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.5,
-				"formatOffset" : -62.5,
-				"name" : "Transmission Oil Level High / Low",
-				"number" : 3027,
-				"offset" : 6,
-				"type" : 0,
-				"units" : "L"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.5,
-				"formatOffset" : -62.5,
-				"name" : "Transmission Oil Level Countdown Timer",
-				"number" : 3027,
-				"offset" : 6,
-				"type" : 0,
-				"units" : "L"
-			},
-			{
-				"bitOffset" : 0,
-				"bitSize" : 4,
-				"name" : "Transmission Oil Level Countdown Timer",
-				"number" : 3028,
-				"offset" : 7,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 4,
-				"bitSize" : 4,
-				"name" : "Transmission Oil Level Measurement Status",
-				"number" : 3026,
-				"offset" : 7,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "LFE",
-		"pgn" : 65266,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 2,
-				"formatGain" : 0.05,
-				"formatOffset" : 0,
-				"name" : "Fuel Rate",
-				"number" : 183,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "L/h"
-			}
-		]
-	},
-	{
-		"name" : "HRLFC",
-		"pgn" : 64777,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 4,
-				"formatGain" : 0.001,
-				"formatOffset" : 0,
-				"name" : "High resolution engine total fuel used",
-				"number" : 5054,
-				"offset" : 4,
-				"type" : 0,
-				"units" : "L"
-			}
-		]
-	},
-	{
-		"name" : "EEC2",
-		"pgn" : 61443,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.4,
-				"formatOffset" : 0,
-				"name" : "Accelerator pedal position 1",
-				"number" : 91,
-				"offset" : 1,
-				"type" : 0,
-				"units" : "%"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 1,
-				"formatOffset" : 0,
-				"name" : "Engine Percent Load At Current Speed",
-				"number" : 92,
-				"offset" : 2,
-				"type" : 0,
-				"units" : "%"
-			},
-			{
-				"bitOffset" : 0,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Accelerator pedal 1 not in low idle condition",
-					"Accelerator pedal 1 in low idle condition",
-					"Error",
-					"Not available"
-				],
-				"name" : "Accelerator Pedal 1 Low Idle Switch",
-				"number" : 558,
-				"offset" : 0,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 6,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Accelerator pedal 2 not in low idle condition",
-					"Accelerator pedal 2 in low idle condition",
-					"Error",
-					"Not available"
-				],
-				"name" : "Accelerator Pedal 2 Low Idle Switch",
-				"number" : 2970,
-				"offset" : 0,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 2,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Kickdown passive",
-					"Kickdown active",
-					"Error",
-					"Not available"
-				],
-				"name" : "Accelerator Pedal Kickdown Switch",
-				"number" : 559,
-				"offset" : 0,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "TCO1",
-		"pgn" : 65132,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"bitOffset" : 0,
-				"bitSize" : 3,
-				"descriptions" : 
-				[
-					"Rest",
-					"Driver Available",
-					"Work",
-					"Drive"
-				],
-				"name" : "Driver 1 Working State",
-				"number" : 1612,
-				"offset" : 0,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 3,
-				"bitSize" : 3,
-				"descriptions" : 
-				[
-					"Rest",
-					"Driver Available",
-					"Work",
-					"Drive"
-				],
-				"name" : "Driver 2 Working State",
-				"number" : 1613,
-				"offset" : 0,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 4,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Card not present",
-					"Card present",
-					"Error",
-					"Not available"
-				],
-				"name" : "Driver 1 Card",
-				"number" : 1615,
-				"offset" : 1,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 4,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Card not present",
-					"Card present",
-					"Error",
-					"Not available"
-				],
-				"name" : "Driver 2 Card",
-				"number" : 1616,
-				"offset" : 2,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "DC1",
-		"pgn" : 65102,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"bitOffset" : 6,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"all bus doors disabled",
-					"at least 1 bus door enabled",
-					"Error",
-					"Not available"
-				],
-				"name" : "Status 2 of doors",
-				"number" : 3411,
-				"offset" : 0,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 4,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"inside bus",
-					"outside bus",
-					"Error",
-					"Not available"
-				],
-				"name" : "Ramp/Wheel chairlift",
-				"number" : 1820,
-				"offset" : 0,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 0,
-				"bitSize" : 4,
-				"descriptions" : 
-				[
-					"at least 1 door is open",
-					"closing last door",
-					"all doors closed"
-				],
-				"name" : "Position of doors",
-				"number" : 1821,
-				"offset" : 0,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "AS",
-		"pgn" : 65237,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"bitOffset" : 0,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Alternator 1 not charging",
-					"Alternator 1 charging",
-					"Error",
-					"Not available"
-				],
-				"name" : "Alternator 1 Status",
-				"number" : 3353,
-				"offset" : 2,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 2,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Alternator 2 not charging",
-					"Alternator 2 charging",
-					"Error",
-					"Not available"
-				],
-				"name" : "Alternator 2 Status",
-				"number" : 3354,
-				"offset" : 2,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 4,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Alternator 3 not charging",
-					"Alternator 3 charging",
-					"Error",
-					"Not available"
-				],
-				"name" : "Alternator 3 Status",
-				"number" : 3355,
-				"offset" : 2,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 6,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Alternator 4 not charging",
-					"Alternator 4 charging",
-					"Error",
-					"Not available"
-				],
-				"name" : "Alternator 4 Status",
-				"number" : 3356,
-				"offset" : 2,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "CCVS",
-		"pgn" : 65265,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"bitOffset" : 0,
-				"bitSize" : 5,
-				"descriptions" : 
-				[
-					"Off",
-					"",
-					"",
-					"",
-					"",
-					"Set"
-				],
-				"name" : "PTO State",
-				"number" : 976,
-				"offset" : 6,
-				"type" : 1
-			},
-			{
-				"byteSize" : 2,
-				"formatGain" : 0.00390625,
-				"formatOffset" : 0,
-				"name" : "Wheel Speed",
-				"number" : 84,
-				"offset" : 1,
-				"type" : 0,
-				"units" : "km/h"
-			},
-			{
-				"bitOffset" : 4,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Pedal released",
-					"Pedal depressed",
-					"Error",
-					"Not available"
-				],
-				"name" : "Brake Switch",
-				"number" : 597,
-				"offset" : 3,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 6,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Pedal released",
-					"Pedal depressed",
-					"Error",
-					"Not available"
-				],
-				"name" : "Clutch Switch",
-				"number" : 598,
-				"offset" : 3,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 2,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Parking brake not set",
-					"Parking brake set",
-					"Error",
-					"Not available"
-				],
-				"name" : "Parking Brake Switch",
-				"number" : 70,
-				"offset" : 0,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "PTODE",
-		"pgn" : 64932,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"bitOffset" : 0,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"No PTO drive is engaged",
-					"At least one PTO drive is engaged",
-					"Error",
-					"Not available"
-				],
-				"name" : "At least one PTO engaged",
-				"number" : 3948,
-				"offset" : 6,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "EEC1",
-		"pgn" : 61444,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 2,
-				"formatGain" : 0.125,
-				"formatOffset" : 0,
-				"name" : "Engine Speed",
-				"number" : 190,
-				"offset" : 3,
-				"type" : 0,
-				"units" : "rpm"
-			},
-			{
-				"byteSize" : 1,
-				"formatGain" : 1.0,
-				"formatOffset" : -125,
-				"name" : "Percent Torque",
-				"number" : 513,
-				"offset" : 2,
-				"type" : 0,
-				"units" : "%"
-			}
-		]
-	},
-	{
-		"name" : "AMB",
-		"pgn" : 65269,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 1,
-				"formatGain" : 0.5,
-				"formatOffset" : 0,
-				"name" : "Barometric Pressure",
-				"number" : 108,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "kPa"
-			}
-		]
-	},
-	{
-		"name" : "SERV",
-		"pgn" : 65216,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 2,
-				"formatGain" : 5,
-				"formatOffset" : -160635,
-				"name" : "Service distance",
-				"number" : 914,
-				"offset" : 1,
-				"type" : 0,
-				"units" : "km"
-			}
-		]
-	},
-	{
-		"name" : "DC2",
-		"pgn" : 64933,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"bitOffset" : 2,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Closed",
-					"Open",
-					"Error",
-					"Not available"
-				],
-				"name" : "Open Status Door 1",
-				"number" : 3413,
-				"offset" : 0,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 0,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Closed",
-					"Open",
-					"Error",
-					"Not available"
-				],
-				"name" : "Open Status Door 2",
-				"number" : 3416,
-				"offset" : 1,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 6,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Closed",
-					"Open",
-					"Error",
-					"Not available"
-				],
-				"name" : "Open Status Door 3",
-				"number" : 3419,
-				"offset" : 1,
-				"type" : 1
-			},
-			{
-				"bitOffset" : 4,
-				"bitSize" : 2,
-				"descriptions" : 
-				[
-					"Closed",
-					"Open",
-					"Error",
-					"Not available"
-				],
-				"name" : "Open Status Door 3",
-				"number" : 3422,
-				"offset" : 2,
-				"type" : 1
-			}
-		]
-	},
-	{
-		"name" : "VDC2",
-		"pgn" : 61449,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 2,
-				"formatGain" : 0.00048828125,
-				"formatOffset" : -15.687,
-				"name" : "Lateral Acceleration",
-				"number" : 1809,
-				"offset" : 5,
-				"type" : 0,
-				"units" : "m/s2"
-			}
-		]
-	},
-	{
-		"name" : "EBC2",
-		"pgn" : 65215,
-		"length" : 8,
-		"spns" : 
-		[
-			{
-				"byteSize" : 2,
-				"formatGain" : 0.00390625,
-				"formatOffset" : 0,
-				"name" : "Front Axe Speed",
-				"number" : 904,
-				"offset" : 0,
-				"type" : 0,
-				"units" : "kph"
-			},{
-				"byteSize" : 1,
-				"formatGain" : 0.0625,
-				"formatOffset" : -7.18125,
-				"name" : "Relative Speed; Front Axle, Left Wheel",
-				"number" : 905,
-				"offset" : 2,
-				"type" : 0,
-				"units" : "kph"
-			},{
-				"byteSize" : 1,
-				"formatGain" : 0.0625,
-				"formatOffset" : -7.18125,
-				"name" : "Relative Speed; Front Axle, Right Wheel",
-				"number" : 906,
-				"offset" : 3,
-				"type" : 0,
-				"units" : "kph"
-			},{
-				"byteSize" : 1,
-				"formatGain" : 0.0625,
-				"formatOffset" : -7.18125,
-				"name" : "Relative Speed; Rear Axle 1, Left Wheel",
-				"number" : 907,
-				"offset" : 4,
-				"type" : 0,
-				"units" : "kph"
-			},{
-				"byteSize" : 1,
-				"formatGain" : 0.0625,
-				"formatOffset" : -7.18125,
-				"name" : "Relative Speed; Rear Axle 1, Right Wheel",
-				"number" : 908,
-				"offset" : 5,
-				"type" : 0,
-				"units" : "kph"
-			},{
-				"byteSize" : 1,
-				"formatGain" : 0.0625,
-				"formatOffset" : -7.18125,
-				"name" : "Relative Speed; Rear Axle 2, Left Wheel",
-				"number" : 909,
-				"offset" : 6,
-				"type" : 0,
-				"units" : "kph"
-			},{
-				"byteSize" : 1,
-				"formatGain" : 0.0625,
-				"formatOffset" : -7.18125,
-				"name" : "Relative Speed; Rear Axle 2, Right Wheel",
-				"number" : 910,
-				"offset" : 7,
-				"type" : 0,
-				"units" : "kph"
-			}
-		]
-	}
+  {
+    "name": "VI",
+    "pgn": 65260,
+    "length": 0,
+    "spns": [
+      {
+        "name": "Vehicle Number Identifier",
+        "number": 237,
+        "type": 2
+      }
+    ]
+  },
+  {
+    "name": "DI",
+    "pgn": 65131,
+    "length": 0,
+    "spns": [
+      {
+        "name": "Driver 1 Identification",
+        "number": 1625,
+        "type": 2
+      },
+      {
+        "name": "Driver 2 Identification",
+        "number": 1626,
+        "type": 2
+      }
+    ]
+  },
+  {
+    "name": "DD",
+    "pgn": 65276,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 0.4,
+        "formatOffset": 0,
+        "name": "Fuel Level",
+        "number": 96,
+        "offset": 1,
+        "type": 0,
+        "units": "%"
+      }
+    ]
+  },
+  {
+    "name": "ETC1",
+    "pgn": 61442,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 0.4,
+        "formatOffset": 0,
+        "name": "Percent Clutch Slip",
+        "number": 522,
+        "offset": 3,
+        "type": 0,
+        "units": "%"
+      }
+    ]
+  },
+  {
+    "name": "ETC2",
+    "pgn": 61445,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": -125,
+        "name": "Transmission Selected Gear",
+        "number": 524,
+        "offset": 0,
+        "type": 0,
+        "units": ""
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": -125,
+        "name": "Transmission Current Gear",
+        "number": 523,
+        "offset": 3,
+        "type": 0,
+        "units": ""
+      }
+    ]
+  },
+  {
+    "name": "HOURS",
+    "pgn": 65253,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 4,
+        "formatGain": 0.05,
+        "formatOffset": 0,
+        "name": "Engine Total Hours of Operation",
+        "number": 247,
+        "offset": 0,
+        "type": 0,
+        "units": "hours"
+      }
+    ]
+  },
+  {
+    "name": "TRF1",
+    "pgn": 65272,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 2,
+        "formatGain": 0.03125,
+        "formatOffset": -273,
+        "name": "Transmission Oil Temperature 1",
+        "number": 177,
+        "offset": 4,
+        "type": 0,
+        "units": "°C"
+      }
+    ]
+  },
+  {
+    "name": "ERC1",
+    "pgn": 61440,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "Retarder - brake assist disabled",
+          "Retarder - brake assist enabled",
+          "Error",
+          "Not available"
+        ],
+        "name": "Retarder Enable - Brake Assist Switch",
+        "number": 571,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "Retarder - shift assist disabled",
+          "Retarder - shift assist enabled",
+          "Error",
+          "Not available"
+        ],
+        "name": "Retarder Enable - Shift Assist Switch",
+        "number": 572,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 0,
+        "bitSize": 2,
+        "descriptions": [
+          "No coolant load increase",
+          "Coolant load increase possible",
+          "Error",
+          "Not available"
+        ],
+        "name": "Engine Coolant Load Increase",
+        "number": 1082,
+        "offset": 3,
+        "type": 1
+      },
+      {
+        "bitOffset": 2,
+        "bitSize": 2,
+        "descriptions": [
+          "Retarder is not requesting that the brake lights are illuminated",
+          "Retarder is requesting that the brake lights are illuminated",
+          "Reserved",
+          "Not available"
+        ],
+        "name": "Retarder Requesting Brake Light",
+        "number": 1667,
+        "offset": 3,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "EBC1",
+    "pgn": 61441,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 0,
+        "bitSize": 2,
+        "descriptions": [
+          "Not Fully Operational",
+          "Fully Operational",
+          "Error",
+          "Not available"
+        ],
+        "name": "ABS Fully Operational",
+        "number": 1243,
+        "offset": 5,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "IC1",
+    "pgn": 65270,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 2,
+        "formatOffset": 0,
+        "name": "Engine Intake Manifold #1 Pressure",
+        "number": 102,
+        "offset": 1,
+        "type": 0,
+        "units": "kPa"
+      }
+    ]
+  },
+  {
+    "name": "RF",
+    "pgn": 65275,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 16,
+        "formatOffset": 0,
+        "name": "Hydraulic Retarder Pressure",
+        "number": 119,
+        "offset": 0,
+        "type": 0,
+        "units": "kPa"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": -40,
+        "name": "Hydraulic Retarder Oil Temperature",
+        "number": 120,
+        "offset": 1,
+        "type": 0,
+        "units": "°C"
+      }
+    ]
+  },
+  {
+    "name": "VDHR",
+    "pgn": 65217,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 4,
+        "formatGain": 5,
+        "formatOffset": 0,
+        "name": "High resolution total vehicle distance",
+        "number": 917,
+        "offset": 0,
+        "type": 0,
+        "units": "m"
+      }
+    ]
+  },
+  {
+    "name": "AT1T1I",
+    "pgn": 65110,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 0.4,
+        "formatOffset": 0,
+        "name": "Aftertreatment 1 Diesel Exhaust Fluid Tank 1 Level",
+        "number": 1761,
+        "offset": 0,
+        "type": 0,
+        "units": "%"
+      }
+    ]
+  },
+  {
+    "name": "EFL",
+    "pgn": 65263,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 4,
+        "formatOffset": 0,
+        "name": "Engine Fuel Delivery Pressure",
+        "number": 94,
+        "offset": 0,
+        "type": 0,
+        "units": "KPa"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.05,
+        "formatOffset": 0,
+        "name": "Engine Extended Crankcase Blow-by Pressure",
+        "number": 22,
+        "offset": 1,
+        "type": 0,
+        "units": "KPa"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.4,
+        "formatOffset": 0,
+        "name": "Engine Oil Level",
+        "number": 98,
+        "offset": 2,
+        "type": 0,
+        "units": "%"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 4,
+        "formatOffset": 0,
+        "name": "Engine Oil Pressure",
+        "number": 100,
+        "offset": 3,
+        "type": 0,
+        "units": "KPa"
+      },
+      {
+        "byteSize": 2,
+        "formatGain": 0.0078125,
+        "formatOffset": -250,
+        "name": "Engine Crankcase Pressure",
+        "number": 101,
+        "offset": 4,
+        "type": 0,
+        "units": "KPa"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 2,
+        "formatOffset": 0,
+        "name": "Engine Coolant Pressure",
+        "number": 109,
+        "offset": 6,
+        "type": 0,
+        "units": "KPa"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.4,
+        "formatOffset": 0,
+        "name": "Engine Coolant Level",
+        "number": 111,
+        "offset": 7,
+        "type": 0,
+        "units": "%"
+      }
+    ]
+  },
+  {
+    "name": "LFC",
+    "pgn": 65257,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 4,
+        "formatGain": 0.5,
+        "formatOffset": 0,
+        "name": "Engine total fuel used",
+        "number": 250,
+        "offset": 4,
+        "type": 0,
+        "units": "L"
+      }
+    ]
+  },
+  {
+    "name": "ET1",
+    "pgn": 65262,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": -40,
+        "name": "Engine Coolant Temperature",
+        "number": 110,
+        "offset": 0,
+        "type": 0,
+        "units": "°C"
+      },
+      {
+        "byteSize": 2,
+        "formatGain": 0.03125,
+        "formatOffset": -273,
+        "name": "Engine Oil Temperature 1",
+        "number": 175,
+        "offset": 2,
+        "type": 0,
+        "units": "°C"
+      }
+    ]
+  },
+  {
+    "name": "TRF1",
+    "pgn": 65272,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 16,
+        "formatOffset": 0,
+        "name": "Clutch Pressure",
+        "number": 123,
+        "offset": 0,
+        "type": 0,
+        "units": "kPa"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.4,
+        "formatOffset": 0,
+        "name": "Transmission Oil Level",
+        "number": 124,
+        "offset": 1,
+        "type": 0,
+        "units": "%"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 2,
+        "formatOffset": 0,
+        "name": "Transmission Filter Differential Pressure",
+        "number": 126,
+        "offset": 2,
+        "type": 0,
+        "units": "kPa"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 16,
+        "formatOffset": 0,
+        "name": "Transmission Oil Pressure",
+        "number": 127,
+        "offset": 3,
+        "type": 0,
+        "units": "kPa"
+      },
+      {
+        "byteSize": 2,
+        "formatGain": 0.03125,
+        "formatOffset": -273,
+        "name": "Transmission Oil Temperature",
+        "number": 177,
+        "offset": 4,
+        "type": 0,
+        "units": "kPa"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.5,
+        "formatOffset": -62.5,
+        "name": "Transmission Oil Level High / Low",
+        "number": 3027,
+        "offset": 6,
+        "type": 0,
+        "units": "L"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.5,
+        "formatOffset": -62.5,
+        "name": "Transmission Oil Level Countdown Timer",
+        "number": 3027,
+        "offset": 6,
+        "type": 0,
+        "units": "L"
+      },
+      {
+        "bitOffset": 0,
+        "bitSize": 4,
+        "name": "Transmission Oil Level Countdown Timer",
+        "number": 3028,
+        "offset": 7,
+        "type": 1
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 4,
+        "name": "Transmission Oil Level Measurement Status",
+        "number": 3026,
+        "offset": 7,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "LFE",
+    "pgn": 65266,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 2,
+        "formatGain": 0.05,
+        "formatOffset": 0,
+        "name": "Fuel Rate",
+        "number": 183,
+        "offset": 0,
+        "type": 0,
+        "units": "L/h"
+      }
+    ]
+  },
+  {
+    "name": "HRLFC",
+    "pgn": 64777,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 4,
+        "formatGain": 0.001,
+        "formatOffset": 0,
+        "name": "High resolution engine total fuel used",
+        "number": 5054,
+        "offset": 4,
+        "type": 0,
+        "units": "L"
+      }
+    ]
+  },
+  {
+    "name": "EEC2",
+    "pgn": 61443,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 0.4,
+        "formatOffset": 0,
+        "name": "Accelerator pedal position 1",
+        "number": 91,
+        "offset": 1,
+        "type": 0,
+        "units": "%"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": 0,
+        "name": "Engine Percent Load At Current Speed",
+        "number": 92,
+        "offset": 2,
+        "type": 0,
+        "units": "%"
+      },
+      {
+        "bitOffset": 0,
+        "bitSize": 2,
+        "descriptions": [
+          "Accelerator pedal 1 not in low idle condition",
+          "Accelerator pedal 1 in low idle condition",
+          "Error",
+          "Not available"
+        ],
+        "name": "Accelerator Pedal 1 Low Idle Switch",
+        "number": 558,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "Accelerator pedal 2 not in low idle condition",
+          "Accelerator pedal 2 in low idle condition",
+          "Error",
+          "Not available"
+        ],
+        "name": "Accelerator Pedal 2 Low Idle Switch",
+        "number": 2970,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 2,
+        "bitSize": 2,
+        "descriptions": [
+          "Kickdown passive",
+          "Kickdown active",
+          "Error",
+          "Not available"
+        ],
+        "name": "Accelerator Pedal Kickdown Switch",
+        "number": 559,
+        "offset": 0,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "TCO1",
+    "pgn": 65132,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 0,
+        "bitSize": 3,
+        "descriptions": [
+          "Rest",
+          "Driver Available",
+          "Work",
+          "Drive"
+        ],
+        "name": "Driver 1 Working State",
+        "number": 1612,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 3,
+        "bitSize": 3,
+        "descriptions": [
+          "Rest",
+          "Driver Available",
+          "Work",
+          "Drive"
+        ],
+        "name": "Driver 2 Working State",
+        "number": 1613,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "Card not present",
+          "Card present",
+          "Error",
+          "Not available"
+        ],
+        "name": "Driver 1 Card",
+        "number": 1615,
+        "offset": 1,
+        "type": 1
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "Card not present",
+          "Card present",
+          "Error",
+          "Not available"
+        ],
+        "name": "Driver 2 Card",
+        "number": 1616,
+        "offset": 2,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "DC1",
+    "pgn": 65102,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "all bus doors disabled",
+          "at least 1 bus door enabled",
+          "Error",
+          "Not available"
+        ],
+        "name": "Status 2 of doors",
+        "number": 3411,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "inside bus",
+          "outside bus",
+          "Error",
+          "Not available"
+        ],
+        "name": "Ramp/Wheel chairlift",
+        "number": 1820,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 0,
+        "bitSize": 4,
+        "descriptions": [
+          "at least 1 door is open",
+          "closing last door",
+          "all doors closed"
+        ],
+        "name": "Position of doors",
+        "number": 1821,
+        "offset": 0,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "AS",
+    "pgn": 65237,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 0,
+        "bitSize": 2,
+        "descriptions": [
+          "Alternator 1 not charging",
+          "Alternator 1 charging",
+          "Error",
+          "Not available"
+        ],
+        "name": "Alternator 1 Status",
+        "number": 3353,
+        "offset": 2,
+        "type": 1
+      },
+      {
+        "bitOffset": 2,
+        "bitSize": 2,
+        "descriptions": [
+          "Alternator 2 not charging",
+          "Alternator 2 charging",
+          "Error",
+          "Not available"
+        ],
+        "name": "Alternator 2 Status",
+        "number": 3354,
+        "offset": 2,
+        "type": 1
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "Alternator 3 not charging",
+          "Alternator 3 charging",
+          "Error",
+          "Not available"
+        ],
+        "name": "Alternator 3 Status",
+        "number": 3355,
+        "offset": 2,
+        "type": 1
+      },
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "Alternator 4 not charging",
+          "Alternator 4 charging",
+          "Error",
+          "Not available"
+        ],
+        "name": "Alternator 4 Status",
+        "number": 3356,
+        "offset": 2,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "CCVS",
+    "pgn": 65265,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 0,
+        "bitSize": 5,
+        "descriptions": [
+          "Off",
+          "Hold",
+          "",
+          "",
+          "",
+          "Set"
+        ],
+        "name": "PTO State",
+        "number": 976,
+        "offset": 6,
+        "type": 1
+      },
+      {
+        "byteSize": 2,
+        "formatGain": 0.00390625,
+        "formatOffset": 0,
+        "name": "Wheel Speed",
+        "number": 84,
+        "offset": 1,
+        "type": 0,
+        "units": "km/h"
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "Pedal released",
+          "Pedal depressed",
+          "Error",
+          "Not available"
+        ],
+        "name": "Brake Switch",
+        "number": 597,
+        "offset": 3,
+        "type": 1
+      },
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "Pedal released",
+          "Pedal depressed",
+          "Error",
+          "Not available"
+        ],
+        "name": "Clutch Switch",
+        "number": 598,
+        "offset": 3,
+        "type": 1
+      },
+      {
+        "bitOffset": 2,
+        "bitSize": 2,
+        "descriptions": [
+          "Parking brake not set",
+          "Parking brake set",
+          "Error",
+          "Not available"
+        ],
+        "name": "Parking Brake Switch",
+        "number": 70,
+        "offset": 0,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "PTODE",
+    "pgn": 64932,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 0,
+        "bitSize": 2,
+        "descriptions": [
+          "No PTO drive is engaged",
+          "At least one PTO drive is engaged",
+          "Error",
+          "Not available"
+        ],
+        "name": "At least one PTO engaged",
+        "number": 3948,
+        "offset": 6,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "EEC1",
+    "pgn": 61444,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 2,
+        "formatGain": 0.125,
+        "formatOffset": 0,
+        "name": "Engine Speed",
+        "number": 190,
+        "offset": 3,
+        "type": 0,
+        "units": "rpm"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": -125,
+        "name": "Driver's Demand Engine - Percent Torque",
+        "number": 512,
+        "offset": 1,
+        "type": 0,
+        "units": "%"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": -125,
+        "name": "Percent Torque",
+        "number": 513,
+        "offset": 2,
+        "type": 0,
+        "units": "%"
+      }
+    ]
+  },
+  {
+    "name": "AMB",
+    "pgn": 65269,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 0.5,
+        "formatOffset": 0,
+        "name": "Barometric Pressure",
+        "number": 108,
+        "offset": 0,
+        "type": 0,
+        "units": "kPa"
+      }
+    ]
+  },
+  {
+    "name": "SERV",
+    "pgn": 65216,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 2,
+        "formatGain": 5,
+        "formatOffset": -160635,
+        "name": "Service distance",
+        "number": 914,
+        "offset": 1,
+        "type": 0,
+        "units": "km"
+      }
+    ]
+  },
+  {
+    "name": "DC2",
+    "pgn": 64933,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 2,
+        "bitSize": 2,
+        "descriptions": [
+          "Closed",
+          "Open",
+          "Error",
+          "Not available"
+        ],
+        "name": "Open Status Door 1",
+        "number": 3413,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 0,
+        "bitSize": 2,
+        "descriptions": [
+          "Closed",
+          "Open",
+          "Error",
+          "Not available"
+        ],
+        "name": "Open Status Door 2",
+        "number": 3416,
+        "offset": 1,
+        "type": 1
+      },
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "Closed",
+          "Open",
+          "Error",
+          "Not available"
+        ],
+        "name": "Open Status Door 3",
+        "number": 3419,
+        "offset": 1,
+        "type": 1
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "Closed",
+          "Open",
+          "Error",
+          "Not available"
+        ],
+        "name": "Open Status Door 3",
+        "number": 3422,
+        "offset": 2,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "VDC2",
+    "pgn": 61449,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 2,
+        "formatGain": 0.00048828125,
+        "formatOffset": -15.687,
+        "name": "Lateral Acceleration",
+        "number": 1809,
+        "offset": 5,
+        "type": 0,
+        "units": "m/s2"
+      }
+    ]
+  },
+  {
+    "name": "EBC2",
+    "pgn": 65215,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 2,
+        "formatGain": 0.00390625,
+        "formatOffset": 0,
+        "name": "Front Axe Speed",
+        "number": 904,
+        "offset": 0,
+        "type": 0,
+        "units": "kph"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.0625,
+        "formatOffset": -7.18125,
+        "name": "Relative Speed; Front Axle, Left Wheel",
+        "number": 905,
+        "offset": 2,
+        "type": 0,
+        "units": "kph"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.0625,
+        "formatOffset": -7.18125,
+        "name": "Relative Speed; Front Axle, Right Wheel",
+        "number": 906,
+        "offset": 3,
+        "type": 0,
+        "units": "kph"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.0625,
+        "formatOffset": -7.18125,
+        "name": "Relative Speed; Rear Axle 1, Left Wheel",
+        "number": 907,
+        "offset": 4,
+        "type": 0,
+        "units": "kph"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.0625,
+        "formatOffset": -7.18125,
+        "name": "Relative Speed; Rear Axle 1, Right Wheel",
+        "number": 908,
+        "offset": 5,
+        "type": 0,
+        "units": "kph"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.0625,
+        "formatOffset": -7.18125,
+        "name": "Relative Speed; Rear Axle 2, Left Wheel",
+        "number": 909,
+        "offset": 6,
+        "type": 0,
+        "units": "kph"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 0.0625,
+        "formatOffset": -7.18125,
+        "name": "Relative Speed; Rear Axle 2, Right Wheel",
+        "number": 910,
+        "offset": 7,
+        "type": 0,
+        "units": "kph"
+      }
+    ]
+  }
 ]

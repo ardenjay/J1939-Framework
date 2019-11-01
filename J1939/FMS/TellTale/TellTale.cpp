@@ -9,33 +9,26 @@
 
 #include <FMS/TellTale/TellTale.h>
 
+TellTale::TellTale() : mNumber(0), mStatus(0) {}
 
-TellTale::TellTale() : mNumber(0), mStatus(0) {
+TellTale::TellTale(u8 number, u8 status) : mNumber(number), mStatus(status) {}
 
-}
+TellTale::~TellTale() {}
 
-TellTale::TellTale(u8 number, u8 status) : mNumber(number), mStatus(status) {
-
-}
-
-TellTale::~TellTale() {
-}
-
-
-std::string TellTale::toString() const {
-
+std::string TellTale::toString() const
+{
 	std::stringstream sstr;
 
-	sstr << "TTS " << static_cast<u32>(mNumber) << ": " <<
-					TellTale::getNameForTTSNumber(mNumber) << " -> Status: "
-					<< TellTale::getSatusname(mStatus) << " (" << static_cast<u32>(mStatus) << ")" << std::endl;
+	sstr << "TTS " << static_cast<u32>(mNumber) << ": "
+		 << TellTale::getNameForTTSNumber(mNumber)
+		 << " -> Status: " << TellTale::getSatusname(mStatus) << " ("
+		 << static_cast<u32>(mStatus) << ")" << std::endl;
 
 	return sstr.str();
-
 }
 
-std::map<u8, std::string> TellTale::initializeNTNMap() {
-
+std::map<u8, std::string> TellTale::initializeNTNMap()
+{
 	std::map<u8, std::string> retVal;
 
 	retVal[1] = "Cooling Air Conditioning";
@@ -99,14 +92,11 @@ std::map<u8, std::string> TellTale::initializeNTNMap() {
 	retVal[59] = "ESC switched off";
 	retVal[60] = "Lane departure warning switched off";
 
-
-
 	return retVal;
-
 }
 
-std::map<u8, std::string> TellTale::initializeSNMap() {
-
+std::map<u8, std::string> TellTale::initializeSNMap()
+{
 	std::map<u8, std::string> retVal;
 
 	retVal[TTS_STATUS_OFF] = "OFF";
@@ -116,11 +106,8 @@ std::map<u8, std::string> TellTale::initializeSNMap() {
 	retVal[TTS_STATUS_NOT_AVAILABLE] = "NOT AVAILABLE";
 
 	return retVal;
-
 }
 
-
 std::map<u8, std::string> TellTale::mNumberToName = initializeNTNMap();
-
 
 std::map<u8, std::string> TellTale::mStatusName = initializeSNMap();

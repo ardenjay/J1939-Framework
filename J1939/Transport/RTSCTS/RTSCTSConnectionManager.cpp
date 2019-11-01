@@ -7,20 +7,18 @@
 
 #include "RTSCTSConnectionManager.h"
 
-namespace J1939 {
-
-RTSCTSConnectionManager::RTSCTSConnectionManager() {
+namespace J1939
+{
+RTSCTSConnectionManager::RTSCTSConnectionManager()
+{
 	// TODO Auto-generated constructor stub
-
 }
 
-RTSCTSConnectionManager::~RTSCTSConnectionManager() {
+RTSCTSConnectionManager::~RTSCTSConnectionManager()
+{
 	// TODO Auto-generated destructor stub
 }
 
-
-void RTSCTSConnectionManager::consumeFrame(const J1939Frame&) {
-
-}
+void RTSCTSConnectionManager::consumeFrame(const J1939Frame &) {}
 
 } /* namespace J1939 */

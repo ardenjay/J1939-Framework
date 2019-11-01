@@ -28,12 +28,12 @@ public:
 
 	bool setFormattedValue(double value);
 
-    void decode(const u8* buffer, size_t length);
-    void encode(u8* buffer, size_t length) const;
+    void decode(const u8* buffer, size_t length) override;
+    void encode(u8* buffer, size_t length) const override;
 
-	EType getType() const { return SPN_NUMERIC; }
+	EType getType() const override { return SPN_NUMERIC; }
 
-	u8 getByteSize() const {
+	u8 getByteSize() const override {
 		return mNumSpec->getByteSize();
 	}
 

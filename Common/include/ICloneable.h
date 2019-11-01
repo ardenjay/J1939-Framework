@@ -10,7 +10,7 @@
 
 
 #define IMPLEMENT_CLONEABLE(CLASS, SUBCLASS)		\
-	virtual CLASS* clone() const {								\
+	virtual CLASS* clone() const override {								\
 		return new SUBCLASS(*this);				\
 	}
 

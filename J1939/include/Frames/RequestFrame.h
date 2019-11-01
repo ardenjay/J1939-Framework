@@ -21,8 +21,8 @@ private:
 
 protected:
 
-	void decodeData(const u8* buffer, size_t length);
-	void encodeData(u8* buffer, size_t length) const;
+	void decodeData(const u8* buffer, size_t length) override;
+	void encodeData(u8* buffer, size_t length) const override;
 
 public:
 	RequestFrame();
@@ -35,7 +35,7 @@ public:
 
 	void setRequestPGN(u32 requestPGN) { mRequestPGN = requestPGN; }
 
-	std::string toString() const;
+	std::string toString() const override;
 
 	IMPLEMENT_CLONEABLE(J1939Frame,RequestFrame);
 

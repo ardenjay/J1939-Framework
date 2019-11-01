@@ -199,10 +199,10 @@ public:
 	void clear();
 
 	//Implements J1939Frame methods
-	void decodeData(const u8* buffer, size_t length);
-	void encodeData(u8* buffer, size_t length) const;
+	void decodeData(const u8* buffer, size_t length) override;
+	void encodeData(u8* buffer, size_t length) const override;
 
-	size_t getDataLength() const { return TP_CM_SIZE; }
+	size_t getDataLength() const override { return TP_CM_SIZE; }
 	
 	
 	u8 getAbortReason() const {

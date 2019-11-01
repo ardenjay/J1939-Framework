@@ -21,8 +21,8 @@ private:
 	size_t mLength;
 	std::map<u32/*SpnNumber*/, SPN*> mSPNs;
 protected:
-	virtual void decodeData(const u8* buffer, size_t length);
-	virtual void encodeData(u8* buffer, size_t length) const;
+	virtual void decodeData(const u8* buffer, size_t length) override;
+	virtual void encodeData(u8* buffer, size_t length) const override;
 public:
     GenericFrame(u32 pgn);
 	GenericFrame(const GenericFrame& other);
@@ -52,15 +52,15 @@ public:
 
 	std::map<u32/*SpnNumber*/, SPN*> getSPNs() { return mSPNs; };
 
-	virtual size_t getDataLength() const;
+	virtual size_t getDataLength() const override;
 
 	void setLength(size_t length) { mLength = length; }
 
     void setName(const std::string& name) { mName = name; }
 
-    bool isGenericFrame() const { return true; }
+    bool isGenericFrame() const override { return true; }
 
-    virtual std::string toString() const;
+    virtual std::string toString() const override;
 
     /*
      * Returns a set of SPNs that have changed with respect to the data

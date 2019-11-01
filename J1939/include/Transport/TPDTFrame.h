@@ -29,10 +29,10 @@ public:
 
 
 	//Implements J1939Frame methods
-	void decodeData(const u8* buffer, size_t length);
-	void encodeData(u8* buffer, size_t length) const;
+	void decodeData(const u8* buffer, size_t length) override;
+	void encodeData(u8* buffer, size_t length) const override;
 
-	size_t getDataLength() const { return BAM_DT_SIZE; }
+	size_t getDataLength() const override { return BAM_DT_SIZE; }
 
 	const u8* getData() const { return mData; }
 

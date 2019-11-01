@@ -24,8 +24,8 @@ private:
 	std::vector<DTC> mDtcs;
 
 protected:
-	void decodeData(const u8* buffer, size_t length);
-	void encodeData(u8* buffer, size_t length) const;
+	void decodeData(const u8* buffer, size_t length) override;
+	void encodeData(u8* buffer, size_t length) const override;
 
 public:
 	DM1();

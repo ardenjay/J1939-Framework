@@ -167,8 +167,8 @@ private:
 	EcuName mEcuName;
 protected:
 
-	void decodeData(const u8* buffer, size_t length);
-	void encodeData(u8* buffer, size_t length) const;
+	void decodeData(const u8* buffer, size_t length) override;
+	void encodeData(u8* buffer, size_t length) const override;
 
 public:
 	AddressClaimFrame();
@@ -179,7 +179,7 @@ public:
 
 	const EcuName& getEcuName() { return mEcuName; }
 
-	std::string toString() const;
+	std::string toString() const override;
 
 	IMPLEMENT_CLONEABLE(J1939Frame,AddressClaimFrame);
 

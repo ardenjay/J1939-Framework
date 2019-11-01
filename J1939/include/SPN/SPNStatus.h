@@ -29,10 +29,10 @@ public:
 	virtual ~SPNStatus();
 
 
-	void decode(const u8* buffer, size_t length);
-	void encode(u8* buffer, size_t length) const;
+	void decode(const u8* buffer, size_t length) override;
+	void encode(u8* buffer, size_t length) const override;
 
-	EType getType() const { return SPN_STATUS; }
+	EType getType() const override { return SPN_STATUS; }
 
 	u8 getBitOffset() const { return mStatSpec->getBitOffset(); }
 

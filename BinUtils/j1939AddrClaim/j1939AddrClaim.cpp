@@ -183,9 +183,9 @@ int main(int argc, char **argv)
 
 	for (unsigned int i = 0; i < addresses.size(); ++i) {
 		if (addresses[i].isUInt() &&
-			(addresses[i].asUInt() == addresses[i].asUInt() &
-			 J1939_SRC_ADDR_MASK)) {
-			preferred.push(addresses[i].asUInt());
+		    (addresses[i].asUInt() ==
+		    (addresses[i].asUInt() & J1939_SRC_ADDR_MASK))) {
+		    preferred.push(addresses[i].asUInt());
 		}
 	}
 

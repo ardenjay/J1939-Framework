@@ -10,34 +10,28 @@
 
 #include "TRCWriter.h"
 
-#define TRC_FILE_HEADER			";$FILEVERSION=1.1\n;\n"
+#define TRC_FILE_HEADER ";$FILEVERSION=1.1\n;\n"
 
+namespace Can
+{
+TRCWriter::TRCWriter() : mCounter(0) {}
 
-namespace Can {
-
-TRCWriter::TRCWriter() : mCounter(0) {
-
-}
-
-TRCWriter::TRCWriter(const std::string& file) : mCounter(0) {
-
+TRCWriter::TRCWriter(const std::string &file) : mCounter(0)
+{
 	open(file);
-
 }
 
-TRCWriter::~TRCWriter() {
+TRCWriter::~TRCWriter() {}
 
-
-}
-
-void TRCWriter::write(const CanFrame& frame, const Utils::TimeStamp& timeStamp) {
-
-	if(!mFileStream.is_open()) {		//File not open
+void TRCWriter::write(const CanFrame &frame, const Utils::TimeStamp &timeStamp)
+{
+	if (!mFileStream.is_open()) { // File not open
 		throw TRCWriteException();
 	}
 
 	std::stringstream sstr;
-	double ts = timeStamp.getSeconds() * 1000 + (double)(timeStamp.getMicroSec()) /1000;
+	double ts = timeStamp.getSeconds() * 1000 +
+				(double)(timeStamp.getMicroSec()) / 1000;
 
 	size_t size = frame.getData().length();
 
@@ -57,7 +51,8 @@ void TRCWriter::write(const CanFrame& frame, const Utils::TimeStamp& timeStamp) 
 
 	mFileStream << std::right << std::setw(4) << "Rx";
 
-	sstr << std::setfill('0') << std::setw(8) << std::hex << std::uppercase << frame.getId();
+	sstr << std::setfill('0') << std::setw(8) << std::hex << std::uppercase
+		 << frame.getId();
 
 	mFileStream << std::right << std::setw(13) << sstr.str();
 
@@ -68,38 +63,35 @@ void TRCWriter::write(const CanFrame& frame, const Utils::TimeStamp& timeStamp) 
 
 	sstr << "  ";
 
-	for(unsigned int i = 0; i < size; ++i) {
-
+	for (unsigned int i = 0; i < size; ++i) {
 		u8 octet = frame.getData()[i];
 
-		sstr << std::setfill('0') << std::setw(2) << std::hex << static_cast<u32>(octet) << " ";
+		sstr << std::setfill('0') << std::setw(2) << std::hex
+			 << static_cast<u32>(octet) << " ";
 	}
 
 	mFileStream << sstr.str() << std::endl;
-
 }
 
-
-bool TRCWriter::open(const std::string& file) {
-
+bool TRCWriter::open(const std::string &file)
+{
 	close();
 
 	mFileStream.open(file.c_str(), std::ifstream::out | std::ifstream::trunc);
 
-	if(mFileStream.is_open()) {
+	if (mFileStream.is_open()) {
 		mFileStream << TRC_FILE_HEADER;
 	}
 
 	return mFileStream.is_open();
 }
 
-void TRCWriter::close() {
-
+void TRCWriter::close()
+{
 	mCounter = 0;
 
-	if(mFileStream.is_open())
+	if (mFileStream.is_open())
 		mFileStream.close();
-
 }
 
 } /* namespace Can */

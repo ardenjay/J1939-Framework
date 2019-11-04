@@ -5,31 +5,27 @@
  *      Author: famez
  */
 
-#include <sstream>
 #include <iomanip>
+#include <sstream>
 
 #include "CanFrame.h"
 
-namespace Can {
+namespace Can
+{
+CanFrame::CanFrame() : mId(0) {}
 
-CanFrame::CanFrame() : mId (0) {
+CanFrame::~CanFrame() {}
 
-}
-
-CanFrame::~CanFrame() {
-}
-
-std::string CanFrame::hexDump() const {
-	
+std::string CanFrame::hexDump() const
+{
 	std::stringstream sstr;
 
-	for(auto c = mData.begin(); c != mData.end(); ++c) {
-		sstr << std::setfill('0') << std::setw(2) << std::hex << (static_cast<u32>(*c) & 0xFF) << " ";
+	for (auto c = mData.begin(); c != mData.end(); ++c) {
+		sstr << std::setfill('0') << std::setw(2) << std::hex
+			 << (static_cast<u32>(*c) & 0xFF) << " ";
 	}
-	
-	return sstr.str();
-	
-}
 
+	return sstr.str();
+}
 
 } /* namespace Can */

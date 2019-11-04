@@ -168,8 +168,8 @@ int main(int argc, char **argv)
 	std::string errs;
 
 	if (!jSonReader->parse(preferredAddr.c_str(),
-						   preferredAddr.c_str() + preferredAddr.size(),
-						   &addresses, &errs)) {
+			    preferredAddr.c_str() + preferredAddr.size(),
+			    &addresses, &errs)) {
 		std::cerr << "No json format for preferred" << std::endl;
 		return -4;
 	}

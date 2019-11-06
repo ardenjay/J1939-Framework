@@ -6,8 +6,7 @@ set(CMAKE_BUILD_TYPE Debug)    #For debug purposes
 
 set(J1939Framework_VERSION 1.0.0)
 
-set(CMAKE_MODULE_PATH "./cmake/;${CMAKE_MODULE_PATH}")
-
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/;${CMAKE_MODULE_PATH}")
 
 find_package (Threads REQUIRED)
 find_package (jsoncpp REQUIRED)

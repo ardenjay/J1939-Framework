@@ -24,7 +24,7 @@ find_package(jsoncpp REQUIRED)
 find_package (LibWebSockets)
 find_package(Protobuf)
 
-if(LibWebSockets_FOUND AND Protobuf_FOUND)
+if(LIBWEBSOCKETS_FOUND AND Protobuf_FOUND)
     message("-- LibWebSockets and protobuf are available")
     message("-- Protobuf version ${Protobuf_VERSION}")
 

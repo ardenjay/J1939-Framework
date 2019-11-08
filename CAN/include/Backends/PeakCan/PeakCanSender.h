@@ -13,23 +13,24 @@
 
 #include <Backends/PeakCan/PeakCanSymbols.h>
 
-namespace Can {
-namespace PeakCan {
-
-
-
-class PeakCanSender : public CommonCanSender {
-private:
+namespace Can
+{
+namespace PeakCan
+{
+class PeakCanSender : public CommonCanSender
+{
+  private:
 	TPCANHandle mCurrentHandle;
-protected:
-	void _sendFrame(const CanFrame& frame) const override;
-public:
+
+  protected:
+	void _sendFrame(const CanFrame &frame) const override;
+
+  public:
 	PeakCanSender(TPCANHandle handle);
 	virtual ~PeakCanSender();
-
 };
 
-} /* namespace Sockets */
+} // namespace PeakCan
 } /* namespace Can */
 
 #endif /* BACKENDS_SOCKETS_CANSENDER_H_ */

@@ -11,24 +11,24 @@
 
 #include "../../CommonCanSender.h"
 
-namespace Can {
-namespace Sockets {
-
-
-
-class SocketCanSender : public CommonCanSender {
-private:
+namespace Can
+{
+namespace Sockets
+{
+class SocketCanSender : public CommonCanSender
+{
+  private:
 	/*
 	 * An already initialized socket where to send the frames
 	 */
 	int mSock;
 
-protected:
-	void _sendFrame(const CanFrame& frame) const override;
-public:
+  protected:
+	void _sendFrame(const CanFrame &frame) const override;
+
+  public:
 	SocketCanSender(int sock);
 	virtual ~SocketCanSender();
-
 };
 
 } /* namespace Sockets */

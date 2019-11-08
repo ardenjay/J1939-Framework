@@ -8,35 +8,33 @@
 #ifndef TRCWRITER_H_
 #define TRCWRITER_H_
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 #include "CanFrame.h"
 #include "Utils.h"
 
-
-namespace Can {
-
-
-
-class TRCWriter {
-private:
+namespace Can
+{
+class TRCWriter
+{
+  private:
 	std::ofstream mFileStream;
 	unsigned int mCounter;
-public:
+
+  public:
 	TRCWriter();
-	TRCWriter(const std::string& file);
+	TRCWriter(const std::string &file);
 	virtual ~TRCWriter();
 
-	void write(const CanFrame& frame, const Utils::TimeStamp& timeStamp);
+	void write(const CanFrame &frame, const Utils::TimeStamp &timeStamp);
 
-	bool open(const std::string& file);
+	bool open(const std::string &file);
 	void close();
 
-	class TRCWriteException : public std::exception {
-
+	class TRCWriteException : public std::exception
+	{
 	};
-
 };
 
 } /* namespace Can */

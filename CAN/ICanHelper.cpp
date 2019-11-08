@@ -14,7 +14,7 @@ namespace Can
 {
 std::map<std::string /*Interface*/, ICanHelper *> ICanHelper::mHelpers;
 
-const std::map<std::string /*Interface*/, ICanHelper *> &
+const std::map<std::string, ICanHelper *> &
 ICanHelper::createCanHelpers(u32 bitrate)
 {
 	if (mHelpers.empty()) {

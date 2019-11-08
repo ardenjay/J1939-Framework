@@ -10,11 +10,13 @@
 
 #include <CommonCanReceiver.h>
 
-namespace Can {
-namespace Sockets {
-
-class SocketCanReceiver : public CommonCanReceiver {
-private:
+namespace Can
+{
+namespace Sockets
+{
+class SocketCanReceiver : public CommonCanReceiver
+{
+  private:
 	/*
 	 * An already initialized socket where to send the frames
 	 */
@@ -25,9 +27,10 @@ private:
 	msghdr msg;
 	canfd_frame frame;
 	sockaddr_can addr;
-	char ctrlmsg[CMSG_SPACE(sizeof(timeval) + 3*sizeof(timespec) + sizeof(u32))];
+	char ctrlmsg[CMSG_SPACE(sizeof(timeval) + 3 * sizeof(timespec) +
+							sizeof(u32))];
 
-public:
+  public:
 	SocketCanReceiver(int sock, bool timeStamp);
 	virtual ~SocketCanReceiver();
 
@@ -35,13 +38,14 @@ public:
 
 	bool setFilters(std::set<CanFilter> filters) override;
 
-	bool filter(u32 id) override { return true; }		//Filtering is already done in kernel space
+	bool filter(u32 id) override
+	{
+		return true;
+	} // Filtering is already done in kernel space
 
-	bool receive(CanFrame&, Utils::TimeStamp&) override;
+	bool receive(CanFrame &, Utils::TimeStamp &) override;
 
 	int getFD() override;
-
-
 };
 
 } /* namespace Sockets */

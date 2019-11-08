@@ -8,65 +8,57 @@
 #ifndef TRCREADER_H_
 #define TRCREADER_H_
 
-
 #include <deque>
-#include <utility>
-#include <string>
-#include <iostream>
-#include <fstream>
 #include <exception>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <utility>
 
 #include <Types.h>
 
 #include "CanFrame.h"
 
+#define MAX_LOADED_FRAMES 1000000
 
-#define MAX_LOADED_FRAMES		1000000
-
-namespace Can {
-
-class TRCReadException : public std::exception {
-
+namespace Can
+{
+class TRCReadException : public std::exception
+{
 };
 
-class TRCReader {
-
-
-private:
-
+class TRCReader
+{
+  private:
 	std::string mFileName;
 	size_t mCurrentPos;
 	size_t mTotalFrames;
 	std::ifstream mFileStream;
-    std::pair<u64, CanFrame> mLastReadFrameTimePair;
+	std::pair<u64, CanFrame> mLastReadFrameTimePair;
 
-	void readNextLine(bool& error, bool& empty);
+	void readNextLine(bool &error, bool &empty);
 
 	bool checkIntegrity();
 
-
-
-public:
+  public:
 	TRCReader();
-	TRCReader(const std::string& path);
+	TRCReader(const std::string &path);
 	virtual ~TRCReader();
 
-	bool loadFile(const std::string& path);
+	bool loadFile(const std::string &path);
 	void unloadFile();
 	bool isFileLoaded() const { return !mFileName.empty(); }
 	size_t getNumberOfFrames() const { return mTotalFrames; }
 	size_t getCurrentPos() const { return mCurrentPos; }
 	bool seekPosition(size_t pos);
 	void seekTime(u32 millis);
-    std::pair<u64, CanFrame> getLastCanFrame();
+	std::pair<u64, CanFrame> getLastCanFrame();
 	void readNextCanFrame();
 
 	/*
 	 * Resets the reader to the beginning
 	 */
 	void reset();
-
-
 };
 
 } /* namespace Can */

@@ -8,61 +8,59 @@
 #ifndef CANFRAME_H_
 #define CANFRAME_H_
 
-#include <string>
 #include <Types.h>
+#include <string>
 
-#define MAX_CAN_DATA_SIZE		8
+#define MAX_CAN_DATA_SIZE 8
 
-namespace Can {
-
-class CanFrame {
-private:
-
+namespace Can
+{
+class CanFrame
+{
+  private:
 	bool mExtendedFormat;
 	u32 mId;
 	std::string mData;
 
-public:
+  public:
 	CanFrame();
 	CanFrame(bool extFormat, u32 id) : mExtendedFormat(extFormat), mId(id) {}
-	CanFrame(bool extFormat, u32 id, const std::string& data) : mExtendedFormat(extFormat), mId(id) { setData(data); }
+	CanFrame(bool extFormat, u32 id, const std::string &data)
+		: mExtendedFormat(extFormat), mId(id)
+	{
+		setData(data);
+	}
 	virtual ~CanFrame();
 
-	const std::string& getData() const {
-		return mData;
-	}
+	const std::string &getData() const { return mData; }
 
-	bool setData(const std::string& data) {
-
-		if(data.size() > MAX_CAN_DATA_SIZE)
+	bool setData(const std::string &data)
+	{
+		if (data.size() > MAX_CAN_DATA_SIZE)
 			return false;
 		mData = data;
 		return true;
 	}
 
-	u32 getId() const {
-		return mId;
+	u32 getId() const { return mId; }
+
+	void setId(u32 id) { mId = id; }
+
+	void clear()
+	{
+		mId = 0;
+		mData.clear();
 	}
 
-	void setId(u32 id) {
-		mId = id;
-	}
+	bool isExtendedFormat() const { return mExtendedFormat; }
 
-	void clear() { mId = 0; mData.clear(); }
-
-	bool isExtendedFormat() const {
-		return mExtendedFormat;
-	}
-
-	void setExtendedFormat(bool extendedFormat) {
+	void setExtendedFormat(bool extendedFormat)
+	{
 		mExtendedFormat = extendedFormat;
 	}
-	
-	//To show human readable data
-	
+
+	// To show human readable data
 	std::string hexDump() const;
-	
-	
 };
 
 } /* namespace Can */

@@ -9,53 +9,53 @@
 #ifndef BACKENDS_SOCKETS_COMMONCANSENDER_H_
 #define BACKENDS_SOCKETS_COMMONCANSENDER_H_
 
-
-#include <vector>
 #include <memory>
+#include <vector>
 
-#include <thread>
 #include <mutex>
+#include <thread>
 
 #include <time.h>
 
-
 #include <ICanSender.h>
 
-
-namespace Can {
-
-
-class CommonCanSender : public ICanSender {
-private:
-
-	class CanFrameRing {
-	private:
+namespace Can
+{
+class CommonCanSender : public ICanSender
+{
+  private:
+	class CanFrameRing
+	{
+	  private:
 		std::vector<CanFrame> mFrames;
 		timespec mTxTimestamp;
 		u32 mPeriod;
 		size_t mCurrentpos;
 		OnSendCallback mCallback;
-	public:
-		CanFrameRing(u32 period, OnSendCallback callback = OnSendCallback()) : mPeriod(period), mCurrentpos(0), mCallback(callback) { mTxTimestamp = {0, 0}; }
-		~CanFrameRing() {}
-		CanFrameRing(const CanFrameRing& other) 				= default;
-		CanFrameRing& operator=(const CanFrameRing& other) 		= delete;
-		CanFrameRing(CanFrameRing&& other)                 		= default;
-		CanFrameRing& operator=(CanFrameRing&& other)         		= default;
 
+	  public:
+		CanFrameRing(u32 period, OnSendCallback callback = OnSendCallback())
+			: mPeriod(period), mCurrentpos(0), mCallback(callback)
+		{
+			mTxTimestamp = {0, 0};
+		}
+		~CanFrameRing() {}
+		CanFrameRing(const CanFrameRing &other) = default;
+		CanFrameRing &operator=(const CanFrameRing &other) = delete;
+		CanFrameRing(CanFrameRing &&other) = default;
+		CanFrameRing &operator=(CanFrameRing &&other) = default;
 
 		void setTxTimestamp(timespec timeStamp) { mTxTimestamp = timeStamp; }
 		timespec getTxTimestamp() const { return mTxTimestamp; }
 
-		void pushFrame(const CanFrame& frame);
-		void setFrames(const std::vector<CanFrame>&);
+		void pushFrame(const CanFrame &frame);
+		void setFrames(const std::vector<CanFrame> &);
 		void shift();
-		CanFrame& getCurrentFrame() { return mFrames[mCurrentpos]; }
+		CanFrame &getCurrentFrame() { return mFrames[mCurrentpos]; }
 		u32 getCurrentPeriod() const;
-		const std::vector<CanFrame>& getFrames() const { return mFrames; }
+		const std::vector<CanFrame> &getFrames() const { return mFrames; }
 
-		const OnSendCallback& getCallback() { return mCallback; }
-
+		const OnSendCallback &getCallback() { return mCallback; }
 	};
 
 	mutable std::mutex mFramesLock;
@@ -63,30 +63,31 @@ private:
 	bool mFinished;
 	std::unique_ptr<std::thread> mThread = nullptr;
 
-protected:
-	virtual void _sendFrame(const CanFrame& frame) const = 0;
+  protected:
+	virtual void _sendFrame(const CanFrame &frame) const = 0;
 
-public:
+  public:
 	CommonCanSender();
 	virtual ~CommonCanSender();
 
-	//ICanSender implementation
+	// ICanSender implementation
 	bool initialize();
 	bool finalize();
-	bool sendFrame(CanFrame frame, u32 period, OnSendCallback callback = OnSendCallback());
-	bool sendFrames(std::vector<CanFrame> frames, u32 period, OnSendCallback callback = OnSendCallback());
+	bool sendFrame(CanFrame frame, u32 period,
+				   OnSendCallback callback = OnSendCallback());
+	bool sendFrames(std::vector<CanFrame> frames, u32 period,
+					OnSendCallback callback = OnSendCallback());
 
 	/*
 	 * Sends the frame given as argument to the CAN network only once.
 	 */
-	void sendFrameOnce(const CanFrame& frame) override { _sendFrame(frame); }
+	void sendFrameOnce(const CanFrame &frame) override { _sendFrame(frame); }
 	void unSendFrame(u32 id);
-	void unSendFrames(const std::vector<u32>& ids);
-	bool isSent(const std::vector<u32>& ids);
+	void unSendFrames(const std::vector<u32> &ids);
+	bool isSent(const std::vector<u32> &ids);
 	bool isSent(u32 id);
 
 	void run();
-
 };
 
 } /* namespace Can */

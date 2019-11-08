@@ -13,12 +13,13 @@
 
 #include <ICanHelper.h>
 
-namespace Can {
-namespace Sockets {
-
-class SocketCanHelper : public Can::ICanHelper {
-private:
-
+namespace Can
+{
+namespace Sockets
+{
+class SocketCanHelper : public Can::ICanHelper
+{
+  private:
 	int mSock = -1;
 	bool mTimeStamp = true;
 	std::string mInterface;
@@ -29,7 +30,7 @@ private:
 	bool setBitrate(u32 bitrate) const;
 	bool isVirtual() const;
 
-public:
+  public:
 	SocketCanHelper();
 	virtual ~SocketCanHelper();
 
@@ -37,18 +38,17 @@ public:
 
 	std::string getBackend() override { return "SocketCan"; }
 
-	ICanSender* allocateCanSender() override;
-	CommonCanReceiver* allocateCanReceiver() override;
+	ICanSender *allocateCanSender() override;
+	CommonCanReceiver *allocateCanReceiver() override;
 
 	bool initialize(std::string interface, u32 bitrate) override;
 
 	void finalize() override;
 
 	bool initialized() override;
-
 };
 
-} /* namespace Can */
-}
+} // namespace Sockets
+} // namespace Can
 
 #endif /* CANHELPER_H_ */

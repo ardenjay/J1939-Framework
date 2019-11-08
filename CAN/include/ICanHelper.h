@@ -11,17 +11,17 @@
 #include <map>
 #include <string>
 
-#include <ICanSender.h>
 #include <CommonCanReceiver.h>
+#include <ICanSender.h>
 
-namespace Can {
+namespace Can
+{
+class ICanHelper
+{
+  private:
+	static std::map<std::string /*Interface*/, ICanHelper *> mHelpers;
 
-class ICanHelper {
-
-private:
-	static std::map<std::string/*Interface*/, ICanHelper*> mHelpers;
-public:
-
+  public:
 	ICanHelper() {}
 	virtual ~ICanHelper() {}
 
@@ -39,20 +39,21 @@ public:
 	/*
 	 * Allocates a CanSender, the caller is in charge of the deallocation
 	 */
-	virtual ICanSender* allocateCanSender() = 0;
+	virtual ICanSender *allocateCanSender() = 0;
 
 	/*
 	 * Allocates a CanReceiver, the caller is in charge of the deallocation
 	 */
-	virtual CommonCanReceiver* allocateCanReceiver() = 0;
+	virtual CommonCanReceiver *allocateCanReceiver() = 0;
 
 	/*
-	 * Returns a set with all the available helpers. To free the helpers, call deallocateCanHelpers().
+	 * Returns a set with all the available helpers. To free the helpers, call
+	 * deallocateCanHelpers().
 	 */
-	static const std::map<std::string/*Interface*/, ICanHelper*>& createCanHelpers(u32 bitrate);
+	static const std::map<std::string /*Interface*/, ICanHelper *> &
+	createCanHelpers(u32 bitrate);
 
 	static void deallocateCanHelpers();
-
 };
 
 } /* namespace Can */

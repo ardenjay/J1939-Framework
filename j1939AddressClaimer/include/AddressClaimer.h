@@ -13,37 +13,33 @@
 
 #include <memory>
 
-//Threading
-#include <thread>
-#include <mutex>
+// Threading
 #include <condition_variable>
+#include <mutex>
+#include <thread>
 
 #include <Types.h>
 
-#include <J1939Common.h>
 #include <Addressing/AddressClaimFrame.h>
+#include <J1939Common.h>
 
-
-
-namespace J1939 {
-
+namespace J1939
+{
 class J1939Frame;
 class EcuName;
 
 typedef std::shared_ptr<J1939Frame> FrameSharedPtr;
 
-
-class AddressClaimer {
-private:
-
+class AddressClaimer
+{
+  private:
 	enum ClaimResult {
 		CLAIM_ADDRESS_OBTAINED,
 		CLAIM_RETRY,
 		CLAIM_FAILED,
 	};
 
-
-	std::map<u32/*id*/, FrameSharedPtr> mFrames;
+	std::map<u32 /*id*/, FrameSharedPtr> mFrames;
 
 	std::unique_ptr<std::thread> mThread = nullptr;
 	std::mutex mMutex;
@@ -71,22 +67,21 @@ private:
 
 	void exec();
 
-	//Methods to override by the inherited class
+	// Methods to override by the inherited class
 
-protected:
+  protected:
 	virtual void onSrcAddrChanged(u8 newAddr) = 0;
-	virtual void sendFrame(const J1939Frame&) = 0;
+	virtual void sendFrame(const J1939Frame &) = 0;
 
-public:
-	AddressClaimer(const EcuName& name, const std::queue<u8>& preferred);
+  public:
+	AddressClaimer(const EcuName &name, const std::queue<u8> &preferred);
 	virtual ~AddressClaimer();
-	bool toBeHandled(const J1939Frame& frame);
+	bool toBeHandled(const J1939Frame &frame);
 
 	/**
 	 * This method does not take the ownership of the frame passed as argument.
 	 */
-	void receive(const J1939Frame& frame);
-
+	void receive(const J1939Frame &frame);
 };
 
 } /* namespace J1939 */

@@ -13,28 +13,27 @@
 #include <map>
 #include <string>
 
-#include <ICanHelper.h>
 #include <CanSniffer.h>
+#include <ICanHelper.h>
 
-
-namespace Can {
-
-class CanEasy {
-private:
-
-	//Backends in charge of sending the corresponding frames
-	static std::map<std::string, std::shared_ptr<ICanSender> > mSenders;
+namespace Can
+{
+class CanEasy
+{
+  private:
+	// Backends in charge of sending the corresponding frames
+	static std::map<std::string, std::shared_ptr<ICanSender>> mSenders;
 
 	static CanSniffer mSniffer;
 
 	static std::set<std::string> mInitializedIfaces;
 
-public:
-
+  public:
 	/*
 	 * To initialize for sending and receiving
 	 */
-	static void initialize(u32 bitrate, OnReceiveFramePtr recvCB, OnTimeoutPtr timeoutCB);
+	static void initialize(u32 bitrate, OnReceiveFramePtr recvCB,
+						   OnTimeoutPtr timeoutCB);
 
 	/*
 	 * To initialize only for sending frames
@@ -42,14 +41,16 @@ public:
 	static void initialize(u32 bitrate);
 
 	static std::set<std::string> getCanIfaces();
-	static const std::set<std::string>& getInitializedCanIfaces() { return mInitializedIfaces; }
+	static const std::set<std::string> &getInitializedCanIfaces()
+	{
+		return mInitializedIfaces;
+	}
 
-	static std::shared_ptr<ICanSender> getSender(const std::string& interface);
+	static std::shared_ptr<ICanSender> getSender(const std::string &interface);
 
-	static CanSniffer& getSniffer() { return mSniffer; }
+	static CanSniffer &getSniffer() { return mSniffer; }
 
 	static void finalize();
-
 };
 
 } /* namespace Can */

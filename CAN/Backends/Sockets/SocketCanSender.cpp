@@ -35,7 +35,7 @@ void SocketCanSender::_sendFrame(const CanFrame& frame) const {
 
 	int retval;
 
-	can_frame frameToSend;
+	struct can_frame frameToSend;
 	memset(&frameToSend, 0, sizeof(can_frame));
 
 	frameToSend.can_id = frame.getId();
@@ -47,7 +47,8 @@ void SocketCanSender::_sendFrame(const CanFrame& frame) const {
 	retval = write(mSock, &frameToSend, sizeof(struct can_frame));
 	if (retval != sizeof(struct can_frame))
 	{
-		printf("[SocketCanSender::_sendFrame] retval: %d, error: %s\n", retval, strerror(errno));
+		printf("[SocketCanSender::_sendFrame] retval: %d, error: %s\n",
+			retval, strerror(errno));
 	}
 
 }

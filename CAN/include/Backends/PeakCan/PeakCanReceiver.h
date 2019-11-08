@@ -12,22 +12,23 @@
 
 #include <Backends/PeakCan/PeakCanSymbols.h>
 
-namespace Can {
-namespace PeakCan {
-
-class PeakCanReceiver : public CommonCanReceiver {
-
-private:
+namespace Can
+{
+namespace PeakCan
+{
+class PeakCanReceiver : public CommonCanReceiver
+{
+  private:
 	TPCANHandle mCurrentHandle;
 	int mReadFd;
 
-public:
+  public:
 	PeakCanReceiver(TPCANHandle handle);
 	virtual ~PeakCanReceiver();
 
 	int getFD() override;
 
-	bool receive(CanFrame&, Utils::TimeStamp&) override;
+	bool receive(CanFrame &, Utils::TimeStamp &) override;
 };
 
 } /* namespace PeakCan */

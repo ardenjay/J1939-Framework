@@ -14,9 +14,8 @@ CanSniffer CanEasy::mSniffer;
 std::set<std::string> CanEasy::mInitializedIfaces;
 
 void CanEasy::initialize(u32 bitrate, OnReceiveFramePtr recvCB,
-						 OnTimeoutPtr timeoutCB)
+			 OnTimeoutPtr timeoutCB)
 {
-	// Initialize can
 	const std::map<std::string /*Interface*/, ICanHelper *> &canHelpers =
 		ICanHelper::createCanHelpers(bitrate);
 
@@ -37,15 +36,13 @@ void CanEasy::initialize(u32 bitrate, OnReceiveFramePtr recvCB,
 
 void CanEasy::initialize(u32 bitrate)
 {
-	std::set<std::string> initializedIfaces;
-	// Initialize can
 	const std::map<std::string /*Interface*/, ICanHelper *> &canHelpers =
 		ICanHelper::createCanHelpers(bitrate);
 
 	for (auto iter = canHelpers.begin(); iter != canHelpers.end(); ++iter) {
 		ICanSender *sender = iter->second->allocateCanSender();
-		mSenders[iter->first] = std::shared_ptr<ICanSender>(sender);
 
+		mSenders[iter->first] = std::shared_ptr<ICanSender>(sender);
 		mInitializedIfaces.insert(iter->first);
 	}
 }

@@ -17,7 +17,6 @@ void CommonCanSender::CanFrameRing::setFrames(
 	const std::vector<CanFrame> &frames)
 {
 	mFrames = frames;
-
 	mCurrentpos = 0;
 }
 
@@ -27,6 +26,7 @@ void CommonCanSender::CanFrameRing::pushFrame(const CanFrame &frame)
 	mCurrentpos = 0;
 }
 
+/* advance to the next frame */
 void CommonCanSender::CanFrameRing::shift()
 {
 	if (mCurrentpos == mFrames.size())
@@ -46,9 +46,9 @@ u32 CommonCanSender::CanFrameRing::getCurrentPeriod() const
 	// Little algorithm to compensate the loss of accuracy when dividing the
 	// period by the number of frames
 	if (mCurrentpos + 1 ==
-		mFrames.size()) { // Last frame. The period is slightly different to
-						  // compensate the loss of the decimal part for the
-						  // other frames which is accumulated
+			mFrames.size()) { // Last frame. The period is slightly different to
+		// compensate the loss of the decimal part for the
+		// other frames which is accumulated
 		period = mPeriod - (mPeriod / mFrames.size()) * (mFrames.size() - 1);
 	} else { // Any other frame.
 		period = mPeriod / mFrames.size();
@@ -69,28 +69,25 @@ CommonCanSender::~CommonCanSender()
 
 bool CommonCanSender::initialize()
 {
+	// Initialize the thread in charge of sending the frames
 	mThread = std::unique_ptr<std::thread>(new std::thread(
-		&CommonCanSender::run,
-		this)); // Initialize the thread in charge of sending the frames
-
+						&CommonCanSender::run,
+						this));
 	return true;
 }
 
 bool CommonCanSender::finalize()
 {
 	if (mFinished)
-		return false; // Already finalized
-
-	mFinished = true; // This makes the thread finish
-
-	mThread->join(); // Wait for thread to finish doing proper cleaning and
-					 // claim resources
-
+		return false; 	// Already finalized
+	mFinished = true; 	// This makes the thread finish
+	mThread->join(); 	// Wait for thread to finish doing
+						// proper cleaning and claim resources
 	return true;
 }
 
 bool CommonCanSender::sendFrame(CanFrame frame, u32 period,
-								OnSendCallback callback)
+		OnSendCallback callback)
 {
 	std::vector<CanFrame> frames;
 	frames.push_back(frame);
@@ -101,7 +98,7 @@ bool CommonCanSender::sendFrame(CanFrame frame, u32 period,
 }
 
 bool CommonCanSender::sendFrames(std::vector<CanFrame> frames, u32 period,
-								 OnSendCallback callback)
+		OnSendCallback callback)
 {
 	if (frames.empty())
 		return false;
@@ -122,9 +119,9 @@ bool CommonCanSender::sendFrames(std::vector<CanFrame> frames, u32 period,
 		found = iter;
 
 		for (auto iter2 = iter->getFrames().begin();
-			 iter2 != iter->getFrames().end(); ++iter2) {
+				iter2 != iter->getFrames().end(); ++iter2) {
 			if (iter2->getId() !=
-				(ring.getFrames())[iter2 - iter->getFrames().begin()].getId()) {
+					(ring.getFrames())[iter2 - iter->getFrames().begin()].getId()) {
 				found = mFrameRings.end();
 				break;
 			}
@@ -140,11 +137,9 @@ bool CommonCanSender::sendFrames(std::vector<CanFrame> frames, u32 period,
 	if (found != mFrameRings.end()) {
 		mFrameRings.erase(found);
 	}
-
 	mFrameRings.push_back(ring);
 
 	mFramesLock.unlock();
-
 	return true;
 }
 

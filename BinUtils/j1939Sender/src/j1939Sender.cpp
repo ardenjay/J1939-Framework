@@ -156,8 +156,7 @@ u32 ttsPeriod;
 bool silent;
 
 void registerCommands();
-const CommandHelper &findSubCommand(const CommandHelper &,
-									std::list<std::string> &);
+const CommandHelper &findSubCommand(const CommandHelper &, std::list<std::string> &);
 std::list<std::string> getSubCommandNames(const CommandHelper &);
 
 void parseLine(const std::string &line);
@@ -168,7 +167,7 @@ void parseSetTTSCommand(std::list<std::string> arguments);
 void parseListCommandsCommand();
 void parseListTTSCommand(std::list<std::string> arguments);
 void processCommandParameters(std::list<std::string> arguments,
-							  ParamParserFunc func);
+			ParamParserFunc func);
 void parsePrintFrameCommand(std::list<std::string> arguments);
 void parseQuitCommand();
 void parseCreateFrameCommand(std::list<std::string> arguments);
@@ -339,44 +338,46 @@ int main(int argc, char **argv)
 
 void registerCommands()
 {
-	baseCommand
-		.addSubCommand(CommandHelper(CREATE_TOKEN)
-						   .addSubCommand(CommandHelper(
-							   FRAME_TOKEN, parseCreateFrameCommand)))
-		.addSubCommand(CommandHelper(QUIT_TOKEN, parseQuitCommand))
-		.addSubCommand(
-			CommandHelper(LIST_TOKEN)
-				.addSubCommand(
-					CommandHelper(FRAMES_TOKEN, parseListFramesCommand))
-				.addSubCommand(
-					CommandHelper(COMMANDS_TOKEN, parseListCommandsCommand))
-				.addSubCommand(
-					CommandHelper(INTERFACES_TOKEN, parseListInterfacesCommand))
-				.addSubCommand(CommandHelper(TTS_TOKEN, parseListTTSCommand)))
-		.addSubCommand(CommandHelper(PRINT_TOKEN)
-						   .addSubCommand(CommandHelper(
-							   FRAME_TOKEN, parsePrintFrameCommand)))
-		.addSubCommand(
-			CommandHelper(SET_TOKEN)
-				.addSubCommand(CommandHelper(FRAME_TOKEN, parseSetFrameCommand))
-				.addSubCommand(CommandHelper(TTS_TOKEN, parseSetTTSCommand))
-				.addSubCommand(CommandHelper(DTC_TOKEN, parseSetDtcCommand)))
-		.addSubCommand(
-			CommandHelper(SEND_TOKEN)
-				.addSubCommand(
-					CommandHelper(FRAME_TOKEN, parseSendFrameCommand))
-				.addSubCommand(CommandHelper(TTS_TOKEN, parseSendTTSCommand)))
-		.addSubCommand(CommandHelper(EXEC_TOKEN, parseExecCommand))
-		.addSubCommand(
-			CommandHelper(UNSEND_TOKEN)
-				.addSubCommand(
-					CommandHelper(FRAME_TOKEN, parseUnsendFrameCommand))
-				.addSubCommand(CommandHelper(TTS_TOKEN, parseUnsendTTSCommand)))
-		.addSubCommand(CommandHelper(ADD_TOKEN).addSubCommand(
-			CommandHelper(DTC_TOKEN, parseAddDtcCommand)))
-		.addSubCommand(CommandHelper(DELETE_TOKEN)
-						   .addSubCommand(CommandHelper(
-							   DTC_TOKEN, parseDeleteDtcCommand)));
+	baseCommand.addSubCommand(CommandHelper(CREATE_TOKEN)
+			.addSubCommand(CommandHelper(FRAME_TOKEN,
+					parseCreateFrameCommand)));
+	baseCommand.addSubCommand(CommandHelper(QUIT_TOKEN, parseQuitCommand));
+	baseCommand.addSubCommand(CommandHelper(LIST_TOKEN)
+			.addSubCommand(CommandHelper(FRAMES_TOKEN,
+					parseListFramesCommand))
+			.addSubCommand(CommandHelper(COMMANDS_TOKEN,
+					parseListCommandsCommand))
+			.addSubCommand(CommandHelper(INTERFACES_TOKEN,
+					parseListInterfacesCommand))
+			.addSubCommand(CommandHelper(TTS_TOKEN,
+					parseListTTSCommand)));
+	baseCommand.addSubCommand(CommandHelper(PRINT_TOKEN)
+			.addSubCommand(CommandHelper(FRAME_TOKEN,
+					parsePrintFrameCommand)));
+	baseCommand.addSubCommand(CommandHelper(SET_TOKEN)
+			.addSubCommand(CommandHelper(FRAME_TOKEN,
+					parseSetFrameCommand))
+			.addSubCommand(CommandHelper(TTS_TOKEN,
+					parseSetTTSCommand))
+			.addSubCommand(CommandHelper(DTC_TOKEN,
+					parseSetDtcCommand)));
+	baseCommand.addSubCommand(CommandHelper(SEND_TOKEN)
+			.addSubCommand(CommandHelper(FRAME_TOKEN,
+					parseSendFrameCommand))
+			.addSubCommand(CommandHelper(TTS_TOKEN,
+					parseSendTTSCommand)));
+	baseCommand.addSubCommand(CommandHelper(EXEC_TOKEN, parseExecCommand));
+	baseCommand.addSubCommand(CommandHelper(UNSEND_TOKEN)
+			.addSubCommand(CommandHelper(FRAME_TOKEN,
+					parseUnsendFrameCommand))
+			.addSubCommand(CommandHelper(TTS_TOKEN,
+					parseUnsendTTSCommand)));
+	baseCommand.addSubCommand(CommandHelper(ADD_TOKEN)
+			.addSubCommand(CommandHelper(DTC_TOKEN,
+					parseAddDtcCommand)));
+	baseCommand.addSubCommand(CommandHelper(DELETE_TOKEN)
+			.addSubCommand(CommandHelper(DTC_TOKEN,
+					parseDeleteDtcCommand)));
 }
 
 void parseLine(const std::string &line)
@@ -391,15 +392,12 @@ void parseLine(const std::string &line)
 	// If there is the character #, omit every character until the end of line
 	// (including the # character)
 	size_t found = line.find_first_of('#');
-
-	if (found == 0) {
+	if (found == 0)
 		return;
-	}
 
 	std::list<std::string> tokens = splitTokens(line.substr(0, found));
 
 	const CommandHelper &cmd = findSubCommand(baseCommand, tokens);
-
 	if (cmd.getCmdFuncWithArgs() == nullptr && cmd.getCmdFunc() == nullptr) {
 		std::cerr << "This command does not exist" << std::endl;
 		return;
@@ -413,7 +411,7 @@ void parseLine(const std::string &line)
 
 	} else {
 		std::cerr << "This command does " << (arguments.empty() ? "" : "not ")
-				  << "need arguments" << std::endl;
+			<< "need arguments" << std::endl;
 	}
 }
 
@@ -430,8 +428,8 @@ std::list<std::string> splitTokens(std::string arguments)
 			endArgPos = arguments.size();
 		}
 
-		retVal.push_back(
-			arguments.substr(startArgPos, endArgPos - startArgPos));
+		retVal.push_back(arguments.substr(startArgPos,
+				endArgPos - startArgPos));
 
 		startArgPos = arguments.find_first_not_of(' ', endArgPos);
 	}
@@ -439,7 +437,6 @@ std::list<std::string> splitTokens(std::string arguments)
 	return retVal;
 }
 
-// To have some introspection...
 void parseListCommandsCommand()
 {
 	std::list<std::string> commands = getSubCommandNames(baseCommand);
@@ -456,10 +453,9 @@ void parseCreateFrameCommand(std::list<std::string> arguments)
 	std::string title;
 
 	auto func = [&name, &pgn, &title](const std::string &key,
-									  const std::string &value) {
+					const std::string &value) {
 		if (key == NAME_TOKEN) {
 			name = value;
-
 		} else if (key == PGN_TOKEN) {
 			pgn = value;
 		} else if (key == TITLE_TOKEN) {
@@ -487,17 +483,13 @@ void parseCreateFrameCommand(std::list<std::string> arguments)
 	std::unique_ptr<J1939Frame> frameToAdd(nullptr);
 
 	if (!title.empty()) { // Title was specified
-
 		frameToAdd = J1939Factory::getInstance().getJ1939Frame(title);
 	}
 
 	if (!pgn.empty()) { // PGN was defined
-
 		try {
 			u32 pgnNumber = std::stoul(pgn, nullptr, 16);
-
 			frameToAdd = J1939Factory::getInstance().getJ1939Frame(pgnNumber);
-
 		} catch (std::invalid_argument &e) {
 			std::cerr << "PGN is not a number..." << std::endl;
 		}
@@ -505,7 +497,6 @@ void parseCreateFrameCommand(std::list<std::string> arguments)
 
 	if (frameToAdd.get()) {
 		framesToSend[name] = frameToAdd.release();
-
 		std::cout << "Frame correctly created" << std::endl;
 	} else {
 		std::cerr << "Frame not recognized..." << std::endl;
@@ -586,7 +577,7 @@ void parseListTTSCommand(std::list<std::string> arguments)
 	u8 number = 0;
 
 	auto paramParser = [&number](const std::string &key,
-								 const std::string &value) {
+				const std::string &value) {
 		if (key == TTS_NUMBER) {
 			try {
 				u32 ttsNumber = std::stoul(value);
@@ -594,11 +585,13 @@ void parseListTTSCommand(std::list<std::string> arguments)
 				if (ttsNumber == (ttsNumber & 0xFF)) {
 					number = static_cast<u8>(ttsNumber);
 				} else {
-					std::cerr << "number out of range..." << std::endl;
+					std::cerr << "number out of range..."
+						<< std::endl;
 				}
 
 			} catch (std::invalid_argument &) {
-				std::cerr << "number is not a number..." << std::endl;
+				std::cerr << "number is not a number..."
+					<< std::endl;
 			}
 		}
 	};
@@ -664,7 +657,7 @@ void parseSendTTSCommand(std::list<std::string> arguments)
 	bool periodValid = false;
 
 	auto paramParser = [&interface, &periodValid](const std::string &key,
-												  const std::string &value) {
+						const std::string &value) {
 		if (key == INTERFACE_TOKEN) {
 			const std::set<std::string> &ifaces =
 				CanEasy::getInitializedCanIfaces();
@@ -801,9 +794,88 @@ void parsePrintFrameCommand(std::list<std::string> arguments)
 	}
 }
 
+void notifySender(const J1939Frame *frame, u32 sec)
+{
+	const std::set<std::string> &ifaces = CanEasy::getInitializedCanIfaces();
+
+	for (auto iter = ifaces.begin(); iter != ifaces.end(); ++iter) {
+		std::shared_ptr<ICanSender> sender = CanEasy::getSender(*iter);
+
+		if (isFrameSent(frame, *iter)) {
+			sendFrameThroughInterface(frame, sec, *iter);
+		}
+	}
+}
+
+SPN* setFrameSPN(J1939Frame *frame, const std::string &value)
+{
+	GenericFrame *genFrame = static_cast<GenericFrame *>(frame);
+	SPN *spn = nullptr;
+
+	try {
+		u32 spnNumber = std::stoul(value);
+		if (!genFrame->hasSPN(spnNumber)) {
+			std::cerr << "This spn does not belong to the given frame..."
+					  << std::endl;
+			return (SPN*) nullptr;
+		}
+		spn = genFrame->getSPN(spnNumber);
+	} catch (std::invalid_argument &e) {
+		std::cerr << "spn is not a number..." << std::endl;
+	}
+
+	return spn;
+}
+
+void setFrameValue(J1939Frame *frame, SPN *spn, const std::string &value)
+{
+	try {
+		switch (spn->getType()) {
+		case SPN::SPN_NUMERIC: {
+			double valueNumber = std::stod(value);
+			SPNNumeric *spnNum = static_cast<SPNNumeric *>(spn);
+			if (spnNum->setFormattedValue(valueNumber)) {
+				std::cout << "Spn " << spn->getSpnNumber()
+						  << " from frame " << frame->getName()
+						  << " set to value "
+						  << spnNum->getFormattedValue() << std::endl;
+			}
+		} break;
+		case SPN::SPN_STATUS: {
+			u32 valueNumber = std::stoul(value);
+			u8 status = static_cast<u8>(valueNumber);
+			if ((status & 0xFF) == valueNumber) {
+				SPNStatus *spnStat = static_cast<SPNStatus *>(spn);
+				if (!spnStat->setValue(status)) {
+					std::cerr << "Value out of range" << std::endl;
+				} else {
+					std::cout << "SPN " << spn->getSpnNumber()
+						<< " set to (" << valueNumber << ") "
+						<< spnStat->getValueDescription(status)
+						<< std::endl;
+				}
+			} else {
+				std::cerr << "Value out of range" << std::endl;
+			}
+		} break;
+		case SPN::SPN_STRING: {
+			SPNString *spnStr = static_cast<SPNString *>(spn);
+			spnStr->setValue(value);
+
+		} break;
+		default:
+			break;
+		}
+	} catch (std::invalid_argument &e) {
+		std::cerr << "value is not a number..." << std::endl;
+	}
+}
+
+/* i.e., set frame etc2 period: 10 priority: 2 source: 20 */
 void parseSetFrameCommand(std::list<std::string> arguments)
 {
-	std::string name = arguments.front();
+	SPN *spn = nullptr;
+	std::string name = arguments.front();	// name: etc2
 	arguments.pop_front();
 	auto frameIter = framesToSend.find(name);
 
@@ -811,100 +883,35 @@ void parseSetFrameCommand(std::list<std::string> arguments)
 		std::cerr << "Frame not defined..." << std::endl;
 		return;
 	}
-
 	J1939Frame *frame = frameIter->second;
 
-	SPN *spn = nullptr;
-
 	auto paramParser = [name, &frame, &spn](const std::string &key,
-											const std::string &value) {
-		if (key == SPN_TOKEN) { // Setting a SPN
-
+						const std::string &value) {
+		if (key == SPN_TOKEN) {
+			// Setting a SPN
 			if (!frame->isGenericFrame()) {
 				std::cerr << "This frame does not have standard SPNs..."
-						  << std::endl;
-			}
-			GenericFrame *genFrame = static_cast<GenericFrame *>(frame);
-
-			try {
-				u32 spnNumber = std::stoul(value);
-				if (!genFrame->hasSPN(spnNumber)) {
-					std::cerr
-						<< "This spn does not belong to the given frame..."
-						<< std::endl;
-					return;
-				}
-
-				spn = genFrame->getSPN(spnNumber);
-
-			} catch (std::invalid_argument &e) {
-				std::cerr << "spn is not a number..." << std::endl;
-			}
-
-		} else if (key == VALUE_TOKEN) { // The value used to set the SPN
-
-			if (!spn) {
-				std::cerr << "Not spn to which assign this value..."
 						  << std::endl;
 				return;
 			}
 
-			try {
-				switch (spn->getType()) {
-				case SPN::SPN_NUMERIC: {
-					double valueNumber = std::stod(value);
-					SPNNumeric *spnNum = static_cast<SPNNumeric *>(spn);
-					if (spnNum->setFormattedValue(valueNumber)) {
-						std::cout << "Spn " << spn->getSpnNumber()
-								  << " from frame " << frame->getName()
-								  << " set to value "
-								  << spnNum->getFormattedValue() << std::endl;
-					}
-				} break;
-				case SPN::SPN_STATUS: {
-					u32 valueNumber = std::stoul(value);
-					u8 status = static_cast<u8>(valueNumber);
-					if ((status & 0xFF) == valueNumber) {
-						SPNStatus *spnStat = static_cast<SPNStatus *>(spn);
-						if (!spnStat->setValue(status)) {
-							std::cerr << "Value out of range" << std::endl;
-						} else {
-							std::cout << "SPN " << spn->getSpnNumber()
-									  << " set to (" << valueNumber << ") "
-									  << spnStat->getValueDescription(status)
-									  << std::endl;
-						}
-					} else {
-						std::cerr << "Value out of range" << std::endl;
-					}
+			spn = setFrameSPN(frame, value);
 
-				} break;
-				case SPN::SPN_STRING: {
-					SPNString *spnStr = static_cast<SPNString *>(spn);
-					spnStr->setValue(value);
-
-				} break;
-
-				default:
-					break;
-				}
-
-			} catch (std::invalid_argument &e) {
-				std::cerr << "value is not a number..." << std::endl;
+		} else if (key == VALUE_TOKEN) {
+			// The value used to set the SPN
+			if (!spn) {
+				std::cerr << "No SPN can be assigned with this value..."
+						  << std::endl;
+				return;
 			}
 
-			spn = nullptr;
+			setFrameValue(frame, spn, value);
 
-		} else { // If we are not setting a SPN, maybe we are setting generic
-				 // parameters of a frame...
-
-			// Parse generic parameters as the period to send the frames, the
-			// priority, the source address, dst address and so on
+		} else {
+			/* If we are not setting a SPN, maybe we are setting generic
+			 * parameters of a frame
+			 */
 			if (!parseSetGenericParams(name, frame, key, value)) {
-				// If this function returns false, it means that the given key
-				// is not a generic parameter, but it is particular of certain
-				// frame
-
 				std::cerr << "Unknown parameter..." << std::endl;
 			}
 		}
@@ -913,48 +920,12 @@ void parseSetFrameCommand(std::list<std::string> arguments)
 	processCommandParameters(arguments, paramParser);
 
 	auto period = framePeriods.find(name);
-
-	if (period == framePeriods.end()) {
-		return;
-	}
-
-	u32 id;
-	size_t length = frame->getDataLength();
-	u8 *buff = new u8[length];
-
-	frame->encode(id, buff, length);
-
-	CanFrame canFrame;
-
-	// J1939 data is always transmitted in extended format
-	canFrame.setExtendedFormat(true);
-
-	// Set identifier
-	canFrame.setId(id);
-
-	// Set data
-	std::string data;
-	data.append((char *)buff, length);
-
-	canFrame.setData(data);
-
-	delete[] buff;
-
-	// If the frame is being sent, refresh the information to the sender
-
-	const std::set<std::string> &ifaces = CanEasy::getInitializedCanIfaces();
-
-	for (auto iter = ifaces.begin(); iter != ifaces.end(); ++iter) {
-		std::shared_ptr<ICanSender> sender = CanEasy::getSender(*iter);
-
-		if (isFrameSent(frame, *iter)) {
-			sendFrameThroughInterface(frame, period->second, *iter);
-		}
-	}
+	if (period != framePeriods.end())
+		notifySender(frame, period->second);
 }
 
 void processCommandParameters(std::list<std::string> arguments,
-							  ParamParserFunc parserFunc)
+			ParamParserFunc parserFunc)
 {
 	while (!arguments.empty()) {
 		std::string key = arguments.front();
@@ -987,16 +958,16 @@ void parseQuitCommand()
 }
 
 const CommandHelper &findSubCommand(const CommandHelper &cmd,
-									std::list<std::string> &args)
+				std::list<std::string> &args)
 {
 	if (args.empty()) { // No more tokens, return the cmd itself
 		return cmd;
 	}
 
 	std::string arg = args.front();
+	const std::vector<CommandHelper> cmds = cmd.getSubCommands();
 
-	for (auto iter = cmd.getSubCommands().begin();
-		 iter != cmd.getSubCommands().end(); ++iter) {
+	for (auto iter = cmds.begin(); iter != cmds.end(); ++iter) {
 		if (iter->getCommand() == arg) {
 			args.pop_front();
 			return findSubCommand(*iter, args);
@@ -1008,20 +979,23 @@ const CommandHelper &findSubCommand(const CommandHelper &cmd,
 
 std::list<std::string> getSubCommandNames(const CommandHelper &command)
 {
+	std::string CmdName = command.getCommand();
+	std::vector<CommandHelper> SubCmd = command.getSubCommands();
 	std::list<std::string> retVal;
 
-	for (auto iter = command.getSubCommands().begin();
-		 iter != command.getSubCommands().end(); ++iter) {
-		std::list<std::string> aux = getSubCommandNames(*iter);
-
-		for (auto name = aux.begin(); name != aux.end(); ++name) {
-			retVal.push_back(command.getCommand() +
-							 (command.getCommand().empty() ? "" : " ") + *name);
-		}
+	if (SubCmd.empty()) {
+		retVal.push_back(CmdName);
+		return retVal;
 	}
 
-	if (retVal.empty()) {
-		retVal.push_back(command.getCommand());
+	for (auto iter = SubCmd.begin(); iter != SubCmd.end(); ++iter) {
+		std::list<std::string> aux = getSubCommandNames(*iter);
+
+		/* subcommand */
+		for (auto name = aux.begin(); name != aux.end(); ++name) {
+			retVal.push_back(CmdName +
+					(CmdName.empty() ? "" : " ") + *name);
+		}
 	}
 
 	return retVal;
@@ -1085,7 +1059,7 @@ void parseSendFrameCommand(std::list<std::string> arguments)
 }
 
 void sendFrameThroughInterface(const J1939Frame *j1939Frame, u32 period,
-							   const std::string &interface)
+			const std::string &interface)
 {
 	// Send the frame with the configured period
 	std::shared_ptr<ICanSender> sender = CanEasy::getSender(interface);
@@ -1149,7 +1123,6 @@ void sendFrameThroughInterface(const J1939Frame *j1939Frame, u32 period,
 		sender->sendFrames(canFrames, period);
 
 	} else { // Can be sent in one frame
-
 		buff = new u8[length];
 
 		j1939Frame->encode(id, buff, length);
@@ -1160,9 +1133,7 @@ void sendFrameThroughInterface(const J1939Frame *j1939Frame, u32 period,
 		// Set data
 		std::string data;
 		data.append((char *)buff, length);
-
 		canFrame.setData(data);
-
 		delete[] buff;
 
 		sender->sendFrame(canFrame, period);
@@ -1170,7 +1141,7 @@ void sendFrameThroughInterface(const J1939Frame *j1939Frame, u32 period,
 }
 
 void unsendFrameThroughInterface(const J1939Frame *j1939Frame,
-								 const std::string &interface)
+				 const std::string &interface)
 {
 	std::vector<u32> ids;
 	bool found = false;
@@ -1403,7 +1374,7 @@ bool parseDtcCommand(std::list<std::string> arguments, DTC &dtc)
 	u8 fmi = 0xFF;
 
 	auto func = [&spn, &oc, &fmi](const std::string &key,
-								  const std::string &value) {
+				const std::string &value) {
 		if (key == SPN_TOKEN) {
 			try {
 				spn = std::stoul(value);

@@ -23,17 +23,17 @@ namespace Can
 {
 class CommonCanSender : public ICanSender
 {
-  private:
+private:
 	class CanFrameRing
 	{
-	  private:
+	private:
 		std::vector<CanFrame> mFrames;
 		timespec mTxTimestamp;
 		u32 mPeriod;
 		size_t mCurrentpos;
 		OnSendCallback mCallback;
 
-	  public:
+	public:
 		CanFrameRing(u32 period, OnSendCallback callback = OnSendCallback())
 			: mPeriod(period), mCurrentpos(0), mCallback(callback)
 		{
@@ -54,7 +54,6 @@ class CommonCanSender : public ICanSender
 		CanFrame &getCurrentFrame() { return mFrames[mCurrentpos]; }
 		u32 getCurrentPeriod() const;
 		const std::vector<CanFrame> &getFrames() const { return mFrames; }
-
 		const OnSendCallback &getCallback() { return mCallback; }
 	};
 
@@ -63,10 +62,10 @@ class CommonCanSender : public ICanSender
 	bool mFinished;
 	std::unique_ptr<std::thread> mThread = nullptr;
 
-  protected:
+protected:
 	virtual void _sendFrame(const CanFrame &frame) const = 0;
 
-  public:
+public:
 	CommonCanSender();
 	virtual ~CommonCanSender();
 

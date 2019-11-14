@@ -39,7 +39,7 @@ void J1939Factory::unregisterAllFrames()
 }
 
 std::unique_ptr<J1939Frame> J1939Factory::getJ1939Frame(u32 id, const u8 *data,
-														size_t length)
+							size_t length)
 {
 	J1939Frame *frame = NULL, *retFrame = NULL;
 

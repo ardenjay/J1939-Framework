@@ -24,7 +24,7 @@ protected:
 	virtual void decodeData(const u8* buffer, size_t length) override;
 	virtual void encodeData(u8* buffer, size_t length) const override;
 public:
-    GenericFrame(u32 pgn);
+	GenericFrame(u32 pgn);
 	GenericFrame(const GenericFrame& other);
 	virtual ~GenericFrame();
 
@@ -38,9 +38,9 @@ public:
 	GenericFrame& operator=(const GenericFrame& other) = delete;
 	GenericFrame& operator=(GenericFrame&& other) = delete;
 
-    SPN* registerSPN(const SPN& spn);
+	SPN* registerSPN(const SPN& spn);
 
-    bool deleteSPN(u32 number);
+	bool deleteSPN(u32 number);
 
 	SPN* getSPN(u32);
 
@@ -56,18 +56,18 @@ public:
 
 	void setLength(size_t length) { mLength = length; }
 
-    void setName(const std::string& name) { mName = name; }
+	void setName(const std::string& name) { mName = name; }
 
-    bool isGenericFrame() const override { return true; }
+	bool isGenericFrame() const override { return true; }
 
-    virtual std::string toString() const override;
+	virtual std::string toString() const override;
 
-    /*
-     * Returns a set of SPNs that have changed with respect to the data
-     */
-    std::set<SPN*> compare(const std::string& newData, const std::string oldData);
+	/*
+	 * Returns a set of SPNs that have changed with respect to the data
+	 */
+	std::set<SPN*> compare(const std::string& newData, const std::string oldData);
 
-    void copy(const J1939Frame& other) override;
+	void copy(const J1939Frame& other) override;
 
 	IMPLEMENT_CLONEABLE(J1939Frame,GenericFrame);
 };

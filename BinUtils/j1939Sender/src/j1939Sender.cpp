@@ -899,7 +899,7 @@ void parseSetFrameCommand(std::list<std::string> arguments)
 
 		} else if (key == VALUE_TOKEN) {
 			// The value used to set the SPN
-			if (!spn) {
+			if (spn == nullptr) {
 				std::cerr << "No SPN can be assigned with this value..."
 						  << std::endl;
 				return;
@@ -1059,16 +1059,14 @@ void parseSendFrameCommand(std::list<std::string> arguments)
 }
 
 void sendFrameThroughInterface(const J1939Frame *j1939Frame, u32 period,
-			const std::string &interface)
+								const std::string &interface)
 {
-	// Send the frame with the configured period
-	std::shared_ptr<ICanSender> sender = CanEasy::getSender(interface);
-
-	size_t length = j1939Frame->getDataLength();
-	CanFrame canFrame;
 	u32 id;
 	u8 *buff;
 	std::string data;
+	CanFrame canFrame;
+	std::shared_ptr<ICanSender> sender = CanEasy::getSender(interface);
+	size_t length = j1939Frame->getDataLength();
 
 	// J1939 data is always transmitted in extended format
 	canFrame.setExtendedFormat(true);
@@ -1202,20 +1200,17 @@ bool isFrameSent(const J1939Frame *frame, const std::string &interface)
 		for (auto iter = dataFrames.begin(); iter != dataFrames.end(); ++iter) {
 			ids.push_back(iter->getIdentifier());
 		}
-
 	} else { // Can be sent in one frame
-
 		ids.push_back(frame->getIdentifier());
 	}
-
 	return sender->isSent(ids);
 }
 
 void execScript(const std::string &file)
 {
 	std::string line;
-
 	std::ifstream fileScript;
+
 	fileScript.open(file);
 
 	if (fileScript.is_open()) {
@@ -1298,17 +1293,14 @@ bool parseSetGenericParams(const std::string &name, J1939Frame *frame,
 			} else {
 				std::cerr << "Priority out of range" << std::endl;
 			}
-
 		} catch (std::invalid_argument &e) {
 			std::cerr << "Priority is not a number..." << std::endl;
 		}
-
 	} else if (key == PERIOD_TOKEN) {
 		try {
 			u32 period = std::stoul(value);
 
 			framePeriods[name] = period;
-
 		} catch (std::invalid_argument &e) {
 			std::cerr << "Period is not a number..." << std::endl;
 		}
@@ -1321,15 +1313,12 @@ bool parseSetGenericParams(const std::string &name, J1939Frame *frame,
 			} else {
 				std::cerr << "Source address out of range" << std::endl;
 			}
-
 		} catch (std::invalid_argument &e) {
 			std::cerr << "Source address is not a number..." << std::endl;
 		}
-
 	} else {
 		retVal = false;
 	}
-
 	return retVal;
 }
 
@@ -1465,8 +1454,9 @@ void parseAddDtcCommand(std::list<std::string> arguments)
 	}
 }
 
-// Example: set dtc aaa 1 spn: 14 oc: 2 fmi: 5 (To set second dtc for frame
-// aaa).
+/* Example: set dtc aaa 1 spn: 14 oc: 2 fmi: 5
+ * To set second dtc for frame aaa
+ */
 void parseSetDtcCommand(std::list<std::string> arguments)
 {
 	// Take frame name from arguments
@@ -1507,8 +1497,9 @@ void parseSetDtcCommand(std::list<std::string> arguments)
 	}
 }
 
-// Example: delete dtc abb 0 (To delete first dtc from frame abb).
-
+/* Example: delete dtc abb 0
+ * To delete first dtc from frame abb
+ */
 void parseDeleteDtcCommand(std::list<std::string> arguments)
 {
 	// Take frame name from arguments

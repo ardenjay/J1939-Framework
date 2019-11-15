@@ -193,8 +193,9 @@ void uninitializeVariables();
 bool parseSetGenericParams(const std::string &name, J1939Frame *frame,
 						   const std::string &key, const std::string &value);
 
-void sendFrameThroughInterface(const J1939Frame *frame, u32 period,
-							   const std::string &interface);
+void sendFrameThroughInterface(const J1939Frame *frame,
+							   const std::string &interface, u32 period = 0);
+
 void unsendFrameThroughInterface(const J1939Frame *frame,
 								 const std::string &interface);
 bool isFrameSent(const J1939Frame *frame, const std::string &interface);
@@ -802,7 +803,7 @@ void notifySender(const J1939Frame *frame, u32 sec)
 		std::shared_ptr<ICanSender> sender = CanEasy::getSender(*iter);
 
 		if (isFrameSent(frame, *iter)) {
-			sendFrameThroughInterface(frame, sec, *iter);
+			sendFrameThroughInterface(frame, *iter, sec);
 		}
 	}
 }
@@ -1046,20 +1047,16 @@ void parseSendFrameCommand(std::list<std::string> arguments)
 		return;
 	}
 
-	// The frame has a periodicity associated?
-
 	auto period = framePeriods.find(name);
+	u32 sec = 0;
+	if (period != framePeriods.end())
+		sec = period->second;
 
-	if (period == framePeriods.end()) {
-		std::cerr << "Period not defined..." << std::endl;
-		return;
-	}
-
-	sendFrameThroughInterface(j1939Frame, period->second, interface);
+	sendFrameThroughInterface(j1939Frame, interface, sec);
 }
 
-void sendFrameThroughInterface(const J1939Frame *j1939Frame, u32 period,
-								const std::string &interface)
+void sendFrameThroughInterface(const J1939Frame *j1939Frame,
+		const std::string &interface, u32 period)
 {
 	u32 id;
 	u8 *buff;
@@ -1134,7 +1131,10 @@ void sendFrameThroughInterface(const J1939Frame *j1939Frame, u32 period,
 		canFrame.setData(data);
 		delete[] buff;
 
-		sender->sendFrame(canFrame, period);
+		if (period == 0)
+			sender->sendFrameOnce(canFrame);
+		else
+			sender->sendFrame(canFrame, period);
 	}
 }
 

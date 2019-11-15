@@ -10,16 +10,18 @@ The framework has been developed in C++ in a Linux distribution and compiled usi
 
 ## What can you do with J1939-Framework
 
-- Save can frames from the Can Bus into recordings in TRC format with BinUtils/TRCDumper.
-- Play can frames from recordings in TRC format into the Can Bus with BinUtils/TRCPlayer.
-- Convert TRC files into pcap files readable by wireshark with BinUtils/TRCToCap.
-- Dissect pcap files with wireshark and the J1939 plugin dissector (wireshark/dissector).
-- Sniff frames from the Can Bus compliant with J1939 protocol with BinUtils/j1939Sniffer.
-- Decode raw J1939 data to human readable data with BinUtils/j1939Decoder.
-- Craft your own J1939 frames and send them to the Can Bus with BinUtils/j1939Sender. The functionality can be extended with the help of bash scripts located in Scripts (some examples are listed).
-- Visualize what is going on in the Can Bus with GUI_WEB. You will be able to craft, send and visualize the frames that are flowing in the Bus as well as visualizing graphics of their content (SPNs).
-- Discover J1939 devices with BinUtils/j1939AddressMapper.
-- Simulation of the Address Claim Process with BinUtils/j1939AddrClaim.
+- **Sniff** frames from the Can Bus compliant with J1939 protocol with BinUtils/j1939Sniffer.
+- **Decode** raw J1939 data to human readable data with BinUtils/j1939Decoder.
+- **Craft your own J1939 frames** and send them to the Can Bus with BinUtils/j1939Sender. The functionality can be extended with the help of bash scripts located in Scripts (some examples are listed).
+- **Visualize** what is going on in the Can Bus with GUI_WEB. You will be able to craft, send and visualize the frames that are flowing in the Bus as well as visualizing graphics of their content (SPNs).
+- **Discover J1939 devices** with BinUtils/j1939AddressMapper.
+- **Simulation of the Address Claim Process** with BinUtils/j1939AddrClaim.
+- PeakCan Support
+  - Save Can frames from the Can Bus into recordings in [TRC format](https://www.peak-system.com/produktcd/Pdf/English/PEAK_CAN_TRC_File_Format.pdf) with BinUtils/TRCDumper.
+  - Play Can frames from recordings in TRC format into the Can Bus with BinUtils/TRCPlayer.
+  - Convert TRC files into pcap files readable by wireshark with BinUtils/TRCToCap.
+- Wireshark Support
+  - Dissect pcap files with wireshark and the J1939 plugin dissector (wireshark/dissector).
 
 ## Development Guide
 

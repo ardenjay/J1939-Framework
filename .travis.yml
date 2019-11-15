@@ -1,4 +1,5 @@
-dist: trusty
+os: linux
+dist: bionic
 sudo: required
 language: cpp
 

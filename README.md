@@ -35,7 +35,7 @@ The framework has been developed in C++ in a Linux distribution and compiled usi
 
 ## Installing and compiling
 
-# Installation:
+# Installation
 Ubuntu 18.10 or higher
 ```bash
 
@@ -52,12 +52,28 @@ git checkout 863aa36165acfdbaf22447f4934f5adc327692a0
 cmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON 
 sudo make install
 cd ~
-git clone https://github.com/famez/J1939-Framework.git
-cd J1939-Framework
-cmake . 
-cmake --build .
-sudo make install
+```
 
+### In-Source Build
+
+```sh
+$ git clone https://github.com/ardenjay/J1939-Framework.git
+$ cd J1939-Framework
+$ cmake .
+$ cmake --build .
+$ sudo make install
+```
+
+### Out-Source Build
+
+```sh
+$ git clone https://github.com/ardenjay/J1939-Framework.git
+$ cd J1939-Framework
+$ mkdir build
+$ cd build
+$ cmake ..
+$ cmake --build .. # or just type make
+$ sudo make install
 ```
 
 # Usage with SocketCan:
@@ -92,7 +108,7 @@ candump vcan0
 
 ![alt text](https://github.com/famez/J1939-Framework/blob/master/BinUtils/TRCPlayer/TRCPlayer.png)
 
-    
+
 ## Wireshark dissector
 
 ![alt text](https://github.com/famez/J1939-Framework/blob/master/wireshark/dissector/J1939-plugin.png)

@@ -7,7 +7,8 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-6
+      - gcc-7
+      - g++-7
       - libgtest-dev
       - protobuf-compiler
       - libprotobuf-dev
@@ -35,6 +36,6 @@ install:
   
 
 script:
-  - CXX=/usr/bin/g++-6 CC=/usr/bin/gcc-6 cmake .
+  - CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7 cmake .
   - cmake --build .
   - ./Tests/execTests

@@ -1,13 +1,12 @@
 [![Build Status](https://travis-ci.org/ardenjay/J1939-Framework.svg?branch=master)](https://travis-ci.org/ardenjay/J1939-Framework)
 
 # J1939-Framework
+
 Framework to work with J1939 protocol. 
 
 J1939 protocol is a standard used in different systems compliant with CAN 2.0B specification.
 
 The framework has been developed in C++ in a Linux distribution and compiled using the GNU toolchain. No dependencies are required for the compilation of any of the projects except from SocketCan compiled in the Linux Kernel.
-
-
 
 ## What can you do with J1939-Framework
 
@@ -22,20 +21,19 @@ The framework has been developed in C++ in a Linux distribution and compiled usi
 - Discover J1939 devices with BinUtils/j1939AddressMapper.
 - Simulation of the Address Claim Process with BinUtils/j1939AddrClaim.
 
-### And of course, develop!!:
+## Development Guide
 
-- In CAN/ folder we can find a library in C++ (libCAN.so) with methods to generate and sniff can frames with support for PeakCan and SocketCan.
-- In J1939/ folder we can find a library in C++ (libJ1939.so) to easily manipulate J1939 frames and work with the J1939 protocol. Some features are:
-	Support of BAM protocol.
-	A factory class in charge of generating the J1939 frames.
-	A database loaded by the factory located in Database/frames.json with a list of the most used Application Layer frames (including the FMS protocol).
-	Coding/Decoding DM1 (Diagnosis), FMS1 (TTS), Request and Address Claim frames.
-	Coding/Decoding of SPNs (String, status and numeric).
-
+- In CAN/ folder, a library in C++ (`libCAN.so`) with methods to generate and sniff can frames with support for `PeakCan` and `SocketCan`.
+- In J1939/ folder, a library in C++ (`libJ1939.so`) is to easily manipulate J1939 frames and work with the J1939 protocol. Some features are:
+	- Support of BAM protocol.
+	- A factory class in charge of generating the J1939 frames.
+	- A database loaded by the factory located in Database/frames.json with a list of the most used Application Layer frames (including the FMS protocol).
+	- Coding/Decoding DM1 (Diagnosis), FMS1 (TTS), Request and Address Claim frames.
+	- Coding/Decoding of SPNs (String, status and numeric).
 
 ## Installing and compiling
 
-# Installation
+### Installation
 Ubuntu 18.10 or higher
 ```bash
 
@@ -54,7 +52,7 @@ sudo make install
 cd ~
 ```
 
-### In-Source Build
+#### In-Source Build
 
 ```sh
 $ git clone https://github.com/ardenjay/J1939-Framework.git
@@ -64,7 +62,7 @@ $ cmake --build .
 $ sudo make install
 ```
 
-### Out-Source Build
+#### Out-Source Build
 
 ```sh
 $ git clone https://github.com/ardenjay/J1939-Framework.git
@@ -76,7 +74,7 @@ $ cmake --build .. # or just type make
 $ sudo make install
 ```
 
-# Usage with SocketCan:
+## Usage with SocketCan
 
 To make SocketCan available in your system, you should execute the following commands:
 

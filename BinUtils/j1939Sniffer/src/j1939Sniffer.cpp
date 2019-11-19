@@ -45,14 +45,10 @@ u32 spn;
 std::string interface, title;
 u8 source;
 
-int main(int argc, char **argv)
+int processCommand(int argc, char **argv, std::string &pgnStr,
+		std::string &spnStr, std::string &sourceStr)
 {
 	int c;
-
-	pgn = 0;
-	spn = 0;
-	source = J1939_INVALID_ADDRESS;
-	std::string pgnStr, spnStr, sourceStr;
 
 	static struct option long_options[] = {
 		{"pgn", required_argument, NULL, 'p'},
@@ -70,23 +66,23 @@ int main(int argc, char **argv)
 			break;
 
 		switch (c) {
-		case 'p':
-			pgnStr = optarg;
-			break;
-		case 's':
-			spnStr = optarg;
-			break;
-		case 'i':
-			interface = optarg;
-			break;
-		case 't':
-			title = optarg;
-			break;
-		case 'o':
-			sourceStr = optarg;
-			break;
-		default:
-			break;
+			case 'p':
+				pgnStr = optarg;
+				break;
+			case 's':
+				spnStr = optarg;
+				break;
+			case 'i':
+				interface = optarg;
+				break;
+			case 't':
+				title = optarg;
+				break;
+			case 'o':
+				sourceStr = optarg;
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -96,26 +92,26 @@ int main(int argc, char **argv)
 
 			if ((src & J1939_SRC_ADDR_MASK) != src) {
 				std::cerr << "The parameter source is too big..." << std::endl;
-				return 2;
+				return -EINVAL;
 			}
 
 			source = static_cast<u8>(src);
 
 		} catch (std::invalid_argument &) {
 			std::cerr << "The parameter source is not a number..." << std::endl;
-			return 2;
+			return -EINVAL;
 		}
 	}
 
 	if (pgnStr.empty() && title.empty()) {
 		std::cerr << "The parameter pgn or title are not specified..."
-				  << std::endl;
-		return 1;
+			<< std::endl;
+		return -EINVAL;
 	}
 
 	if (!pgnStr.empty() && !title.empty()) {
 		std::cerr << "Only pgn or title can be specified..." << std::endl;
-		return 1;
+		return -EINVAL;
 	}
 
 	if (!pgnStr.empty()) {
@@ -124,12 +120,12 @@ int main(int argc, char **argv)
 
 			if ((pgn & J1939_PGN_MASK) != pgn) {
 				std::cerr << "The parameter pgn is too big..." << std::endl;
-				return 2;
+				return -EINVAL;
 			}
 
 		} catch (std::invalid_argument &) {
 			std::cerr << "The parameter pgn is not a number..." << std::endl;
-			return 2;
+			return -EINVAL;
 		}
 	}
 
@@ -139,89 +135,67 @@ int main(int argc, char **argv)
 
 		} catch (std::invalid_argument &) {
 			std::cerr << "The parameter spn is not a number..." << std::endl;
-			return 3;
+			return -EINVAL;
 		}
 	}
+	return 0;
+}
 
-	// Load database
+int main(int argc, char **argv)
+{
+	int c;
+
+	pgn = 0;
+	spn = 0;
+	source = J1939_INVALID_ADDRESS;
+	std::string pgnStr, spnStr, sourceStr;
+
+	if (processCommand(argc, argv, pgnStr, spnStr, sourceStr))
+		return -EINVAL;
+
 	J1939DataBase ddbb;
-	if (!ddbb.parseJsonFile(DATABASE_PATH)) {
-		switch (ddbb.getLastError()) {
-		case J1939DataBase::ERROR_FILE_NOT_FOUND:
-			std::cerr << "Json database not found in" DATABASE_PATH
-					  << std::endl;
-			break;
-		case J1939DataBase::ERROR_JSON_SYNTAX:
-			std::cerr << "Json file has syntax errors" << std::endl;
-			break;
-		case J1939DataBase::ERROR_UNEXPECTED_TOKENS:
-			std::cerr
-				<< "Json file has tokens not identified by the application"
-				<< std::endl;
-			break;
-		case J1939DataBase::ERROR_OUT_OF_RANGE:
-			std::cerr
-				<< "Json file has some values that exceed the permitted ranges"
-				<< std::endl;
-			break;
-		case J1939DataBase::ERROR_UNKNOWN_SPN_TYPE:
-			std::cerr << "Json file has undefined type for SPN" << std::endl;
-			break;
-		default:
-			std::cerr << "Something in the database is not working"
-					  << std::endl;
-			break;
-		}
-		return 4;
-	}
-
-	// Register frames in the factory
-
-	const std::vector<GenericFrame> &frames = ddbb.getParsedFrames();
-
-	for (auto iter = frames.begin(); iter != frames.end(); ++iter) {
-		J1939Factory::getInstance().registerFrame(*iter);
+	bool ret = J1939Factory::getInstance().registerDatabaseFrames(ddbb,
+			DATABASE_PATH);
+	if (ret == false) {
+		std::cerr
+			<< "register database frames failed ("
+			<< ddbb.getLastError() << ")"
+			<< std::endl;
+		return -EINVAL;
 	}
 
 	// Search the frame in the database by the given pgn
 	std::unique_ptr<J1939Frame> frame;
-
-	if (pgn != 0) {
+	if (pgn != 0)
 		frame = J1939Factory::getInstance().getJ1939Frame(pgn);
-
-	} else if (!title.empty()) {
+	else if (!title.empty())
 		frame = J1939Factory::getInstance().getJ1939Frame(title);
-	}
-
 	if (!frame) {
 		std::cerr << "The frame given by the pgn or title is not defined..."
 				  << std::endl;
-		return 5;
+		return -EINVAL;
 	}
 
 	if (spn != 0) { // Spn has been defined
-
 		if (!frame->isGenericFrame()) {
 			std::cerr
 				<< "The frame given by the pgn does not have SPNs associated..."
 				<< std::endl;
-			return 6;
+			return -EINVAL;;
 		}
 
 		GenericFrame *genFrame = static_cast<GenericFrame *>(frame.get());
-
 		if (!genFrame->hasSPN(spn)) {
 			std::cerr
 				<< "The frame given by the pgn does not have the given SPN..."
 				<< std::endl;
-			return 7;
+			return -EINVAL;
 		}
 	}
 
 	CanEasy::initialize(BAUD_250K, onRcv, onTimeout);
 
 	CanSniffer &sniffer = CanEasy::getSniffer();
-
 	if (sniffer.getNumberOfReceivers() == 0) {
 		std::cerr << "No interface available from to sniffer" << std::endl;
 		return 8;
@@ -231,46 +205,36 @@ int main(int argc, char **argv)
 
 	// Install filter to get only the frame whose pgn is equals to the specified
 	// as argument.
+	u32 addr = (source == J1939_INVALID_ADDRESS) ? 0 :
+			   (source << J1939_SRC_ADDR_OFFSET);
+	u32 addr_mask = (source == J1939_INVALID_ADDRESS) ? 0 :
+					(J1939_SRC_ADDR_MASK << J1939_SRC_ADDR_OFFSET);
 
 	CanFilter dataFilter(
-		(frame->getPGN() << J1939_PGN_OFFSET) |
-			(source != J1939_INVALID_ADDRESS ? (source << J1939_SRC_ADDR_OFFSET)
-											 : 0),
-		(J1939_PGN_MASK << J1939_PGN_OFFSET) |
-			(source != J1939_INVALID_ADDRESS
-				 ? (J1939_SRC_ADDR_MASK << J1939_SRC_ADDR_OFFSET)
-				 : 0),
-		true, false);
+			(frame->getPGN() << J1939_PGN_OFFSET) | addr,
+			(J1939_PGN_MASK << J1939_PGN_OFFSET) | addr_mask,
+			true,
+			false);
 
 	// Also install filters to receive frames which are part of BAM transport
 	// protocol
-
 	CanFilter tpcmFilter(
-		(TP_CM_PGN << J1939_PGN_OFFSET) |
-			(source != J1939_INVALID_ADDRESS ? (source << J1939_SRC_ADDR_OFFSET)
-											 : 0),
-		((J1939_PDU_FMT_MASK << J1939_PDU_FMT_OFFSET) << J1939_PGN_OFFSET) |
-			(source != J1939_INVALID_ADDRESS
-				 ? (J1939_SRC_ADDR_MASK << J1939_SRC_ADDR_OFFSET)
-				 : 0),
-		true, false);
+			(TP_CM_PGN << J1939_PGN_OFFSET) | addr,
+			((J1939_PDU_FMT_MASK << J1939_PDU_FMT_OFFSET) << J1939_PGN_OFFSET)
+			| addr_mask,
+			true,
+			false);
 
 	CanFilter tpdtFilter(
-		(TP_DT_PGN << J1939_PGN_OFFSET) |
-			(source != J1939_INVALID_ADDRESS ? (source << J1939_SRC_ADDR_OFFSET)
-											 : 0),
-		((J1939_PDU_FMT_MASK << J1939_PDU_FMT_OFFSET) << J1939_PGN_OFFSET) |
-			(source != J1939_INVALID_ADDRESS
-				 ? (J1939_SRC_ADDR_MASK << J1939_SRC_ADDR_OFFSET)
-				 : 0),
-		true, false);
+			(TP_DT_PGN << J1939_PGN_OFFSET) | addr,
+			((J1939_PDU_FMT_MASK << J1939_PDU_FMT_OFFSET) << J1939_PGN_OFFSET)
+			| addr_mask,
+			true,
+			false);
 
 	filters.insert(dataFilter);
-
 	filters.insert(tpcmFilter);
-
 	filters.insert(tpdtFilter);
-
 	sniffer.setFilters(filters);
 
 	// Initialize ncurses
@@ -279,7 +243,6 @@ int main(int argc, char **argv)
 	sniffer.sniff(1000);
 
 	endwin();
-
 	return 0;
 }
 

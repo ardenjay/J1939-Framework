@@ -36,12 +36,10 @@ SOFTWARE.
 #include <memory>
 #include <map>
 #include <set>
-
-
 #include <Types.h>
+
 #include <Singleton.h>
-
-
+#include <J1939DataBase.h>
 
 namespace J1939 {
 
@@ -89,6 +87,7 @@ public:
     void unRegisterFrame(u32 pgn);
 
     bool registerDatabaseFrames(const std::string& ddbbFile);
+    bool registerDatabaseFrames(J1939DataBase& db, const std::string path);
 
     void unregisterAllFrames();
 

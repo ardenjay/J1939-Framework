@@ -174,4 +174,18 @@ bool J1939Factory::registerDatabaseFrames(const std::string &file)
 	return true;
 }
 
+bool J1939Factory::registerDatabaseFrames(J1939DataBase& database,
+										const std::string path)
+{
+	if (!database.parseJsonFile(path))
+		return false;
+
+	const std::vector<GenericFrame> &ddbbFrames = database.getParsedFrames();
+
+	// Register all the frames listed in the database
+	for (auto iter = ddbbFrames.begin(); iter != ddbbFrames.end(); ++iter)
+		registerFrame(*iter);
+
+	return true;
+}
 } /* namespace J1939 */

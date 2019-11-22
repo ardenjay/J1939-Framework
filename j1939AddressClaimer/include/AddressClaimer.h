@@ -67,6 +67,8 @@ class AddressClaimer
 
 	void exec();
 
+	bool processAddressClaim(FrameSharedPtr frame);
+
 	// Methods to override by the inherited class
 
   protected:

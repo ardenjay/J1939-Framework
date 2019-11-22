@@ -90,6 +90,9 @@ void onRcv(const CanFrame &frame, const TimeStamp &,
 		   const std::string &interface, void *);
 bool onTimeout();
 
+/* For example:
+ * j1939AddrClaim -i vcan0 -n 1000 -p [100,200,300]
+ */
 int main(int argc, char **argv)
 {
 	// Get options

@@ -4,13 +4,11 @@
  *  Created on: Jan 7, 2019
  *      Author: famez
  */
+#include <iostream>
 
 #include <AddressClaimer.h>
-
 #include <Frames/RequestFrame.h>
-
 #include <Assert.h>
-
 #include <chrono>
 
 namespace J1939
@@ -67,30 +65,33 @@ void AddressClaimer::flush()
 
 FrameSharedPtr AddressClaimer::read(u32 timeout)
 {
+	FrameSharedPtr frame;
+
+	/* Any incoming frame? */
 	std::unique_lock<std::mutex> lk(mMutex);
-
-	FrameSharedPtr retVal;
-
 	if (mFrames.empty()) {
 		mCondVar.wait_for(lk, std::chrono::milliseconds(timeout));
 	}
 
 	if (!mFrames.empty()) {
-		retVal = mFrames.begin()->second;
+		/* process the first frame in our queue */
+		frame = mFrames.begin()->second;
 		mFrames.erase(mFrames.begin());
 	}
 
-	return retVal;
+	return frame;
 }
 
 void AddressClaimer::receive(const J1939Frame &frame)
 {
+	/* clone the received frame */
 	FrameSharedPtr frameSmartPtr(frame.clone());
 
+	/* store the frame */
 	std::unique_lock<std::mutex> lk(mMutex);
-
 	mFrames[frame.getIdentifier()] = frameSmartPtr;
 
+	/* notify reader */
 	mCondVar.notify_all();
 }
 
@@ -187,6 +188,30 @@ AddressClaimer::ClaimResult AddressClaimer::tryObtainAddress(u8 address)
 	return CLAIM_ADDRESS_OBTAINED;
 }
 
+bool AddressClaimer::processAddressClaim(FrameSharedPtr frame)
+{
+	AddressClaimFrame *rcvFrame = static_cast<AddressClaimFrame *>(frame.get());
+
+	if (rcvFrame->getSrcAddr() != J1939_INVALID_ADDRESS &&
+		rcvFrame->getSrcAddr() == mCurrentSrc) {
+		/* Contending frame */
+
+		if (mEcuName < rcvFrame->getEcuName()) {
+			/* Win, send claim address to announce our address */
+			AddressClaimFrame frame(mEcuName);
+			frame.setSrcAddr(mCurrentSrc);
+			frame.setDstAddr(J1939_BROADCAST_ADDRESS);
+			sendFrame(frame);
+			std::cout << __func__ << "claim address successfully" << std::endl;
+		} else {
+			/* Lose, needs to reclam address */
+			std::cout << __func__ << "claim address fail!" << std::endl;
+			return false;
+		}
+	}
+	return true;
+}
+
 void AddressClaimer::exec()
 {
 	while (true) {
@@ -200,6 +225,7 @@ void AddressClaimer::exec()
 			if (frame) {
 				switch (frame->getPGN()) {
 				case REQUEST_PGN: {
+					// address request
 					RequestFrame *reqFrame =
 						static_cast<RequestFrame *>(frame.get());
 
@@ -212,34 +238,11 @@ void AddressClaimer::exec()
 						frame.setDstAddr(J1939_BROADCAST_ADDRESS);
 						sendFrame(frame);
 					}
-
-					break;
-				}
-
-				case ADDRESS_CLAIM_PGN: {
-					AddressClaimFrame *rcvFrame =
-						static_cast<AddressClaimFrame *>(frame.get());
-
-					if (rcvFrame->getSrcAddr() != J1939_INVALID_ADDRESS &&
-						rcvFrame->getSrcAddr() ==
-							mCurrentSrc) { // Contending frame!!
-
-						if (mEcuName < rcvFrame->getEcuName()) { // Win
-
-							// Send claim address
-							AddressClaimFrame frame(mEcuName);
-							frame.setSrcAddr(mCurrentSrc);
-							frame.setDstAddr(J1939_BROADCAST_ADDRESS);
-							sendFrame(frame);
-
-						} else { // Lose
-							// Come back to claimAddressStep
-							conflict = true;
-						}
-					}
-
 				} break;
-
+				case ADDRESS_CLAIM_PGN: {
+					if (processAddressClaim(frame) == false)
+						conflict = true;
+				} break;
 				default:
 					break;
 				}

@@ -30,6 +30,7 @@
 #include <SPN/SPNStatus.h>
 #include <SPN/SPNString.h>
 #include <Transport/BAM/BamFragmenter.h>
+#include <AddressClaimer.h>
 
 // CAN includes
 #include <CanEasy.h>
@@ -86,6 +87,7 @@
 #define TTS_ALL "all"
 
 #define GET_TOKEN "get"
+#define ADDR_TOKEN "addr"
 
 #ifndef DATABASE_PATH
 #define DATABASE_PATH "/etc/j1939/frames.json"
@@ -185,6 +187,7 @@ void parseSetDtcCommand(std::list<std::string> arguments);
 void parseDeleteDtcCommand(std::list<std::string> arguments);
 bool parseDtcCommand(std::list<std::string> arguments, DTC &dtc);
 void parseGetCommand(std::list<std::string> arguments);
+void parseSendAddrCommand(std::list<std::string> arguments);
 
 std::vector<CanFrame>
 ttsFramesToCanFrames(const std::vector<FMS1Frame> &ttsFrames);
@@ -368,7 +371,9 @@ void registerCommands()
 			.addSubCommand(CommandHelper(FRAME_TOKEN,
 					parseSendFrameCommand))
 			.addSubCommand(CommandHelper(TTS_TOKEN,
-					parseSendTTSCommand)));
+					parseSendTTSCommand))
+			.addSubCommand(CommandHelper(ADDR_TOKEN,
+					parseSendAddrCommand)));
 	baseCommand.addSubCommand(CommandHelper(EXEC_TOKEN, parseExecCommand));
 	baseCommand.addSubCommand(CommandHelper(UNSEND_TOKEN)
 			.addSubCommand(CommandHelper(FRAME_TOKEN,
@@ -1569,4 +1574,46 @@ void parseGetCommand(std::list<std::string> arguments)
 			std::cerr << "PGN is not a number..." << std::endl;
 		}
 	}
+}
+
+/* For example: send addr name: 1000 addr: 11 interface: vcan0 */
+void parseSendAddrCommand(std::list<std::string> arguments)
+{
+	u8 addr = 0;
+	u32 id = 0;
+	std::string interface;
+	std::unique_ptr<J1939Frame> frame(nullptr);
+
+	auto func = [&addr, &id, &interface](const std::string &key, const std::string &value) {
+		try {
+			if (key == ADDR_TOKEN)
+				addr = std::stoi(value, nullptr, 0);
+			else if (key == NAME_TOKEN)
+				id = std::stoul(value, nullptr, 0);
+			else if (key == INTERFACE_TOKEN)
+				interface = value;
+		} catch (std::invalid_argument &) {
+			std::cerr << value << " is not a number..." << std::endl;
+		}
+	};
+
+	processCommandParameters(arguments, func);
+
+	if ((id == 0) || (addr == 0)) {
+		std::cerr << "name or addr invalid" << std::endl;
+		return;
+	}
+
+	if (interface.empty()) {
+		std::cerr << "interface invalid" << std::endl;
+		return;
+	}
+
+	EcuName name;
+	name.setIdNumber(id);
+	AddressClaimFrame addrClaim(name);
+
+	addrClaim.setSrcAddr(addr);
+	addrClaim.setDstAddr(J1939_BROADCAST_ADDRESS);
+	sendFrameThroughInterface(&addrClaim, interface, 0);
 }

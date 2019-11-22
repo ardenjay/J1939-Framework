@@ -85,6 +85,8 @@
 #define TTS_STATUS "status"
 #define TTS_ALL "all"
 
+#define GET_TOKEN "get"
+
 #ifndef DATABASE_PATH
 #define DATABASE_PATH "/etc/j1939/frames.json"
 #endif
@@ -181,8 +183,8 @@ void parseUnsendFrameCommand(std::list<std::string> arguments);
 void parseAddDtcCommand(std::list<std::string> arguments);
 void parseSetDtcCommand(std::list<std::string> arguments);
 void parseDeleteDtcCommand(std::list<std::string> arguments);
-
 bool parseDtcCommand(std::list<std::string> arguments, DTC &dtc);
+void parseGetCommand(std::list<std::string> arguments);
 
 std::vector<CanFrame>
 ttsFramesToCanFrames(const std::vector<FMS1Frame> &ttsFrames);
@@ -379,6 +381,7 @@ void registerCommands()
 	baseCommand.addSubCommand(CommandHelper(DELETE_TOKEN)
 			.addSubCommand(CommandHelper(DTC_TOKEN,
 					parseDeleteDtcCommand)));
+	baseCommand.addSubCommand(CommandHelper(GET_TOKEN, parseGetCommand));
 }
 
 void parseLine(const std::string &line)
@@ -1535,4 +1538,35 @@ void parseDeleteDtcCommand(std::list<std::string> arguments)
 	DM1 *dm1Frame = static_cast<DM1 *>(frame);
 
 	dm1Frame->deleteDTC(pos);
+}
+
+/* Example: get pgn number */
+void parseGetCommand(std::list<std::string> arguments)
+{
+	std::string pgn;
+	std::unique_ptr<J1939Frame> frame(nullptr);
+
+	auto func = [&pgn](const std::string &key, const std::string &value) {
+		if (key == PGN_TOKEN)
+			pgn = value;
+	};
+
+	processCommandParameters(arguments, func);
+
+	if (!pgn.empty()) {
+		try {
+			u32 pgnNumber = std::stoul(pgn, nullptr, 0);
+			frame = J1939Factory::getInstance().getJ1939Frame(pgnNumber);
+
+			if (frame != nullptr) {
+				GenericFrame *genFrame = static_cast<GenericFrame *>(frame.get());
+				std::string content = genFrame->toString();
+				std::cout << content << std::endl;
+			} else {
+				std::cerr << "frame invalid" << std::endl;
+			}
+		} catch (std::invalid_argument &e) {
+			std::cerr << "PGN is not a number..." << std::endl;
+		}
+	}
 }

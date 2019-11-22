@@ -8,7 +8,7 @@ add_executable(j1939Sender
 
 target_include_directories(j1939Sender
     PUBLIC 
-        include ${J1939_SOURCE_DIR}/include ${Can_SOURCE_DIR}/include ${Common_SOURCE_DIR}/include
+	 include ${J1939_SOURCE_DIR}/include ${Can_SOURCE_DIR}/include ${Common_SOURCE_DIR}/include ${J1939AddressClaimer_SOURCE_DIR}/include
 )
 
 target_link_libraries(j1939Sender

@@ -9,19 +9,16 @@
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <iterator>
 #include <regex.h>
-
 #include <iomanip>
 #include <iostream>
-
 #include <sstream>
 #include <string.h>
-
 #include <Types.h>
-
 #include <memory>
+#include <list>
+#include <fstream>
 
 // J1939 libraries
 #include <GenericFrame.h>
@@ -34,7 +31,10 @@
 #define DATABASE_PATH "/etc/j1939/frames.json"
 #endif
 
+using namespace std;
 using namespace J1939;
+
+bool silent = false;
 
 std::basic_string<u8> decodeData(const std::string &data)
 {
@@ -118,42 +118,13 @@ u32 decodeID(const std::string &id)
 	return formattedId;
 }
 
-int main(int argc, char **argv)
+int process(string id, string data)
 {
-	int c;
-
-	// In case of BAM decoding
 	BamReassembler reassembler;
 
-	std::string id, data;
-
-	static struct option long_options[] = {
-		{"id", required_argument, NULL, 'i'},
-		{"data", required_argument, NULL, 'd'},
-		{NULL, 0, NULL, 0}};
-
-	while (1) {
-		c = getopt_long(argc, argv, "i:d:", long_options, NULL);
-
-		/* Detect the end of the options. */
-		if (c == -1)
-			break;
-
-		switch (c) {
-		case 'i':
-			id = optarg;
-			break;
-		case 'd':
-			optind--;
-			for (; optind < argc && *argv[optind] != '-'; optind++)
-				data += argv[optind];
-			break;
-		}
-	}
-
 	if (id.empty() || data.empty()) {
-		std::cerr << "Id or data of J1939 frame not specified";
-		exit(1);
+		std::cerr << "Id or data of J1939 frame not specified" << endl;
+		return -EINVAL;
 	}
 
 	// At this point we have the options, we build regular expressions to
@@ -163,10 +134,12 @@ int main(int argc, char **argv)
 
 	std::basic_string<u8> formattedData = decodeData(data);
 
-	std::cout << "Loaded Database: " << DATABASE_PATH << std::endl;
+	if (silent == false)
+		std::cout << "Loaded Database: " << DATABASE_PATH << std::endl;
+
 	if (!J1939Factory::getInstance().registerDatabaseFrames(DATABASE_PATH)) {
 		std::cerr << "Database not found in " << DATABASE_PATH << std::endl;
-		exit(4);
+		return -EIO;
 	}
 
 	// The rest is easy
@@ -178,12 +151,12 @@ int main(int argc, char **argv)
 
 	} catch (J1939DecodeException &e) {
 		std::cerr << "Error decoding frame: " << e.getMessage() << std::endl;
-		exit(6);
+		return -EIO;
 	}
 
 	if (!frame) {
-		std::cerr << "Frame not identified" << std::endl;
-		exit(5);
+		std::cerr << "Frame " << id << " not identified" << std::endl;
+		return -EINVAL;
 	}
 
 	// Check if it is part of the BAM protocol
@@ -214,27 +187,116 @@ int main(int argc, char **argv)
 					reassembler.handleFrame(*frame);
 				} else {
 					std::cerr << "Frame not identified" << std::endl;
-					exit(5);
+					return -EINVAL;
 				}
 
 			} catch (J1939DecodeException &e) {
 				std::cerr << "Error decoding frame: " << e.getMessage()
 						  << std::endl;
-				exit(6);
+				return -EINVAL;
 			}
 		}
 
 		frame = reassembler.dequeueReassembledFrame();
 
 		// Check again if the frame is well decoded
-
 		if (!frame) {
 			std::cerr << "Frame not identified" << std::endl;
-			exit(5);
+			return -EINVAL;
 		}
 	}
 
 	std::cout << frame->toString();
+	return 0;
+}
 
-	exit(0);
+vector<string> split(const char *str, char c = ' ')
+{
+	vector<string> result;
+
+	do
+	{
+		const char *begin = str;
+
+		while (*str != c && *str)
+			str++;
+
+		/* skip the space */
+		if (begin != str)
+			result.push_back(string(begin, str));
+	} while (0 != *str++);
+
+	return result;
+}
+
+int parseLine(string line)
+{
+	int ret;
+
+	if (line.empty()) return 0;
+
+	vector<string> tokens = split(line.c_str());
+	if (tokens.size() < 4) {
+		cerr << "file format is wrong!" << endl;
+		return -EINVAL;
+	}
+
+	string iface = tokens[0];
+	string id = tokens[1];
+	string data;
+
+	for (int i = 3; i < tokens.size(); i++)
+		data += tokens[i];
+
+	return process(id, data);
+}
+
+int main(int argc, char **argv)
+{
+	int c, ret;
+	std::string id, data, file;
+
+	static struct option long_options[] = {
+		{"id", required_argument, NULL, 'i'},
+		{"data", required_argument, NULL, 'd'},
+		{"file", required_argument, NULL, 'f'},
+		{NULL, 0, NULL, 0}};
+
+	while (1) {
+		c = getopt_long(argc, argv, "i:d:f:", long_options, NULL);
+
+		/* Detect the end of the options. */
+		if (c == -1)
+			break;
+
+		switch (c) {
+		case 'i':
+			id = optarg;
+			break;
+		case 'd':
+			optind--;
+			for (; optind < argc && *argv[optind] != '-'; optind++)
+				data += argv[optind];
+			break;
+		case 'f':
+			file = optarg;
+			silent = true;
+			break;
+		}
+	}
+
+	if (file.empty()) {
+		ret = process(id, data);
+		cout << "decode " << (ret ? "fail" : "ok") << endl;
+	} else {
+		std::string line;
+		std::ifstream fileScript;
+
+		fileScript.open(file);
+
+		if (fileScript.is_open()) {
+			while (std::getline(fileScript, line))
+				parseLine(line);
+		}
+	}
 }

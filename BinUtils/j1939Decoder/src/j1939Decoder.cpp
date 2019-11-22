@@ -144,7 +144,9 @@ int main(int argc, char **argv)
 			id = optarg;
 			break;
 		case 'd':
-			data = optarg;
+			optind--;
+			for (; optind < argc && *argv[optind] != '-'; optind++)
+				data += argv[optind];
 			break;
 		}
 	}

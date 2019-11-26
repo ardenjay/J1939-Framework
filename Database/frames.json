@@ -1099,5 +1099,145 @@
         "units": "kph"
       }
     ]
+  },
+  {
+    "name": "LD",
+    "pgn": 65088,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "de-activate",
+          "active",
+          "fault detected",
+          "Not available"
+        ],
+        "name": "Low Beam Head Light Data",
+        "number": 2350,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "de-activate",
+          "active",
+          "fault detected",
+          "Not available"
+        ],
+        "name": "High Beam Head Light Data",
+        "number": 2348,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "de-activate",
+          "active",
+          "fault detected",
+          "Not available"
+        ],
+        "name": "Left Turn Signal Lights",
+        "number": 2368,
+        "offset": 1,
+        "type": 1
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "de-activate",
+          "active",
+          "fault detected",
+          "Not available"
+        ],
+        "name": "Right Turn Signal Lights",
+        "number": 2370,
+        "offset": 1,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "LC",
+    "pgn": 65089,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 0,
+        "bitSize": 2,
+        "descriptions": [
+          "de-activate",
+          "active",
+          "Reserved",
+          "Don't care"
+        ],
+        "name": "Running Light Command",
+        "number": 2403,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "de-activate",
+          "active",
+          "Reserved",
+          "Don't care"
+        ],
+        "name": "Low Beam Head Light Command",
+        "number": 2349,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "de-activate",
+          "active",
+          "Reserved",
+          "Don't care"
+        ],
+        "name": "High Beam Head Light Command",
+        "number": 2347,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 6,
+        "bitSize": 2,
+        "descriptions": [
+          "de-activate",
+          "active",
+          "Reserved",
+          "Don't care"
+        ],
+        "name": "Left Turn Signal Lights Command",
+        "number": 2367,
+        "offset": 1,
+        "type": 1
+      },
+      {
+        "bitOffset": 4,
+        "bitSize": 2,
+        "descriptions": [
+          "de-activate",
+          "active",
+          "Reserved",
+          "Don't care"
+        ],
+        "name": "Right Turn Signal Lights Command",
+        "number": 2369,
+        "offset": 1,
+        "type": 1
+      }
+    ]
   }
 ]

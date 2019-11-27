@@ -236,7 +236,11 @@ int parseLine(string line)
 int main(int argc, char **argv)
 {
 	int c, ret;
+	bool file_mode = false;
 	std::string id, data, file;
+
+	if (argc == 1)
+		file_mode = true;
 
 	static struct option long_options[] = {
 		{"id", required_argument, NULL, 'i'},
@@ -261,24 +265,32 @@ int main(int argc, char **argv)
 				data += argv[optind];
 			break;
 		case 'f':
+			file_mode = true;
 			file = optarg;
 			silent = true;
 			break;
 		}
 	}
 
-	if (file.empty()) {
+	if (file_mode == false) {
 		ret = process(id, data);
 		cout << "decode " << (ret ? "fail" : "ok") << endl;
 	} else {
+		/* could be pipe input or read file */
 		std::string line;
 		std::ifstream fileScript;
+		/* input reference to other stream object */
+		std::istream& input = file.empty() ? std::cin : fileScript;
 
-		fileScript.open(file);
-
-		if (fileScript.is_open()) {
-			while (std::getline(fileScript, line))
-				parseLine(line);
+		if (file.empty() == false) {
+			fileScript.open(file);
+			if (fileScript.is_open() == false) {
+				cerr << "cannot open file: " << file << endl;
+				return -EIO;
+			}
 		}
+
+		while (std::getline(input, line))
+			parseLine(line);
 	}
 }

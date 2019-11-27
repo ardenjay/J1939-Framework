@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(J1939AddressClaimer)
+message("j1939AC: AddressClaimer_SOURCE_DIR: " ${J1939AddressClaimer_SOURCE_DIR})
 
 add_library(J1939AddressClaimer SHARED 
     	./AddressClaimer.cpp

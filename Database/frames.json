@@ -1239,5 +1239,91 @@
         "type": 1
       }
     ]
+  },
+  {
+    "name": "ETC7",
+    "pgn": 65098,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 0,
+        "bitSize": 2,
+        "descriptions": [
+          "Not Blanked",
+          "Blanked",
+          "Error",
+          "Not Supported"
+        ],
+        "name": "Transmission Current Range Display Blank State",
+        "number": 4176,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 2,
+        "bitSize": 2,
+        "descriptions": [
+          "Transmission Service Indicator is off",
+          "Transmission Service Indicator is on continuously",
+          "Transmission Service Indicator is flashing",
+          "Not available"
+        ],
+        "name": "Transmission Service Indicator",
+        "number": 4178,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 0,
+        "bitSize": 2,
+        "descriptions": [
+          "Reverse gear shifts are currently allowed",
+          "Reverse gear shifts are currently inhibited",
+          "Error",
+          "Not available"
+        ],
+        "name": "Transmission Reverse Gear Shift Inhibit Status",
+        "number": 4261,
+        "offset": 5,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "VEP1",
+    "pgn": 65271,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": -125,
+        "name": "Net Battery Current",
+        "number": 114,
+        "offset": 0,
+        "type": 0,
+        "units": "Amps"
+      },
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": 0,
+        "name": "Alternator Current",
+        "number": 115,
+        "offset": 1,
+        "type": 0,
+        "units": "Amps"
+      },
+      {
+        "byteSize": 2,
+        "formatGain": 0.05,
+        "formatOffset": 0,
+        "name": "Battery Potential / Power Input 1",
+        "number": 168,
+        "offset": 4,
+        "type": 0,
+        "units": "Volts"
+      }
+    ]
   }
 ]

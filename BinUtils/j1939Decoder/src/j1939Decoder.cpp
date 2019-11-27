@@ -155,7 +155,9 @@ int process(string id, string data)
 	}
 
 	if (!frame) {
-		std::cerr << "Frame " << id << " not identified" << std::endl;
+		u32 pgn = ((formattedId >> J1939_PGN_OFFSET) & J1939_PGN_MASK);
+		std::cerr << "Frame " << id << "(PGN:" << pgn << ")" <<
+			" not identified" << std::endl;
 		return -EINVAL;
 	}
 

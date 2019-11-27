@@ -6,6 +6,7 @@ add_executable(j1939Sender
     src/j1939Sender.cpp
 )
 
+message("AddressClaimer_SOURCE_DIR: " ${J1939AddressClaimer_SOURCE_DIR})
 target_include_directories(j1939Sender
     PUBLIC 
 	 include ${J1939_SOURCE_DIR}/include ${Can_SOURCE_DIR}/include ${Common_SOURCE_DIR}/include ${J1939AddressClaimer_SOURCE_DIR}/include

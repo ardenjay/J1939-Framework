@@ -1,0 +1,2 @@
+create frame name: tc1 title: TC1
+set frame tc1 priority: 2 source: 5 dest: 3 period: 50

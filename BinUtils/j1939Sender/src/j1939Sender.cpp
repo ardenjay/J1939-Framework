@@ -79,6 +79,7 @@
 
 #define SPN_TOKEN "spn"
 #define VALUE_TOKEN "value"
+#define DEST_TOKEN "dest"
 
 #define VIN_TOKEN "vin"
 #define TTS_TOKEN "tts"
@@ -1331,6 +1332,18 @@ bool parseSetGenericParams(const std::string &name, J1939Frame *frame,
 			}
 		} catch (std::invalid_argument &e) {
 			std::cerr << "Source address is not a number..." << std::endl;
+		}
+	} else if (key == DEST_TOKEN) {
+		try {
+			u32 dest = std::stoul(value, nullptr, 16);
+
+			if (dest == (dest & J1939_DST_ADDR_MASK)) {
+				frame->setDstAddr(static_cast<u8>(dest));
+			} else {
+				cerr << "Destination address out of range" << endl;
+			}
+		} catch (std::invalid_argument &e) {
+			cerr << "Destination address is not a number..." << endl;
 		}
 	} else {
 		retVal = false;

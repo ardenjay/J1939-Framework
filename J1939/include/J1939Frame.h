@@ -112,7 +112,7 @@ public:
 	}
 
 	u8 getDstAddr() const { return mDstAddr; }
-    bool setDstAddr(u8 dst) { if(getPDUFormatGroup() == PDU_FORMAT_1) { mDstAddr = dst; return true; } return false; }
+    bool setDstAddr(u8 dst);
 
 	//Methods to decode/encode data
 	void decode(u32 identifier, const u8* buffer, size_t length);

@@ -67,6 +67,7 @@ void J1939Frame::decode(u32 identifier, const u8 *buffer, size_t length)
 	// Leave data decoding to inherited class
 	decodeData(buffer, length);
 }
+
 void J1939Frame::encode(u32 &identifier, u8 *buffer, size_t &length) const
 {
 	u8 prio = (mPriority & J1939_PRIORITY_MASK);
@@ -85,17 +86,16 @@ void J1939Frame::encode(u32 &identifier, u8 *buffer, size_t &length) const
 
 	u32 aux = mPgn;
 
-	if (getPDUFormatGroup() == PDU_FORMAT_1) { // Group 1
-		aux =
-			mPgn | ((mDstAddr & J1939_DST_ADDR_MASK) << J1939_DST_ADDR_OFFSET);
+	if (getPDUFormatGroup() == PDU_FORMAT_1) {
+		// Group 1
+		aux = mPgn | ((mDstAddr & J1939_DST_ADDR_MASK) <<
+				J1939_DST_ADDR_OFFSET);
 	}
 
 	identifier |= ((aux & J1939_PGN_MASK) << J1939_PGN_OFFSET);
-
 	identifier |= (prio << J1939_PRIORITY_OFFSET);
 
 	memset(buffer, 0xFF, length);
-
 	encodeData(buffer, length);
 
 	length = getDataLength();
@@ -166,6 +166,14 @@ std::string J1939Frame::getHeader() const
 	sstr << std::endl;
 
 	return sstr.str();
+}
+
+bool J1939Frame::setDstAddr(u8 dst) {
+	if (getPDUFormatGroup() == PDU_FORMAT_1) {
+		mDstAddr = dst;
+		return true;
+	}
+	return false;
 }
 
 } /* namespace J1939 */

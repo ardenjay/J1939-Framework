@@ -1325,5 +1325,22 @@
         "units": "Volts"
       }
     ]
+  },
+  {
+    "name": "TC1",
+    "pgn": 256,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 1,
+        "formatGain": 1,
+        "formatOffset": 0,
+        "name": "Transmission Requested Gear",
+        "number": 525,
+        "offset": 2,
+        "type": 0,
+        "units": "gear value"
+      }
+    ]
   }
 ]

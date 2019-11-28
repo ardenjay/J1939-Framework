@@ -98,6 +98,7 @@ typedef std::function<void(const std::string &, const std::string &)>
 
 using namespace Can;
 using namespace J1939;
+using namespace std;
 
 class CommandHelper
 {
@@ -460,6 +461,7 @@ void parseCreateFrameCommand(std::list<std::string> arguments)
 	std::string name;
 	std::string pgn;
 	std::string title;
+	std::unique_ptr<J1939Frame> frameToAdd(nullptr);
 
 	auto func = [&name, &pgn, &title](const std::string &key,
 					const std::string &value) {
@@ -476,12 +478,12 @@ void parseCreateFrameCommand(std::list<std::string> arguments)
 
 	if (name.empty()) {
 		std::cerr << "No name defined for this frame" << std::endl;
-		return;
+		goto help;
 	}
 
 	if (pgn.empty() == title.empty()) {
 		std::cerr << "Define either pgn or title of frame" << std::endl;
-		return;
+		goto help;
 	}
 
 	if (framesToSend.find(name) != framesToSend.end()) {
@@ -489,7 +491,6 @@ void parseCreateFrameCommand(std::list<std::string> arguments)
 		return;
 	}
 
-	std::unique_ptr<J1939Frame> frameToAdd(nullptr);
 
 	if (!title.empty()) { // Title was specified
 		frameToAdd = J1939Factory::getInstance().getJ1939Frame(title);
@@ -501,6 +502,7 @@ void parseCreateFrameCommand(std::list<std::string> arguments)
 			frameToAdd = J1939Factory::getInstance().getJ1939Frame(pgnNumber);
 		} catch (std::invalid_argument &e) {
 			std::cerr << "PGN is not a number..." << std::endl;
+			goto help;
 		}
 	}
 
@@ -509,7 +511,13 @@ void parseCreateFrameCommand(std::list<std::string> arguments)
 		std::cout << "Frame correctly created" << std::endl;
 	} else {
 		std::cerr << "Frame not recognized..." << std::endl;
+		goto help;
 	}
+	return;
+
+help:
+	cout << "usage:" << endl;
+	cout << "create frame name: etc2 title: ETC2" << endl;
 }
 
 void parseListFramesCommand()

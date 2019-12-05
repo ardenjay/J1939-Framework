@@ -37,3 +37,19 @@ install (TARGETS Can
 
 install(DIRECTORY include/ 
     DESTINATION include)
+
+project(CanSend)
+
+add_executable(CanSend
+	CanSend.cpp
+)
+
+target_include_directories(CanSend
+    PUBLIC
+        include ${Common_SOURCE_DIR}/include
+)
+
+target_link_libraries(CanSend
+    PUBLIC
+	Common Can
+)

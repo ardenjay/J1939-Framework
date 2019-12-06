@@ -22,7 +22,7 @@ DTC::~DTC() {}
 void DTC::decode(const u8 *buffer)
 {
 	if (buffer[3] & DTC_CM_MASK) {
-		throw J1939DecodeException("Unknown conversion method");
+		throw J1939DecodeException("DTC: Unknown conversion method");
 	}
 
 	mSPN = buffer[0];

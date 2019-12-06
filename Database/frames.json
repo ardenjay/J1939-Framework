@@ -603,6 +603,75 @@
     ]
   },
   {
+    "name": "OEL",
+    "pgn": 64972,
+    "length": 8,
+    "spns": [
+      {
+        "bitOffset": 4,
+        "bitSize": 4,
+        "descriptions": [
+          "off",
+          "Park On",
+          "Headlight On",
+          "Headlight and Park On",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Delayed Off",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Error",
+          "Not available"
+        ],
+        "name": "Main Light Switch",
+        "number": 2872,
+        "offset": 0,
+        "type": 1
+      },
+      {
+        "bitOffset": 0,
+        "bitSize": 4,
+        "descriptions": [
+          "off",
+          "Work Light Combination #1 On",
+          "Work Light Combination #2 On",
+          "Work Light Combination #3 On",
+          "Work Light Combination #4 On",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Reserved",
+          "Error",
+          "Not available"
+        ],
+        "name": "Work Light Switch",
+        "number": 2873,
+        "offset": 0,
+        "type": 1
+      }
+    ]
+  },
+  {
+    "name": "OWW",
+    "pgn": 64973,
+    "length": 8
+  },
+  {
+    "name": "FMS",
+    "pgn": 64977,
+    "length": 8
+  },
+  {
     "name": "TCO1",
     "pgn": 65132,
     "length": 8,
@@ -775,6 +844,38 @@
         "type": 1
       }
     ]
+  },
+  {
+    "name": "VH",
+    "pgn": 65255,
+    "length": 8,
+    "spns": [
+      {
+        "byteSize": 4,
+        "formatGain": 0.05,
+        "formatOffset": 0,
+        "name": "Total Vehicle Hours",
+        "number": 246,
+        "offset": 0,
+        "type": 0,
+        "units": "Seconds"
+      },
+      {
+        "byteSize": 4,
+        "formatGain": 0.05,
+        "formatOffset": 0,
+        "name": "Total Power Takeoff Hours",
+        "number": 248,
+        "offset": 4,
+        "type": 0,
+        "units": "Seconds"
+      }
+    ]
+  },
+  {
+    "name": "VW",
+    "pgn": 65258,
+    "length": 8
   },
   {
     "name": "CCVS",

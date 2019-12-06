@@ -52,33 +52,24 @@ int parseLine(string line, string &id, string &data)
 void send(string _id, string _data)
 {
 	CanFrame canFrame;
-	shared_ptr<ICanSender> sender;
-	set<string> ifaces = CanEasy::getCanIfaces();
-	string interface = *(ifaces.begin());
-	string data;
 	const int len = _data.length();
+	shared_ptr<ICanSender> sender;
+	set<string> ifaces;
+	string data, tmp, interface;
 
-	u32 id = (u32) std::stoi(_id, nullptr, 16);
-	const char* cdata = _data.c_str();
+	ifaces = CanEasy::getCanIfaces();
+	interface = *(ifaces.begin());
 
 	sender = CanEasy::getSender(interface);
 
-	unsigned long tmp;
-	char c;
-	char buff[len/2];
+	u32 id = (u32) std::stoi(_id, nullptr, 16);
 
-	for (int i = 0, j = 0; i < len; i++) {
-		tmp = 0;
-		c = cdata[i];
-		tmp = strtoul(&c, nullptr, 16);
-		tmp <<= 4;
-		c = cdata[++i];
-		tmp |= strtoul(&c, nullptr, 16);
-
-		buff[j] = tmp;
-		j++;
+	char value;
+	for (int pos = 0; pos < len; pos += 2) {
+		tmp = _data.substr(pos, 2);
+		value = (char) std::stoul(tmp, nullptr, 16);
+		data.append(&value, 1);
 	}
-	data.append(buff, len/2);
 
 	canFrame.setId(id);
 	canFrame.setData(data);

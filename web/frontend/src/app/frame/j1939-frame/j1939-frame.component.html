@@ -1,0 +1,12 @@
+<div>
+    <input type="text" placeholder="127.0.0.1" #InputAddr>
+    <button (click)="ConnectServer()">Connect</button>
+</div>
+
+<div class="framelists">
+    <p> Supported J1939 Frames: </p>
+    <input type="text" value="" list="frames" /> <!-- list: bind with <datalist> -->
+    <datalist id="frames" #FrameList>
+        <option *ngFor="let frame of framelists; index as i" [value]="frame.name">{{ frame.pgn }}</option>
+    </datalist>
+</div>

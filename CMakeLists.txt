@@ -18,6 +18,7 @@ add_subdirectory(Database)
 add_subdirectory(BinUtils)
 add_subdirectory(j1939AddressClaimer)
 add_subdirectory(Tests)
+add_subdirectory(web/backend)
 
 find_package(Threads REQUIRED)
 find_package(jsoncpp REQUIRED)

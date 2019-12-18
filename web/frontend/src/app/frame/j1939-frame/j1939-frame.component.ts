@@ -9,14 +9,14 @@ export class J1939FrameComponent implements OnInit {
   private ws: WebSocket;
   private framelists = Array<{ name: string, pgn: string }>();
 
+  public inputAddr = "";
+
   constructor() {
     this.ws = null;
   }
 
   ngOnInit() {
   }
-
-  @ViewChild('InputAddr', { static: true }) mInputAddr: ElementRef;
 
   add(_name: string, _pgn: string) {
     // console.log("add: " + _name + ", pgn: " + _pgn);
@@ -34,12 +34,11 @@ export class J1939FrameComponent implements OnInit {
 
   ConnectServer() {
     var self = this;
-    let inputAddr = this.mInputAddr.nativeElement.value;
 
-    if (inputAddr.length == 0)
-      inputAddr = "127.0.0.1";
+    if (this.inputAddr.length == 0)
+      this.inputAddr = "127.0.0.1";
 
-    let host = "ws://" + inputAddr + ":8000"
+    let host = "ws://" + this.inputAddr + ":8000"
     console.log("Connection to " + host);
 
     if (this.ws == null)

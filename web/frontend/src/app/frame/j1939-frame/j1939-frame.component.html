@@ -1,5 +1,7 @@
 <div>
-    <input type="text" placeholder="127.0.0.1" #InputAddr>
+    <input type="text" placeholder="127.0.0.1" 
+        [(ngModel)]="inputAddr"
+    >
     <button (click)="ConnectServer()">Connect</button>
 </div>
 

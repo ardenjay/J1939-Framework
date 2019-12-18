@@ -6,7 +6,7 @@
 <div class="framelists">
     <p> Supported J1939 Frames: </p>
     <input type="text" value="" list="frames" /> <!-- list: bind with <datalist> -->
-    <datalist id="frames" #FrameList>
+    <datalist id="frames">
         <option *ngFor="let frame of framelists; index as i" [value]="frame.name">{{ frame.pgn }}</option>
     </datalist>
 </div>

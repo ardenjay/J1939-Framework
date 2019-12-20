@@ -112,10 +112,10 @@ static void frameToJson(string name, Json::Value& jsonVal)
 	jsonVal["priority"] = frame->getPriority();
 	jsonVal["source"] = frame->getSrcAddr();
 
-	if(frame->getPDUFormatGroup() == PDU_FORMAT_1)
+	if (frame->getPDUFormatGroup() == PDU_FORMAT_1)
 		jsonVal["dest"] = frame->getDstAddr();
 
-	if(frame->isGenericFrame()) {
+	if (frame->isGenericFrame()) {
 		const GenericFrame *genFrame = (const GenericFrame *) frame.get();
 		std::set<u32> spnNumbers = genFrame->getSPNNumbers();
 

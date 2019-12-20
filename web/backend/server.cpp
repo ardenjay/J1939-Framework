@@ -122,8 +122,6 @@ static void frameToJson(string name, Json::Value& jsonVal)
 		for (auto s : spnNumbers) {
 			const SPN *spn = genFrame->getSPN(s);
 			Json::Value val = spnToJson(spn);
-			cout << "spn: " << val << endl;;
-
 			jsonSpn.append(val);
 		}
 	}

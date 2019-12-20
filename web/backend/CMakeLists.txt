@@ -18,9 +18,11 @@ target_include_directories(server
 	. ${J1939_SOURCE_DIR}/include ${Can_SOURCE_DIR}/include ${Common_SOURCE_DIR}/include ${LIBWEBSOCKETS_INCLUDE_DIR}
 )
 
+link_directories(${LIBWEBSOCKETS_LIBRARIES_DIR})
+
 target_link_libraries(server
 	PUBLIC
-   	/usr/lib/x86_64-linux-gnu/libwebsockets.so
+	${LIBWEBSOCKETS_LIBRARIES}
 	jsoncpp
 	J1939
 	Can

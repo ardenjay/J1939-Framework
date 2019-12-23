@@ -20,3 +20,4 @@ j1939_export.h
 GUI_WEB/backend/graph.pb.cc
 GUI_WEB/backend/graph.pb.h
 GUI_WEB/frontend/graph.proto
+*.swp

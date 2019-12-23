@@ -149,6 +149,8 @@ static bool process_cmd_list(const Json::Value& cmd, Json::Value& reply)
 static bool process_req_frame(const Json::Value& cmd, Json::Value& reply)
 {
 	u32 pgn;
+	Json::Value data;
+
 	string name = cmd["data"].asString();
 
 	if (name.empty()) {
@@ -157,7 +159,8 @@ static bool process_req_frame(const Json::Value& cmd, Json::Value& reply)
 	}
 
 	reply["command"] = CMD_REQ_FRAME;
-	frameToJson(name, reply);
+	frameToJson(name, data);
+	reply["data"] = data;
 	return true;
 }
 

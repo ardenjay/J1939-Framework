@@ -7,26 +7,14 @@
     <p> Supported J1939 Frames: </p>
     <input type="text" value="" list="frames" [(ngModel)]="frameChosen" (change)="chooseFrame(frameChosen)" />
     <datalist id="frames">
-        <option *ngFor="let frame of framelists; index as i" [value]="frame.name">{{ frame.pgn }}</option>
+        <option *ngFor="let f of framelists" [value]="f.name">{{ f.pgn }}</option>
     </datalist>
 </div>
 
 <div class="boxed frame">
     <ul>
         <li>
-            CCVS:
-            Priority: <input type="number" name="points" min="0" max="10" value="">
-            Source: <input type="number" name="points" min="0" max="10" value="">
-            Period: <input type="number" name="points" min="0" max="10" value="">
-            vcan0
-            <button> Delete </button>
-        </li>
-        <li>
-            CCVS:
-            Priority: <input type="number" name="points" min="0" max="10" value="">
-            Source: <input type="number" name="points" min="0" max="10" value="">
-            Period: <input type="number" name="points" min="0" max="10" value="">
-            vcan0
+            <app-frame [frameItem]="frameComponent"></app-frame>
             <button> Delete </button>
         </li>
     </ul>

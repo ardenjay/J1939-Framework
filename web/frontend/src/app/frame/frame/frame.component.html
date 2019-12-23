@@ -1,0 +1,8 @@
+<p> Frame Name : {{ name }} (PGN: {{ pgn }})
+</p>
+Priority: <input type="number" id="number" [(ngModel)]="inputPriority">
+Source: <input type="number" id="number" [(ngModel)]="inputSource">
+Dest: <input type="number" id="number" [(ngModel)]="inputDest">
+Period: <input type="number" id="number" [(ngModel)]="inputPeriod">
+vcan0
+<button (click)="showFrame()">Show Frame</button>

@@ -1,3 +1,4 @@
+import { FrameComponent } from './../frame/frame.component';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
@@ -7,25 +8,33 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 
 export class J1939FrameComponent implements OnInit {
+  // components
   private ws: WebSocket;
-  private framelists = Array<{ name: string, pgn: string }>();
   private target: EventTarget;
 
-  private frameChosen;
-
+  // cmd list
   readonly CMD_LIST = "list frames";
   readonly CMD_REQ = "req frame";
 
-  public inputAddr = "";
+  // class private member
+  private framelists = Array<{ name: string, pgn: string }>();
+  private frameChosen;
+  private inputAddr = "";
+
+  private frameComponent: FrameComponent;
 
   constructor() {
     this.ws = null;
+    this.frameComponent = new FrameComponent();
   }
 
   ngOnInit() {
     this.target = new EventTarget;
     this.target.addEventListener(this.CMD_LIST, this.processListFrames);
     this.target.addEventListener(this.CMD_REQ, this.processReqFrame);
+
+    // test
+    // this.add("jay", "111");
   }
 
   add(_name: string, _pgn: string) {
@@ -45,7 +54,18 @@ export class J1939FrameComponent implements OnInit {
   }
 
   processReqFrame(event: CustomEvent) {
+    var detail = event.detail;
+    if (detail == null)
+      return;
 
+    var self = detail.self;
+    var data = detail.data;
+
+    self.frameComponent.dest = data["dest"];
+    self.frameComponent.name = data["name"];
+    self.frameComponent.pgn = data["pgn"];
+    self.frameComponent.prio = data["priority"];
+    self.frameComponent.source = data["source"];
   }
 
   ConnectServer() {
@@ -136,5 +156,32 @@ export class J1939FrameComponent implements OnInit {
       "data": this.frameChosen
     };
     this.send(cmd);
+
+    /* var data = {
+      "dest": 254,
+      "name": "TC1",
+      "pgn": 256,
+      "priority": 0,
+      "source": 254,
+      "spns":
+        [
+          {
+            "name": "Transmission Requested Gear",
+            "number": 525,
+            "type": 0,
+            "units": "gear value",
+            "value": 4294967295.0
+          }
+        ]
+    };
+
+    var self = this;
+    var event = new CustomEvent(this.CMD_REQ, {
+      detail: {
+        self,
+        data
+      }
+    });
+    this.target.dispatchEvent(event); */
   }
 }

@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { J1939FrameComponent } from './frame/j1939-frame/j1939-frame.component';
+import { FrameComponent } from './frame/frame/frame.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    J1939FrameComponent
+    J1939FrameComponent,
+    FrameComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,13 @@
+.boxed {
+    top: 20px;
+    border: 1px;
+    position: relative;
+    overflow: auto;
+    background: lightblue;
+    text-align: left;
+}
+
+.frame ul li {
+    list-style:none;
+    list-style-type: none;
+}

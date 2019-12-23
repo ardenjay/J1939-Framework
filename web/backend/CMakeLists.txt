@@ -18,8 +18,6 @@ target_include_directories(server
 	. ${J1939_SOURCE_DIR}/include ${Can_SOURCE_DIR}/include ${Common_SOURCE_DIR}/include ${LIBWEBSOCKETS_INCLUDE_DIR}
 )
 
-link_directories(${LIBWEBSOCKETS_LIBRARIES_DIR})
-
 target_link_libraries(server
 	PUBLIC
 	${LIBWEBSOCKETS_LIBRARIES}

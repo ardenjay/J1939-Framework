@@ -25,6 +25,9 @@ export class FrameComponent implements OnInit {
   }
 
   showFrame() {
+    // check if frame is updated by name
+    if (this.frameItem.name == null)
+      return;
     this.name = this.frameItem.name;
     this.pgn = this.frameItem.pgn;
     this.prio = this.inputPriority = +(this.frameItem.prio);

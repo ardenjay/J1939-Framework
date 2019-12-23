@@ -21,6 +21,8 @@ export class J1939FrameComponent implements OnInit {
   private frameChosen;
   private inputAddr = "";
 
+  // control whether to show frame
+  private showFrame: boolean;
   private frameComponent: FrameComponent;
 
   constructor() {
@@ -66,6 +68,8 @@ export class J1939FrameComponent implements OnInit {
     self.frameComponent.pgn = data["pgn"];
     self.frameComponent.prio = data["priority"];
     self.frameComponent.source = data["source"];
+
+    self.showFrame = true;
   }
 
   ConnectServer() {

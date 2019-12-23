@@ -11,7 +11,7 @@
     </datalist>
 </div>
 
-<div class="boxed frame">
+<div class="boxed frame" *ngIf="showFrame">
     <ul>
         <li>
             <app-frame [frameItem]="frameComponent"></app-frame>

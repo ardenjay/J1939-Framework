@@ -13,6 +13,7 @@ export class FrameComponent implements OnInit {
   public prio: number;
   public source: number;
   public spns;
+  public updated: boolean;
 
   private inputPriority;
   private inputSource;
@@ -24,14 +25,22 @@ export class FrameComponent implements OnInit {
   ngOnInit() {
   }
 
+  isNumber(n): boolean {
+    return (typeof n != 'undefined') && (!Number.isNaN(n));
+  }
+
   showFrame() {
-    // check if frame is updated by name
-    if (this.frameItem.name == null)
+    if (this.frameItem.updated == false)
       return;
+
     this.name = this.frameItem.name;
     this.pgn = this.frameItem.pgn;
-    this.prio = this.inputPriority = +(this.frameItem.prio);
-    this.source = this.inputSource = +(this.frameItem.source);
-    this.dest = this.inputDest = +(this.frameItem.dest);
+
+    if (this.isNumber(this.frameItem.prio))
+      this.prio = this.inputPriority = +(this.frameItem.prio);
+    if (this.isNumber(this.frameItem.source))
+      this.source = this.inputSource = +(this.frameItem.source);
+    if (this.isNumber(this.frameItem.dest))
+      this.dest = this.inputDest = +(this.frameItem.dest);
   }
 }

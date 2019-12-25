@@ -36,7 +36,7 @@ export class J1939FrameComponent implements OnInit {
     this.target.addEventListener(this.CMD_REQ, this.processReqFrame);
 
     // test
-    // this.add("jay", "111");
+    /* this.add("jay", "111"); */
   }
 
   add(_name: string, _pgn: string) {
@@ -68,6 +68,7 @@ export class J1939FrameComponent implements OnInit {
     self.frameComponent.pgn = data["pgn"];
     self.frameComponent.prio = data["priority"];
     self.frameComponent.source = data["source"];
+    self.frameComponent.updated = true;
 
     self.showFrame = true;
   }
@@ -186,6 +187,7 @@ export class J1939FrameComponent implements OnInit {
         data
       }
     });
-    this.target.dispatchEvent(event); */
+    this.target.dispatchEvent(event);
+    */
   }
 }

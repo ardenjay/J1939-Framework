@@ -9,6 +9,7 @@ extern "C" {
 
 #include <json/json.h>
 
+#include <CanEasy.h>
 #include <J1939Factory.h>
 #include <GenericFrame.h>
 #include <SPN/SPNNumeric.h>
@@ -17,9 +18,11 @@ extern "C" {
 
 #define CMD_LIST		"list frames"
 #define CMD_REQ_FRAME	"req frame"
+#define CMD_SET_BAUD	"set baud rate"
 
 using namespace std;
 using namespace J1939;
+using namespace Can;
 
 static std::queue<Json::Value> respQueue;
 
@@ -164,6 +167,35 @@ static bool process_req_frame(const Json::Value& cmd, Json::Value& reply)
 	return true;
 }
 
+/* client sets the baud rate
+ *
+ * server does:
+ * - initialized CAN interface
+ * - returns initialized interfaces
+ */
+static bool process_set_baud(const Json::Value& cmd, Json::Value& reply)
+{
+	u32 rate;
+	Json::Value data;
+
+	rate = cmd["data"].asUInt();
+	if (rate == 0)
+		return false;
+
+	rate *= 1000;
+	cout << "process_set_baud: " << rate << endl;
+	CanEasy::initialize(rate);
+
+	set<string> interfaces = CanEasy::getCanIfaces();
+	for (auto iface : interfaces)
+		data.append(iface);
+	
+	reply["command"] = CMD_SET_BAUD;
+	reply["data"] = data;
+	cout << __func__ << ": " << reply << endl;
+	return true;
+}
+
 static bool process_cmd(const Json::Value& cmd, Json::Value& reply)
 {
 	string event = cmd["command"].asString();
@@ -270,6 +302,7 @@ static void registerEvent()
 {
 	eventHandler.addListener(CMD_LIST, process_cmd_list);
 	eventHandler.addListener(CMD_REQ_FRAME, process_req_frame);
+	eventHandler.addListener(CMD_SET_BAUD, process_set_baud);
 }
 
 int main(void) {

@@ -1,3 +1,16 @@
+.server {
+    border-style: dashed;
+    border-color: lightsteelblue;
+    border-width: 3px;
+    padding:5px;
+}
+
+.inputDesc {
+    display: inline-block;
+    width: 140px;
+    text-align: left;
+}​
+
 .boxed {
     top: 20px;
     border: 1px;

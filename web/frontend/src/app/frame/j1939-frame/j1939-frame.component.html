@@ -1,6 +1,14 @@
-<div>
-    <input type="text" placeholder="127.0.0.1" [(ngModel)]="inputAddr">
-    <button (click)="ConnectServer()">Connect</button>
+<div class="server">
+    <h2> Server Configuration </h2>
+    <div>
+        <label class="inputDesc"> Server Address: </label>
+        <input type="text" name="addr" placeholder="127.0.0.1" [(ngModel)]="inputAddr">
+    </div>
+    <div>
+        <label class="inputDesc"> Baud Rate: </label>
+        <input type="number" placeholder="250" [(ngModel)]="inputBaud">
+    </div>
+    <button (click)="ConnectServer()" style="margin-top: 20px;">Connect</button>
 </div>
 
 <div class="framelists">
@@ -9,8 +17,13 @@
     <datalist id="frames">
         <option *ngFor="let f of framelists" [value]="f.name">{{ f.pgn }}</option>
     </datalist>
+    <button (click)="GetFrames()"> Get Frames </button>
+    <div *ngFor="let intf of canIf" style="display: inline;">
+        <input type="radio" name="interface" value="{{ intf.value }}">
+        <span> {{ intf.name }} </span>
+    </div>
 </div>
-
+    
 <div class="boxed frame" *ngIf="showFrame">
     <ul>
         <li>

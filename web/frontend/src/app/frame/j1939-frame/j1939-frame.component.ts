@@ -12,14 +12,24 @@ export class J1939FrameComponent implements OnInit {
   private ws: WebSocket;
   private target: EventTarget;
 
-  // cmd list
+  /* cmd list */
+  /* get all supported frames */
   readonly CMD_LIST = "list frames";
+  /* get frame info according to selected frame */
   readonly CMD_REQ = "req frame";
+  /* get baud rate */
+  readonly CMD_BAUD = "set baud rate"
 
   // class private member
   private framelists = Array<{ name: string, pgn: string }>();
   private frameChosen;
   private inputAddr = "";
+  private inputBaud = 250;
+
+  private canIf = Array<{
+    name: string,
+    value: number,
+  }>();
 
   // control whether to show frame
   private showFrame: boolean;
@@ -34,7 +44,7 @@ export class J1939FrameComponent implements OnInit {
     this.target = new EventTarget;
     this.target.addEventListener(this.CMD_LIST, this.processListFrames);
     this.target.addEventListener(this.CMD_REQ, this.processReqFrame);
-
+    this.target.addEventListener(this.CMD_BAUD, this.processSetBaud);
     // test
     /* this.add("jay", "111"); */
   }
@@ -73,11 +83,32 @@ export class J1939FrameComponent implements OnInit {
     self.showFrame = true;
   }
 
+  processSetBaud(event: CustomEvent) {
+    var detail = event.detail;
+    if (detail == null)
+      return;
+
+    console.log("processSetBaud");
+    var self = detail.self;
+    var data = detail.data;
+
+    for (const d in data) {
+      var radio = {
+        name: data[d],
+        value: d
+      }
+      self.canIf.push(radio);
+    }
+  }
+
   ConnectServer() {
     var self = this;
 
     if (this.inputAddr.length == 0)
       this.inputAddr = "127.0.0.1";
+
+    if (this.inputBaud == 0)
+      this.inputBaud = 250; // 250k
 
     let host = "ws://" + this.inputAddr + ":8000"
     console.log("Connection to " + host);
@@ -86,10 +117,11 @@ export class J1939FrameComponent implements OnInit {
       this.ws = new WebSocket(host, "j1939-protocol");
 
     this.ws.onopen = function (evt) {
-      var cmd = { "command": self.CMD_LIST };
-      var req = JSON.stringify(cmd);
-
-      self.ws.send(req);
+      var cmd = {
+        "command": self.CMD_BAUD,
+        "data": self.inputBaud
+      };
+      self.send(cmd);
     };
 
     var printError = function (error, explicit) {
@@ -189,5 +221,10 @@ export class J1939FrameComponent implements OnInit {
     });
     this.target.dispatchEvent(event);
     */
+  }
+
+  GetFrames() {
+    var cmd = { "command": this.CMD_LIST };
+    this.send(cmd);
   }
 }

@@ -47,6 +47,9 @@ export class J1939FrameComponent implements OnInit {
     this.target.addEventListener(this.CMD_BAUD, this.processSetBaud);
     // test
     /* this.add("jay", "111"); */
+
+    /* this.canIf.push({ name: "vcan0", value: 0});
+    this.canIf.push({ name: "CAN0", value: 1}); */
   }
 
   add(_name: string, _pgn: string) {
@@ -79,7 +82,7 @@ export class J1939FrameComponent implements OnInit {
     self.frameComponent.prio = data["priority"];
     self.frameComponent.source = data["source"];
     self.frameComponent.updated = true;
-
+    self.frameComponent.interface = "vcan0";  // default VCAN0
     self.showFrame = true;
   }
 
@@ -226,5 +229,10 @@ export class J1939FrameComponent implements OnInit {
   GetFrames() {
     var cmd = { "command": this.CMD_LIST };
     this.send(cmd);
+  }
+
+  changeInterface(value) {
+    console.log("changeInterface: " + value);
+    this.frameComponent.interface = value;
   }
 }

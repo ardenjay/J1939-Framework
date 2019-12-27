@@ -19,7 +19,7 @@
     </datalist>
     <button (click)="GetFrames()"> Get Frames </button>
     <div *ngFor="let intf of canIf" style="display: inline;">
-        <input type="radio" name="interface" value="{{ intf.value }}">
+        <input type="radio" name="interface" value="{{ intf.value }}" (change)="changeInterface(intf.name)">
         <span> {{ intf.name }} </span>
     </div>
 </div>

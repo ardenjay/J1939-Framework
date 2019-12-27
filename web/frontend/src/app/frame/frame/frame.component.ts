@@ -13,6 +13,7 @@ export class FrameComponent implements OnInit {
   public prio: number;
   public source: number;
   public spns;
+  public interface: string;
   public updated: boolean;
 
   private inputPriority;
@@ -35,6 +36,7 @@ export class FrameComponent implements OnInit {
 
     this.name = this.frameItem.name;
     this.pgn = this.frameItem.pgn;
+    this.interface = this.frameItem.interface;
 
     if (this.isNumber(this.frameItem.prio))
       this.prio = this.inputPriority = +(this.frameItem.prio);

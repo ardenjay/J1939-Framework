@@ -188,7 +188,7 @@ export class J1939FrameComponent implements OnInit {
 
   send(cmd) {
     // open: 1
-    if (this.ws.readyState != 1) {
+    if ((this.ws == null) || (this.ws.readyState != 1)) {
       console.log("No websocket connection");
       alert("No websocket connection");
       return;

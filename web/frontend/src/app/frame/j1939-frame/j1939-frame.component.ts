@@ -174,13 +174,21 @@ export class J1939FrameComponent implements OnInit {
       self.target.dispatchEvent(event);
     };
 
+    this.ws.onerror = function (evt) {
+      console.log("error");
+      self.ws = null;
+      alert("Server connection fails");
+    }
+
     this.ws.onclose = function (evt) {
-      console.log("Connection closed.");
+      console.log("Connection closed");
+      self.ws = null;
     };
   }
 
   send(cmd) {
-    if (this.ws == null) {
+    // open: 1
+    if (this.ws.readyState != 1) {
       console.log("No websocket connection");
       alert("No websocket connection");
       return;

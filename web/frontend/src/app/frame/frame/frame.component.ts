@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-frame',
@@ -22,6 +22,10 @@ export class FrameComponent implements OnInit {
   private inputPeriod;
 
   constructor() { }
+
+  ngOnChanges() {
+    this.showFrame();
+  }
 
   ngOnInit() {
   }

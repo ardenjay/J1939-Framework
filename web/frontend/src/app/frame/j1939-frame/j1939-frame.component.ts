@@ -37,7 +37,6 @@ export class J1939FrameComponent implements OnInit {
 
   constructor() {
     this.ws = null;
-    this.frameComponent = new FrameComponent();
   }
 
   ngOnInit() {
@@ -76,6 +75,7 @@ export class J1939FrameComponent implements OnInit {
     var self = detail.self;
     var data = detail.data;
 
+    self.frameComponent = new FrameComponent();
     self.frameComponent.dest = data["dest"];
     self.frameComponent.name = data["name"];
     self.frameComponent.pgn = data["pgn"];

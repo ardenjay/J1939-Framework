@@ -13,11 +13,12 @@
 
 <div class="framelists">
     <p> Supported J1939 Frames: </p>
-    <input type="text" value="" list="frames" [(ngModel)]="frameChosen" (change)="chooseFrame(frameChosen)" />
+    <input type="text" list="frames" [(ngModel)]="frameChosen" (change)="chooseFrame(frameChosen)" />
     <datalist id="frames">
         <option *ngFor="let f of framelists" [value]="f.name">{{ f.pgn }}</option>
     </datalist>
     <button (click)="GetFrames()"> Get Frames </button>
+    <button (click)="ClearInput()"> Clear </button>
     <div *ngFor="let intf of canIf" style="display: inline;">
         <input type="radio" name="interface" value="{{ intf.value }}" (change)="changeInterface(intf.name)">
         <span> {{ intf.name }} </span>

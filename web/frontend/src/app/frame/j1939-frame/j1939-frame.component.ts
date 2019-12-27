@@ -227,6 +227,10 @@ export class J1939FrameComponent implements OnInit {
     */
   }
 
+  ClearInput() {
+    this.frameChosen = "";
+  }
+
   GetFrames() {
     var cmd = { "command": this.CMD_LIST };
     this.send(cmd);

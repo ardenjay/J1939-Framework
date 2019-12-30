@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-frame',
@@ -7,6 +7,8 @@ import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 })
 export class FrameComponent implements OnInit {
   @Input() public frameItem: FrameComponent;
+  @Output() frameEvent = new EventEmitter<{ spn: number, value: number, status: string }>();
+
   public dest: number;
   public name: string;
   public pgn: string;
@@ -21,11 +23,11 @@ export class FrameComponent implements OnInit {
   private inputDest;
   private inputPeriod;
 
-  private spnsArray = Array<{ 
-    spn: number, 
+  private spnsArray = Array<{
+    spn: number,
     value: number,
     status: string
-   }>();
+  }>();
 
   constructor() { }
 
@@ -34,6 +36,10 @@ export class FrameComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  notify(spn) {
+    this.frameEvent.emit(spn);
   }
 
   isNumber(n): boolean {
@@ -57,7 +63,7 @@ export class FrameComponent implements OnInit {
   }
 
   AddSpn(s) {
-    this.spnsArray.push({ spn: 0, value: 0 , status: ""});
+    this.spnsArray.push({ spn: 0, value: 0, status: "" });
   }
 
   DeleteSpn() {
@@ -74,5 +80,7 @@ export class FrameComponent implements OnInit {
   Send(spn) {
     console.log("Send, spn: " + spn.spn + " value: " + spn.value);
     spn.status = "Success";
+
+    this.notify(spn);
   }
 }

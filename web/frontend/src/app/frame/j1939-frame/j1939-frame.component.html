@@ -26,5 +26,5 @@
 </div>
 
 <div class="boxed frame" *ngIf="showFrame">
-    <app-frame [frameItem]="frameComponent"></app-frame>
+    <app-frame [frameItem]="frameComponent" (frameEvent)="receiveEvent($event)"></app-frame>
 </div>

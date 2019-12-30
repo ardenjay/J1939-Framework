@@ -255,4 +255,8 @@ export class J1939FrameComponent implements OnInit {
     console.log("changeInterface: " + value);
     this.interface = value;
   }
+
+  receiveEvent(spn) {
+    console.log("receiveEvent: spn: " + spn.spn + " value: " + spn.value);
+  }
 }

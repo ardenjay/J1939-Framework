@@ -31,6 +31,10 @@ private:
 	typedef std::function<bool(const Json::Value&, Json::Value&)> Handler;
 	std::map<string, Handler> m_handler;
 
+	bool bad_handler(const Json::Value&, Json::Value&) {
+		cerr << "bad_handler: the event is not registered yet" << endl;
+		return false;
+	}
 public:
 	int addListener(string event, Handler handler) {
 		m_handler[event] = handler;
@@ -43,7 +47,10 @@ public:
 
 	bool emitEvent(string event, const Json::Value& cmd, Json::Value& reply) {
 		Handler h = m_handler[event];
-		return h(cmd, reply);
+		if (h == NULL)
+			bad_handler(cmd, reply);
+		else
+			return h(cmd, reply);
 	}
 };
 

@@ -33,6 +33,7 @@ export class J1939FrameComponent implements OnInit {
 
   // control whether to show frame
   private showFrame: boolean;
+  private interface: string;
   private frameComponent: FrameComponent;
 
   constructor() {
@@ -82,7 +83,10 @@ export class J1939FrameComponent implements OnInit {
     self.frameComponent.prio = data["priority"];
     self.frameComponent.source = data["source"];
     self.frameComponent.updated = true;
-    self.frameComponent.interface = "vcan0";  // default VCAN0
+    if (self.interface == null)
+      self.frameComponent.interface = "vcan0";  // default VCAN0
+    else
+      self.frameComponent.interface = self.interface;
     self.showFrame = true;
   }
 
@@ -102,6 +106,9 @@ export class J1939FrameComponent implements OnInit {
       }
       self.canIf.push(radio);
     }
+
+    if (data == null)
+      console.log("there is no interface");
   }
 
   ConnectServer() {
@@ -246,6 +253,6 @@ export class J1939FrameComponent implements OnInit {
 
   changeInterface(value) {
     console.log("changeInterface: " + value);
-    this.frameComponent.interface = value;
+    this.interface = value;
   }
 }

@@ -24,12 +24,7 @@
         <span> {{ intf.name }} </span>
     </div>
 </div>
-    
+
 <div class="boxed frame" *ngIf="showFrame">
-    <ul>
-        <li>
-            <app-frame [frameItem]="frameComponent"></app-frame>
-            <button> Delete </button>
-        </li>
-    </ul>
+    <app-frame [frameItem]="frameComponent"></app-frame>
 </div>

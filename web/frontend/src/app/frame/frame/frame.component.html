@@ -5,5 +5,17 @@
     Dest: <input type="number" id="number" [(ngModel)]="inputDest">
     Period: <input type="number" id="number" [(ngModel)]="inputPeriod">
     {{ interface }}
-    <button (click)="showFrame()">Show Frame</button>
+    <button (click)="AddSpn()" style="margin-left: 20px;"> More Spn </button>
+    <button (click)="DeleteSpn()" style="margin-left: 20px;"> Delete Spn </button>
+</div>
+
+<div>
+    <ul id="myUL">
+        <li *ngFor="let s of spnsArray">
+            Spn: <input type="number" id="number" min="0" (change)="changeSpn(s, 1, $event.target.value)">
+            Value: <input type="number" id="number" min="0" (change)="changeSpn(s, 0, $event.target.value)">
+            <button (click)="Send(s)" style="margin-left: 20px;"> Send </button>
+            {{ s.status }}
+        </li>
+    </ul>
 </div>

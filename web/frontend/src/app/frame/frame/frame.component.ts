@@ -21,6 +21,12 @@ export class FrameComponent implements OnInit {
   private inputDest;
   private inputPeriod;
 
+  private spnsArray = Array<{ 
+    spn: number, 
+    value: number,
+    status: string
+   }>();
+
   constructor() { }
 
   ngOnChanges() {
@@ -48,5 +54,25 @@ export class FrameComponent implements OnInit {
       this.source = this.inputSource = +(this.frameItem.source);
     if (this.isNumber(this.frameItem.dest))
       this.dest = this.inputDest = +(this.frameItem.dest);
+  }
+
+  AddSpn(s) {
+    this.spnsArray.push({ spn: 0, value: 0 , status: ""});
+  }
+
+  DeleteSpn() {
+    this.spnsArray.pop();
+  }
+
+  changeSpn(spnObj, isSpn: number, value: number) {
+    if (isSpn)
+      spnObj.spn = value;
+    else
+      spnObj.value = value;
+  }
+
+  Send(spn) {
+    console.log("Send, spn: " + spn.spn + " value: " + spn.value);
+    spn.status = "Success";
   }
 }

@@ -19,6 +19,7 @@ export class J1939FrameComponent implements OnInit {
   readonly CMD_REQ = "req frame";
   /* get baud rate */
   readonly CMD_BAUD = "set baud rate"
+  readonly CMD_CREATE_FRAME = "create frame"
 
   // class private member
   private framelists = Array<{ name: string, pgn: string }>();
@@ -34,6 +35,7 @@ export class J1939FrameComponent implements OnInit {
   // control whether to show frame
   private showFrame: boolean;
   private interface: string;
+  @ViewChild(FrameComponent, { static: false })
   private frameComponent: FrameComponent;
 
   constructor() {
@@ -258,5 +260,21 @@ export class J1939FrameComponent implements OnInit {
 
   receiveEvent(spn) {
     console.log("receiveEvent: spn: " + spn.spn + " value: " + spn.value);
+
+    var cmd = {
+      "command": this.CMD_CREATE_FRAME,
+      "data": {
+        "dest": this.frameComponent.dest,
+        "name": this.frameComponent.name,
+        "pgn": this.frameComponent.pgn,
+        "priority": this.frameComponent.prio,
+        "source": this.frameComponent.source,
+        "interface": this.frameComponent.interface,
+        "spn": +(spn.spn),
+        "value": +(spn.value)
+      }
+    };
+
+    this.send(cmd);
   }
 }

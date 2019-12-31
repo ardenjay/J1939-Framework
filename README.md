@@ -39,7 +39,7 @@ The framework has been developed in C++ in a Linux distribution and compiled usi
 Ubuntu 18.10 or higher
 ```bash
 
-sudo apt-get install libgtest-dev protobuf-compiler libprotobuf-dev libncurses-dev libwebsockets cmake
+sudo apt-get install libgtest-dev protobuf-compiler libprotobuf-dev libncurses-dev libwebsockets-dev cmake
 cd /usr/src/gtest
 sudo env "PATH=$PATH" cmake CMakeLists.txt
 sudo make

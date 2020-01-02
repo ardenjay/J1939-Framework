@@ -16,9 +16,10 @@ extern "C" {
 #include <SPN/SPNStatus.h>
 #include <SPN/SPNString.h>
 
-#define CMD_LIST		"list frames"
-#define CMD_REQ_FRAME	"req frame"
-#define CMD_SET_BAUD	"set baud rate"
+#define CMD_LIST			"list frames"
+#define CMD_REQ_FRAME		"req frame"
+#define CMD_SET_BAUD		"set baud rate"
+#define CMD_CREATE_FRAME	"create frame"
 
 using namespace std;
 using namespace J1939;
@@ -69,6 +70,25 @@ static int callback_http(struct lws *wsi, enum lws_callback_reasons reason,
   }
 
   return 0;
+}
+
+static bool checkKey(Json::Value data, const char *str, ...)
+{
+	va_list ap;
+	string key;
+
+	va_start(ap, str);
+
+	while (str) {
+		if (data.isMember(str) == false) {
+			cerr << __func__ << " failed: " << endl;
+			cerr << key << " is not present" << endl;
+			return false;
+		}
+		str = va_arg(ap, const char *);
+	}
+	va_end(ap);
+	return true;
 }
 
 static Json::Value
@@ -203,6 +223,153 @@ static bool process_set_baud(const Json::Value& cmd, Json::Value& reply)
 	return true;
 }
 
+static SPN* setFrameSPN(J1939Frame *frame, u32 spnNumber)
+{
+	GenericFrame *genFrame = static_cast<GenericFrame *>(frame);
+	SPN *spn = nullptr;
+
+	if (!genFrame->hasSPN(spnNumber)) {
+		cerr << "This spn does not belong to the given frame" << endl;
+		return (SPN*) nullptr;
+	}
+	spn = genFrame->getSPN(spnNumber);
+
+	return spn;
+}
+
+void setFrameValue(J1939Frame *frame, SPN *spn, const std::string &value)
+{
+    try {
+		switch (spn->getType()) {
+		case SPN::SPN_NUMERIC: {
+			double valueNumber = std::stod(value);
+			SPNNumeric *spnNum = static_cast<SPNNumeric *>(spn);
+			if (spnNum->setFormattedValue(valueNumber)) {
+				cout << "Spn " << spn->getSpnNumber()
+					<< " from frame " << frame->getName()
+					<< " set to value "
+					<< spnNum->getFormattedValue() << std::endl;
+			}
+			break;
+		}
+		case SPN::SPN_STATUS: {
+			u32 valueNumber = std::stoul(value);
+			u8 status = static_cast<u8>(valueNumber);
+			if ((status & 0xFF) == valueNumber) {
+				SPNStatus *spnStat = static_cast<SPNStatus *>(spn);
+				if (!spnStat->setValue(status)) {
+					cerr << "Value out of range" << endl;
+				} else {
+					cout << "SPN " << spn->getSpnNumber()
+						<< " set to (" << valueNumber << ") "
+						<< spnStat->getValueDescription(status)
+						<< endl;
+				}
+			} else
+				cerr << "Value out of range" << endl;
+			break;
+		}
+		case SPN::SPN_STRING: {
+			SPNString *spnStr = static_cast<SPNString *>(spn);
+			spnStr->setValue(value);
+			break;
+        }
+        default:
+			break;
+        }
+	} catch (std::invalid_argument &e) {
+		std::cerr << "value is not a number..." << std::endl;
+	}
+}
+
+static void
+encode(const J1939Frame *j1939Frame, CanFrame &frame)
+{
+	u32 id;
+	size_t length = j1939Frame->getDataLength();
+	u8 *buff = new u8[length];
+
+	j1939Frame->encode(id, buff, length);
+
+	frame.setId(id);
+
+	std::string data;
+	data.append((char *)buff, length);
+	frame.setData(data);
+	delete[] buff;
+}
+
+static void
+sendFrame(const J1939Frame *j1939Frame, const string &interface, u32 period)
+{
+	CanFrame canFrame;
+	std::shared_ptr<ICanSender> sender;
+
+	sender = CanEasy::getSender(interface);
+
+	encode(j1939Frame, canFrame);
+
+	if (period == 0)
+		sender->sendFrameOnce(canFrame);
+	else
+		sender->sendFrame(canFrame, period);
+}
+
+static bool process_create_frame(const Json::Value& cmd, Json::Value& reply)
+{
+	Json::Value data;
+	std::unique_ptr<J1939Frame> j1939Frame(nullptr);
+
+	data = cmd["data"];
+	cout << data << endl;
+
+	bool result = checkKey(data,
+			"pgn",
+			"spn",
+			"interface",
+			"value",
+			"period",
+			NULL);
+	if (result == false)
+		return false;
+
+	u32 pgn = data["pgn"].asUInt();
+	if (pgn == 0) {
+		cerr << "invalid pgn" << endl;
+		return false;
+	}
+
+	u32 spnNumber = data["spn"].asUInt();
+	if (spnNumber == 0) {
+		cerr << "invalid spn" << endl;
+		return false;
+	}
+
+	string interface = data["interface"].asString();
+	if (interface.length() == 0) {
+		cerr << "invalid interface" << endl;
+		return false;
+	}
+
+	j1939Frame = J1939Factory::getInstance().getJ1939Frame(pgn);
+	if (!j1939Frame.get()) {
+		cerr << "Frame not recognized" << endl;
+		j1939Frame.release();
+		return false;
+	}
+
+	SPN* spn = setFrameSPN(j1939Frame.get(), spnNumber);
+	if (spn == nullptr)
+		return false;
+
+    string value = data["value"].asString();
+    setFrameValue(j1939Frame.get(), spn, value);
+
+	u32 period = data["period"].asUInt();
+	sendFrame(j1939Frame.get(), interface, period);
+	return false;
+}
+
 static bool process_cmd(const Json::Value& cmd, Json::Value& reply)
 {
 	string event = cmd["command"].asString();
@@ -310,6 +477,7 @@ static void registerEvent()
 	eventHandler.addListener(CMD_LIST, process_cmd_list);
 	eventHandler.addListener(CMD_REQ_FRAME, process_req_frame);
 	eventHandler.addListener(CMD_SET_BAUD, process_set_baud);
+	eventHandler.addListener(CMD_CREATE_FRAME, process_create_frame);
 }
 
 int main(void) {

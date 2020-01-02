@@ -47,6 +47,7 @@ export class J1939FrameComponent implements OnInit {
 		this.target.addEventListener(this.CMD_LIST, this.processListFrames);
 		this.target.addEventListener(this.CMD_REQ, this.processReqFrame);
 		this.target.addEventListener(this.CMD_BAUD, this.processSetBaud);
+		this.target.addEventListener(this.CMD_CREATE_FRAME, this.processCreateFrame);
 	}
 
 	add(_name: string, _pgn: string) {
@@ -91,7 +92,7 @@ export class J1939FrameComponent implements OnInit {
 		if (detail == null)
 			return;
 
-		console.log("processSetBaud");
+		console.log("-> processSetBaud");
 		var self = detail.self;
 		var data = detail.data;
 
@@ -105,6 +106,21 @@ export class J1939FrameComponent implements OnInit {
 
 		if (data == null)
 			console.log("there is no interface");
+	}
+
+	processCreateFrame(event: CustomEvent) {
+		var detail = event.detail;
+		if (detail == null)
+			return;
+
+		console.log("-> processCreateFrame");
+		var self = detail.self;
+		var data = detail.data;
+		if (data["reason"] != "Success")
+			self.frameComponent.status = data["reason"];
+
+		let index = data["index"];
+		self.frameComponent.updateStatus(index, data["reason"]);
 	}
 
 	ConnectServer() {
@@ -225,7 +241,8 @@ export class J1939FrameComponent implements OnInit {
 	}
 
 	receiveEvent(spn) {
-		console.log("receiveEvent: spn: " + spn.spn + " value: " + spn.value);
+		console.log("receiveEvent: index: " + spn.index +
+			" spn: " + spn.spn + " value: " + spn.value);
 
 		var cmd = {
 			"command": this.CMD_CREATE_FRAME,
@@ -238,7 +255,8 @@ export class J1939FrameComponent implements OnInit {
 				"interface": this.frameComponent.interface,
 				"period": this.frameComponent.period,
 				"spn": +(spn.spn),
-				"value": +(spn.value)
+				"value": +(spn.value),
+				"index": +(spn.index)
 			}
 		};
 

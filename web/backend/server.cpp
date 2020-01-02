@@ -317,7 +317,10 @@ sendFrame(const J1939Frame *j1939Frame, const string &interface, u32 period)
 
 static bool process_create_frame(const Json::Value& cmd, Json::Value& reply)
 {
-	Json::Value data;
+	SPN* spn;
+	Json::Value data, reply_data;
+	u32 pgn, spnNumber, period;
+	string reason, interface, value;
 	std::unique_ptr<J1939Frame> j1939Frame(nullptr);
 
 	data = cmd["data"];
@@ -330,44 +333,62 @@ static bool process_create_frame(const Json::Value& cmd, Json::Value& reply)
 			"value",
 			"period",
 			NULL);
-	if (result == false)
-		return false;
+	if (result == false) {
+		reason = "checkKey failed";
+		goto fail;
+	}
 
-	u32 pgn = data["pgn"].asUInt();
+	pgn = data["pgn"].asUInt();
 	if (pgn == 0) {
-		cerr << "invalid pgn" << endl;
-		return false;
+		reason = "invalid pgn";
+		goto fail;
 	}
 
-	u32 spnNumber = data["spn"].asUInt();
+	spnNumber = data["spn"].asUInt();
 	if (spnNumber == 0) {
-		cerr << "invalid spn" << endl;
-		return false;
+		reason = "invalid spn";
+		goto fail;
 	}
 
-	string interface = data["interface"].asString();
+	interface = data["interface"].asString();
 	if (interface.length() == 0) {
-		cerr << "invalid interface" << endl;
-		return false;
+		reason = "invalid interface";
+		goto fail;
 	}
 
 	j1939Frame = J1939Factory::getInstance().getJ1939Frame(pgn);
 	if (!j1939Frame.get()) {
-		cerr << "Frame not recognized" << endl;
-		j1939Frame.release();
-		return false;
+		reason = "Frame not recognized";
+		goto fail;
 	}
 
-	SPN* spn = setFrameSPN(j1939Frame.get(), spnNumber);
-	if (spn == nullptr)
-		return false;
+	spn = setFrameSPN(j1939Frame.get(), spnNumber);
+	if (spn == nullptr) {
+		reason = "This spn does not belong to the given frame";
+		goto fail;
+	}
 
-    string value = data["value"].asString();
+    value = data["value"].asString();
     setFrameValue(j1939Frame.get(), spn, value);
 
-	u32 period = data["period"].asUInt();
+	period = data["period"].asUInt();
 	sendFrame(j1939Frame.get(), interface, period);
-	return false;
+
+	/* reply */
+	reply["command"] = CMD_CREATE_FRAME;
+	reply_data["reason"] = "Success";
+	reply_data["pgn"] = pgn;
+	reply_data["spn"] = spn;
+	reply_data["index"] = data["index"];
+	reply["data"] = reply_data;
+	return true;
+
+fail:
+	reply["command"] = CMD_CREATE_FRAME;
+	reply_data["reason"] = reason;
+	reply_data["index"] = data["index"];
+	reply["data"] = reply_data;
+	return true;	// send the error back
 }
 
 static bool process_cmd(const Json::Value& cmd, Json::Value& reply)

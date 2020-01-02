@@ -25,6 +25,7 @@ export class FrameComponent implements OnInit {
 	private inputPeriod;
 
 	private spnsArray = Array<{
+		index: number,
 		spn: string,
 		value: string,
 		status: string
@@ -64,7 +65,7 @@ export class FrameComponent implements OnInit {
 	}
 
 	AddSpn(s) {
-		this.spnsArray.push({ spn: "", value: "", status: "" });
+		this.spnsArray.push({ index: 0, spn: "", value: "", status: "" });
 	}
 
 	DeleteSpn() {
@@ -78,14 +79,15 @@ export class FrameComponent implements OnInit {
 			spnObj.value = value;
 	}
 
-	Send(spn) {
+	Send(spn, index: number) {
 		if (spn.spn.length == 0 || spn.value.length == 0) {
 			alert("Spn or Value is empty");
 			return;
 		}
 
-		// FIXME
-		spn.status = "Success";
+		spn.status = "Sending";
+
+		spn.index = index;
 
 		// refetch the user input value
 		if (this.isNumber(this.inputPriority))
@@ -102,5 +104,10 @@ export class FrameComponent implements OnInit {
 			this.period = 0;
 
 		this.notify(spn);
+	}
+
+	updateStatus(index: number, reason: string) {
+		console.log("updateStatus: " + index);
+		this.spnsArray[index].status = reason;
 	}
 }

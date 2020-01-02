@@ -11,11 +11,11 @@
 
 <div>
     <ul id="myUL">
-        <li *ngFor="let s of spnsArray">
+        <li *ngFor="let s of spnsArray; index as i">
             Spn: <input type="number" id="number" min="0" (change)="changeSpn(s, true, $event.target.value)">
             Value: <input type="number" id="number" min="0" (change)="changeSpn(s, false, $event.target.value)">
-            <button (click)="Send(s)" style="margin-left: 20px;"> Send </button>
-            {{ s.status }}
+            <button (click)="Send(s, i)" style="margin-left: 20px;"> Send </button>
+            Result: {{ s.status }}
         </li>
     </ul>
 </div>

@@ -270,6 +270,7 @@ export class J1939FrameComponent implements OnInit {
         "priority": this.frameComponent.prio,
         "source": this.frameComponent.source,
         "interface": this.frameComponent.interface,
+        "period": this.frameComponent.period,
         "spn": +(spn.spn),
         "value": +(spn.value)
       }

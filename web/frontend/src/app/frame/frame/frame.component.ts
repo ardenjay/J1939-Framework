@@ -16,6 +16,7 @@ export class FrameComponent implements OnInit {
     public source: number;
     public spns;
     public interface: string;
+    public period: number;
     public updated: boolean;
 
     private inputPriority;
@@ -96,6 +97,10 @@ export class FrameComponent implements OnInit {
         if (this.isNumber(this.inputDest))
             this.dest = +(this.inputDest);
 
+        this.period = this.inputPeriod;
+        if (this.period == undefined)
+          this.period = 0;
+        
         this.notify(spn);
     }
 }

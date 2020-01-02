@@ -47,15 +47,9 @@ export class J1939FrameComponent implements OnInit {
 		this.target.addEventListener(this.CMD_LIST, this.processListFrames);
 		this.target.addEventListener(this.CMD_REQ, this.processReqFrame);
 		this.target.addEventListener(this.CMD_BAUD, this.processSetBaud);
-		// test
-		/* this.add("jay", "111"); */
-
-		/* this.canIf.push({ name: "vcan0", value: 0});
-		this.canIf.push({ name: "CAN0", value: 1}); */
 	}
 
 	add(_name: string, _pgn: string) {
-		// console.log("add: " + _name + ", pgn: " + _pgn);
 		this.framelists.push({ name: _name, pgn: _pgn });
 	}
 
@@ -214,34 +208,6 @@ export class J1939FrameComponent implements OnInit {
 			"data": this.frameChosen
 		};
 		this.send(cmd);
-
-		/* var data = {
-		  "dest": 254,
-		  "name": "TC1",
-		  "pgn": 256,
-		  "priority": 0,
-		  "source": 254,
-		  "spns":
-			[
-			  {
-				"name": "Transmission Requested Gear",
-				"number": 525,
-				"type": 0,
-				"units": "gear value",
-				"value": 4294967295.0
-			  }
-			]
-		};
-	
-		var self = this;
-		var event = new CustomEvent(this.CMD_REQ, {
-		  detail: {
-			self,
-			data
-		  }
-		});
-		this.target.dispatchEvent(event);
-		*/
 	}
 
 	ClearInput() {

@@ -239,9 +239,6 @@ export class J1939FrameComponent implements OnInit {
 	}
 
 	receiveEvent(spn) {
-		console.log("receiveEvent: index: " + spn.index +
-			" spn: " + spn.spn + " value: " + spn.value);
-
 		var cmd = {
 			"command": this.CMD_CREATE_FRAME,
 			"data": {

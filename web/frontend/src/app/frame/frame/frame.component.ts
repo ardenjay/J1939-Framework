@@ -33,10 +33,6 @@ export class FrameComponent implements OnInit {
 
 	constructor() { }
 
-	ngOnChanges() {
-		this.showFrame();
-	}
-
 	ngOnInit() {
 	}
 
@@ -70,6 +66,10 @@ export class FrameComponent implements OnInit {
 
 	DeleteSpn() {
 		this.spnsArray.pop();
+	}
+
+	ClearSpn() {
+		this.spnsArray.length = 0;
 	}
 
 	changeSpn(spnObj, isSpn: boolean, value: number) {

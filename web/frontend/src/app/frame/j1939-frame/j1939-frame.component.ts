@@ -32,11 +32,9 @@ export class J1939FrameComponent implements OnInit {
 		value: number,
 	}>();
 
-	// control whether to show frame
-	private showFrame: boolean;
 	private interface: string;
 	@ViewChild(FrameComponent, { static: false })
-	private frameComponent: FrameComponent;
+	private frameComponent: FrameComponent = new FrameComponent();
 
 	constructor() {
 		this.ws = null;
@@ -73,7 +71,6 @@ export class J1939FrameComponent implements OnInit {
 		var self = detail.self;
 		var data = detail.data;
 
-		self.frameComponent = new FrameComponent();
 		self.frameComponent.dest = data["dest"];
 		self.frameComponent.name = data["name"];
 		self.frameComponent.pgn = data["pgn"];
@@ -84,7 +81,9 @@ export class J1939FrameComponent implements OnInit {
 			self.frameComponent.interface = "vcan0";  // default VCAN0
 		else
 			self.frameComponent.interface = self.interface;
-		self.showFrame = true;
+
+		self.frameComponent.ClearSpn();
+		self.frameComponent.showFrame();
 	}
 
 	processSetBaud(event: CustomEvent) {

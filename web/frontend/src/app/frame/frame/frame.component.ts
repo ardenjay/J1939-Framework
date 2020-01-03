@@ -17,7 +17,6 @@ export class FrameComponent implements OnInit {
 	public spns;
 	public interface: string;
 	public period: number;
-	public updated: boolean;
 
 	private inputPriority;
 	private inputSource;
@@ -45,9 +44,6 @@ export class FrameComponent implements OnInit {
 	}
 
 	showFrame() {
-		if (this.frameItem.updated == false)
-			return;
-
 		this.name = this.frameItem.name;
 		this.pgn = this.frameItem.pgn;
 		this.interface = this.frameItem.interface;

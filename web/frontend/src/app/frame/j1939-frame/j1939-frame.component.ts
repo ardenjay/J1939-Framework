@@ -76,7 +76,6 @@ export class J1939FrameComponent implements OnInit {
 		self.frameComponent.pgn = data["pgn"];
 		self.frameComponent.prio = data["priority"];
 		self.frameComponent.source = data["source"];
-		self.frameComponent.updated = true;
 		if (self.interface == null)
 			self.frameComponent.interface = "vcan0";  // default VCAN0
 		else

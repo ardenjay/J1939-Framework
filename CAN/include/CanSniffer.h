@@ -29,6 +29,9 @@ class CanSniffer
 	std::vector<CommonCanReceiver *> mReceivers;
 	bool mRunning = true;
 
+	int wait_fd(timeval tv, fd_set &) const;
+	void notify(fd_set &) const;
+	void notify_recv(CommonCanReceiver *recv) const;
   public:
 	CanSniffer() {}
 	CanSniffer(OnReceiveFramePtr recvCB, OnTimeoutPtr timeoutCB,

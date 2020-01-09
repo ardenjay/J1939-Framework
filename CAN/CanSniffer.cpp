@@ -34,14 +34,64 @@ void CanSniffer::setFilters(std::set<CanFilter> filters)
 	}
 }
 
-void CanSniffer::sniff(u32 timeout) const
+int CanSniffer::wait_fd(timeval tv, fd_set &rdfs) const
 {
+	int maxFd = -1;
 	int result;
-	fd_set rdfs;
-	timeval tv;
 
+	do {
+		FD_ZERO(&rdfs);
+
+		for (auto receiver = mReceivers.begin();
+			receiver != mReceivers.end(); ++receiver) {
+
+			FD_SET((*receiver)->getFD(), &rdfs);
+
+			if ((*receiver)->getFD() > maxFd)
+				maxFd = (*receiver)->getFD();
+		}
+
+		if (maxFd == -1)
+			return -EINVAL;
+
+		result = select(maxFd + 1, &rdfs, NULL, NULL, &tv);
+
+	} while (result == -1 && errno == EINTR);
+
+	return result;
+}
+
+void CanSniffer::notify_recv(CommonCanReceiver *recv) const
+{
 	CanFrame canFrame;
 	TimeStamp timestamp;
+
+	bool ret = recv->receive(canFrame, timestamp);
+	if (ret == false)
+		return;
+
+	ret = recv->filter(canFrame.getId());
+	if (ret == false)
+		return;
+
+	(mRcvCB)(canFrame, timestamp, recv->getInterface(), mData);
+}
+
+void CanSniffer::notify(fd_set& rdfs) const
+{
+	for (auto receiver = mReceivers.begin();
+			receiver != mReceivers.end(); ++receiver) {
+
+		if (FD_ISSET((*receiver)->getFD(), &rdfs))
+			notify_recv(*receiver);
+	}
+}
+
+void CanSniffer::sniff(u32 timeout) const
+{
+	fd_set rdfs;
+	timeval tv;
+	int result;
 
 	ASSERT(!mReceivers.empty());
 	ASSERT(mRcvCB != nullptr);
@@ -51,43 +101,14 @@ void CanSniffer::sniff(u32 timeout) const
 		tv.tv_sec = timeout / 1000;
 		tv.tv_usec = (timeout % 1000) / 1000000;
 
-		do {
-			int maxFd = -1;
-			FD_ZERO(&rdfs);
-			for (auto receiver = mReceivers.begin();
-				 receiver != mReceivers.end(); ++receiver) {
-				if ((*receiver)->getFD() > maxFd) {
-					maxFd = (*receiver)->getFD();
-				}
+		result = wait_fd(tv, rdfs);
+		if (result < 0)
+			continue;
 
-				FD_SET((*receiver)->getFD(), &rdfs);
-			}
-
-			if (maxFd == -1)
-				return;
-
-			result = select(maxFd + 1, &rdfs, NULL, NULL, &tv);
-
-		} while (result == -1 && errno == EINTR);
-
-		if (result > 0) {
-			for (auto receiver = mReceivers.begin();
-				 receiver != mReceivers.end(); ++receiver) {
-				if (FD_ISSET((*receiver)->getFD(),
-							 &rdfs)) { // Frame available from interface
-
-					if ((*receiver)->receive(canFrame, timestamp) &&
-						(*receiver)->filter(canFrame.getId())) {
-						(mRcvCB)(canFrame, timestamp,
-								 (*receiver)->getInterface(), mData);
-					}
-				}
-			}
-
-		} else if (result == 0) { // Timeout expired
+		if (result == 0)
 			(mTimeoutCB)();
-		}
-
+		else
+			notify(rdfs);
 	} while (mRunning);
 }
 

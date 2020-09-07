@@ -3,7 +3,7 @@
 #### To install the plugin
 
 ```
-sudo apt-get install glib2.0 libgcrypt11-dev qt5-default qttools5-dev qtdeclarative5-dev qtmultimedia5-dev libqt5svg5-dev 
+sudo apt-get install glib2.0 libgcrypt11-dev qt5-default qttools5-dev qtdeclarative5-dev qtmultimedia5-dev libqt5svg5-dev libc-ares-dev flex bison
 ```
 
 - Install the J1939 framework as explained in the README.md at the top level of the repository.

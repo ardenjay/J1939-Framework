@@ -44,9 +44,9 @@ cd /usr/src/gtest
 sudo env "PATH=$PATH" cmake CMakeLists.txt
 sudo make
 sudo cp *.a /usr/lib
-git clone https://github.com/open-source-parsers/jsoncpp.git
 
- 
+cd ~/work/
+git clone https://github.com/open-source-parsers/jsoncpp.git
 cd jsoncpp
 git checkout 863aa36165acfdbaf22447f4934f5adc327692a0
 cmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON 

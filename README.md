@@ -51,7 +51,7 @@ cd jsoncpp
 git checkout 863aa36165acfdbaf22447f4934f5adc327692a0
 cmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON 
 sudo make install
-cd ~
+cd -
 ```
 
 #### In-Source Build
